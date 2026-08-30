@@ -16,10 +16,12 @@ npm run lint
 npm test
 npm run build
 npm run check:seo
+npm run check:production
 npm run preview
 ```
 
 `npm run build` genera los mapas SEO, compila Vite, prerenderiza las rutas, crea `.htaccess` y audita el HTML de `dist`.
+`npm run check:production` recorre todas las URLs de los sitemaps públicos y valida status 200, canonical, H1, indexabilidad y HTML prerenderizado. En Windows con Node 24 puede requerir `NODE_OPTIONS=--use-system-ca`.
 
 ## Arquitectura publicada
 

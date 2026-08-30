@@ -11,6 +11,7 @@
     "audit:build": "node scripts/audit-build.mjs",
     "check:secrets": "node scripts/check-secrets.mjs",
     "check:seo": "node scripts/qa.mjs",
+    "check:production": "node scripts/production-smoke.mjs",
     "test": "node scripts/test-api.mjs",
     "lint": "eslint .",
     "preview": "vite preview"

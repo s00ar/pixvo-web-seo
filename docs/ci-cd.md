@@ -45,6 +45,8 @@ Si el plan solo ofrece **Git deployment** sin build de Node, crear el artefacto 
 5. Comprobar title, canonical, hreflang, H1 y contenido sin JavaScript en una muestra del HTML recibido.
 6. Ejecutar el smoke test externo documentado en `docs/security/production-cleanup.md`.
 
+El comando reproducible es `npm run check:production`. Valida todas las URLs públicas declaradas en los sitemaps, no solo una muestra.
+
 ### Estado público observado antes del nuevo deploy (2026-08-30)
 
 - `https://pixvo.tech/`: 200 y headers de plataforma Hostinger/hPanel.
