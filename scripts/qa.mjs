@@ -306,6 +306,7 @@ const imageAudit = await readFile('docs/seo/image-audit.csv', 'utf8');
 const ownershipAudit = await readFile('docs/seo/ownership-audit.csv', 'utf8');
 const finalAudit = await readFile('docs/seo/final-build-audit.md', 'utf8');
 if (contentAudit.trim().split(/\r?\n/).length !== allUrls.length + 1 || !contentAudit.startsWith('url,country,page_type,cluster,primary_keyword,word_count,guide_min,guide_max,status,note')) throw new Error('El informe de contenido no cubre todas las URLs indexables.');
+if (contentAudit.includes(',debajo_de_guia,')) throw new Error('La auditoría editorial todavía contiene URLs por debajo de la guía orientativa.');
 const graphLines = graphAudit.trim().split(/\r?\n/);
 const graphColumns = graphLines[0].split(',');
 if (graphLines.length !== allUrls.length + 1) throw new Error('El grafo interno no cubre todas las URLs indexables.');
@@ -316,6 +317,6 @@ for (const line of graphLines.slice(1)) {
 }
 if (imageAudit.includes('error_missing') || imageAudit.includes('error_alt_missing') || imageAudit.includes('error_dimensions_missing') || imageAudit.includes('error_srcset_missing')) throw new Error('La auditoría física de imágenes contiene errores.');
 if (ownershipAudit.split(/\r?\n/).some((line) => line.endsWith(',error'))) throw new Error('La auditoría de ownership contiene conflictos.');
-for (const statement of ['Enlaces rotos: 0', 'Enlaces internos a redirects: 0', 'Páginas huérfanas (excluido el selector raíz): 0', 'Errores físicos de imágenes: 0', 'Conflictos de ownership: 0']) if (!finalAudit.includes(statement)) throw new Error(`El informe final no confirma: ${statement}.`);
+for (const statement of ['Enlaces rotos: 0', 'Enlaces internos a redirects: 0', 'Páginas huérfanas (excluido el selector raíz): 0', 'Errores físicos de imágenes: 0', 'Conflictos de ownership: 0', 'URLs debajo de la guía orientativa: 0']) if (!finalAudit.includes(statement)) throw new Error(`El informe final no confirma: ${statement}.`);
 
 console.log(`QA SEO: ${marketRoutes.mx.length} rutas indexables idénticas por mercado, ${allUrls.length} URLs totales, ${titles.size} titles únicos, ${sitemapNames.length} sitemaps y 3 páginas noindex validados.`);

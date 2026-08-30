@@ -30,7 +30,9 @@ npm install
 ```bash
 npm run dev
 npm run lint
+npm test
 npm run build
+npm run check:seo
 npm run preview
 ```
 
@@ -139,11 +141,15 @@ Incluye navegación con teclado, enlace para saltar al contenido, estados `focus
 
 ```bash
 npm run lint
+npm test
 npm run build
+npm run check:seo
 npm run preview
 ```
 
-El resultado queda en `dist/`. En Netlify, Vercel, Cloudflare Pages, Apache o Nginx se debe configurar un fallback de SPA para que todas las rutas no estáticas resuelvan a `index.html`. Sin ese rewrite, abrir directamente `/blog/algun-slug` puede devolver un 404 del servidor aunque la ruta exista en React.
+El resultado queda en `dist/`. El repositorio incluye un pipeline de GitHub Actions que valida cada cambio, crea previews de las ramas y despliega `main` automáticamente en Vercel. La configuración única, los secrets necesarios y la secuencia completa están documentados en [docs/ci-cd.md](docs/ci-cd.md).
+
+En otros proveedores se debe conservar el prerender generado y configurar el fallback de SPA para las rutas que no correspondan a archivos estáticos.
 
 ## Limitaciones actuales
 

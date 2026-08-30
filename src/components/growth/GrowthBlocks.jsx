@@ -52,6 +52,11 @@ export function EvidenceList({ items }) {
   return <ul className="evidence-list">{items.map((item) => <li key={item}>{item}</li>)}</ul>;
 }
 
+export function EditorialExpansion({ sections = [] }) {
+  if (!sections.length) return null;
+  return <section className="growth-section editorial-expansion"><Container>{sections.map((section) => <article className="editorial-expansion__section" key={section.title}><h2>{section.title}</h2>{section.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}{section.bullets?.length > 0 && <ul>{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul>}</article>)}</Container></section>;
+}
+
 export function CaseCommercialLinks({ market, links = [] }) {
   return <div className="growth-grid growth-grid--3">{links.map((item) => <article className="growth-card is-linked" key={item.target}><h3>{item.anchor}</h3><Link className="growth-card__link" to={localPath(market, item.target)}>{item.anchor}</Link></article>)}</div>;
 }

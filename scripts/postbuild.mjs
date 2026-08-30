@@ -2,6 +2,7 @@ import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { getArticleCommercialData, resolveCommercialTarget } from '../src/data/articleCommercial.js';
 import { caseStudies } from '../src/data/caseStudies.js';
+import { getEditorialExpansion } from '../src/data/editorialExpansions.js';
 import { auditFaqs, getProblemCta, getSolutionConnections, getSolutionFaqs, planFaqs, plans, problemCatalog, resourceCatalog, solutionCatalog, systemFaqs } from '../src/data/growthSystem.js';
 import { getNavigationItem, getNavigationItems, resolveNavigationUrl } from '../src/data/navigation.js';
 import { marketRoutePaths, seoRecordByMarketPath } from '../src/data/seoRegistry.js';
@@ -131,6 +132,11 @@ function faqSchema(items) {
   return { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: items.map(([name, text]) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } })) };
 }
 
+function editorialExpansionHtml(sections) {
+  if (!sections.length) return '';
+  return `<section class="editorial-expansion">${sections.map((section) => `<section><h2>${esc(section.title)}</h2>${(section.paragraphs || []).map((paragraph) => `<p>${esc(paragraph)}</p>`).join('')}${section.bullets?.length ? `<ul>${section.bullets.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>` : ''}</section>`).join('')}</section>`;
+}
+
 function marketShell(marketCode, body) {
   const headerItems = getNavigationItems('header');
   const diagnosis = getNavigationItem('diagnosis');
@@ -251,6 +257,9 @@ function marketPage(marketCode, path) {
                   : path === 'solicitar-diagnostico'
                     ? `<main data-prerendered="true"><article><h1>${esc(heading)}</h1><p>${esc(description)}</p><h2>Información necesaria</h2><p>La solicitud reúne el objetivo, el problema, los canales, la capacidad de atención y el contexto comercial necesarios para valorar el encaje. El formulario completo se activa con la aplicación.</p><p>${routeLink('auditoria-crecimiento-digital', 'Conocer el alcance de la auditoría')} · ${routeLink('planes', 'Revisar planes')}</p></article></main>`
                     : `<main data-prerendered="true"><article><h1>${esc(heading)}</h1><p>${esc(description)}</p></article></main>`;
+  const editorialData = caseStudy || solution || problem || resource || {};
+  const editorialSections = getEditorialExpansion({ pageType: seoEntity?.page_type, marketCode, data: editorialData });
+  if (editorialSections.length) body = body.replace('</article></main>', `${editorialExpansionHtml(editorialSections)}</article></main>`);
   body = body.replace('<main data-prerendered="true">', `<main data-prerendered="true">${breadcrumbHtml(breadcrumbItems)}`);
   if (pageFaqs.length) body = body.replace('</article></main>', `${faqHtml(pageFaqs)}</article></main>`);
   return { title, description, canonical, lang: market.locale, type: article || resource ? 'article' : 'website', image: pageImage, imageWidth, imageHeight, robots: path === 'gracias-diagnostico' ? 'noindex,follow' : 'index,follow', schema: schemas, alternates: marketAlternates(path), alternateLocales: Object.values(markets).map((item) => item.locale).filter((locale) => locale !== market.locale), author: article?.author, publishedTime: article?.publishedAt, modifiedTime: article?.updatedAt || article?.publishedAt, body: marketShell(marketCode, body) };
