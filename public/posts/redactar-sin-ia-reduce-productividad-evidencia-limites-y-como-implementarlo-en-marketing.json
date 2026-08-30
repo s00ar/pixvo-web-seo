@@ -1,0 +1,27 @@
+{
+  "slug": "redactar-sin-ia-reduce-productividad-evidencia-limites-y-como-implementarlo-en-marketing",
+  "title": "Redactar sin IA reduce productividad: evidencia, límites y cómo implementarlo en marketing",
+  "excerpt": "Evidencia, límites y una forma responsable de usar IA en briefing, ideación y borradores sin delegar la validación.",
+  "category": "Inteligencia artificial",
+  "tags": ["IA", "Redacción", "Marketing", "Productividad"],
+  "publishedAt": "2025-07-22",
+  "readingTime": "8 min",
+  "author": "Santiago Hernán Leston",
+  "authorBio": "Santiago es desarrollador full stack, analista funcional y líder de equipos tecnológicos. En Pixvo.Tech combina desarrollo web y mobile, automatización, SEO y estrategia digital para crear soluciones orientadas a mejorar procesos, visibilidad y resultados de negocio.",
+  "authorImage": "/images/authors/santiago.jpg",
+  "featuredImage": "/images/posts/blog-redaccion-ia.jpg",
+  "image": {
+    "src": "/images/posts/blog-redaccion-ia.jpg",
+    "srcset": "/images/posts/blog-redaccion-ia-640.webp 640w, /images/posts/blog-redaccion-ia-1200.webp 1200w",
+    "alt": "Redacción sin IA y productividad",
+    "width": 1200,
+    "height": 628
+  },
+  "popular": true,
+  "overview": "El artículo revisa estudios y estimaciones que señalan mejoras de velocidad y calidad en determinadas tareas de escritura, sin presentar la IA como sustituto universal del criterio profesional.",
+  "topics": ["Briefing e ideación asistidos", "Borradores y variaciones", "Revisión factual y de marca", "Privacidad de la información", "Medición del tiempo y la calidad"],
+  "application": "Una adopción responsable define tareas permitidas, información que no debe compartirse, revisión obligatoria, registro de fuentes y métricas que comparen productividad sin degradar la calidad.",
+  "conclusion": "El objetivo es reducir trabajo mecánico y reservar más tiempo para estrategia, edición y validación. La productividad solo es real si el resultado sigue siendo correcto y útil.",
+  "ctas": [{ "title": "Implementar IA responsable", "url": "/contact" }],
+  "related": []
+}

@@ -1,0 +1,27 @@
+{
+  "slug": "matriz-objetivo-icp-canal-lead-magnet-pagina-evento-de-conversion-metricas",
+  "title": "Matriz Objetivo / ICP / Canal / Lead Magnet / Página / Evento de Conversión / Métricas",
+  "excerpt": "Una herramienta para conectar objetivos, cliente ideal, canal, propuesta, página, conversión y medición sin improvisar el marketing.",
+  "category": "Marketing digital",
+  "tags": ["ICP", "Conversión", "Métricas", "Funnel"],
+  "publishedAt": "2025-12-01",
+  "readingTime": "9 min",
+  "author": "Santiago Hernán Leston",
+  "authorBio": "Santiago es desarrollador full stack, analista funcional y líder de equipos tecnológicos. En Pixvo.Tech combina desarrollo web y mobile, automatización, SEO y estrategia digital para crear soluciones orientadas a mejorar procesos, visibilidad y resultados de negocio.",
+  "authorImage": "/images/authors/santiago.jpg",
+  "featuredImage": "/images/posts/blog-matriz-funnel.jpg",
+  "image": {
+    "src": "/images/posts/blog-matriz-funnel.jpg",
+    "srcset": "/images/posts/blog-matriz-funnel-640.webp 640w, /images/posts/blog-matriz-funnel-1200.webp 1200w",
+    "alt": "Matriz de objetivos y funnel de conversión",
+    "width": 1200,
+    "height": 628
+  },
+  "popular": true,
+  "overview": "Cuando una campaña no produce resultados claros, el problema no siempre está en el canal. Con frecuencia faltan conexiones entre el objetivo de negocio, el público, la oferta, la experiencia de la página y el evento que se usa para optimizar.",
+  "topics": ["Objetivo comercial explícito", "Perfil de cliente ideal", "Canal y lead magnet adecuados", "Página y evento de conversión", "Métricas de adquisición y calidad"],
+  "application": "La matriz permite documentar una fila por iniciativa y detectar incoherencias antes de invertir: por ejemplo, una oferta de alto compromiso que se muestra a una audiencia fría o una campaña optimizada con una señal demasiado superficial.",
+  "conclusion": "Una campaña es un sistema. Alinear sus piezas hace que la medición sea interpretable y permite aprender incluso cuando el primer resultado no es el esperado.",
+  "ctas": [{ "title": "Revisar mi funnel", "url": "/contact" }],
+  "related": [{ "slug": "black-friday-y-cyber-week-el-momento-del-ano-donde-tu-negocio-no-puede-improvisar", "title": "Black Friday y Cyber Week: el momento del año donde tu negocio no puede improvisar", "readingTime": "7 min", "featuredImage": "/images/posts/blog-black-friday.jpg" }]
+}

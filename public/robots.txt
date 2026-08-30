@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Disallow: /buscar
+
+Sitemap: https://pixvo.tech/sitemap_index.xml

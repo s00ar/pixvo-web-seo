@@ -1,0 +1,27 @@
+{
+  "slug": "como-una-buena-automatizacion-puede-cambiar-por-completo-el-flujo-de-trabajo-de-tu-empresa",
+  "title": "Cómo una buena automatización puede cambiar por completo el flujo de trabajo de tu empresa",
+  "excerpt": "Formularios inteligentes, CRM y software a medida para reducir tareas repetitivas, ordenar leads y mejorar el flujo comercial.",
+  "category": "Automatización",
+  "tags": ["CRM", "Formularios", "Integraciones", "Software"],
+  "publishedAt": "2025-12-01",
+  "readingTime": "7 min",
+  "author": "Santiago Hernán Leston",
+  "authorBio": "Santiago es desarrollador full stack, analista funcional y líder de equipos tecnológicos. En Pixvo.Tech combina desarrollo web y mobile, automatización, SEO y estrategia digital para crear soluciones orientadas a mejorar procesos, visibilidad y resultados de negocio.",
+  "authorImage": "/images/authors/santiago.jpg",
+  "featuredImage": "/images/posts/blog-automatizacion.jpg",
+  "image": {
+    "src": "/images/posts/blog-automatizacion.jpg",
+    "srcset": "/images/posts/blog-automatizacion-640.webp 640w, /images/posts/blog-automatizacion-1200.webp 1200w",
+    "alt": "Automatización que mejora el flujo de trabajo",
+    "width": 1200,
+    "height": 628
+  },
+  "popular": true,
+  "overview": "Muchas empresas acumulan pasos manuales entre un formulario, una hoja de cálculo, el CRM y el seguimiento comercial. La automatización adecuada ordena ese recorrido sin esconder sus excepciones.",
+  "topics": ["Formularios adaptados al proceso real", "CRM configurado según estados comerciales", "Automatización de avisos y asignaciones", "Software a medida cuando las herramientas estándar no alcanzan"],
+  "application": "El primer paso es mapear entradas, decisiones, responsables y fallos posibles. Después se automatizan los tramos repetibles con registro, alertas y una ruta de recuperación.",
+  "conclusion": "Automatizar no significa eliminar a las personas del proceso: significa reservar su tiempo para las decisiones que requieren contexto y criterio.",
+  "ctas": [{ "title": "Automatizar mi flujo", "url": "/contact" }],
+  "related": [{ "slug": "caso-de-exito-microcuotas-y-como-google-ads-desarrollo-a-medida-le-cambiaron-el-juego", "title": "Caso de éxito: Microcuotas y cómo Google Ads + desarrollo a medida le cambiaron el juego", "readingTime": "7 min", "featuredImage": "/images/posts/blog-microcuotas.jpg" }]
+}

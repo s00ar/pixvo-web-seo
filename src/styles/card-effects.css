@@ -1,0 +1,127 @@
+@property --card-border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* Decorative overlay only: it does not participate in layout or receive input. */
+:is(
+  .card,
+  .project-card,
+  .article-card,
+  .growth-card,
+  .plan-card,
+  .market-options a,
+  .contact-option,
+  .value-card-grid article,
+  .metric-cards > div,
+  .process-cards article,
+  .guarantee-periods article
+) {
+  position: relative;
+  --card-border-rgb: 52 79 156;
+  --card-border-delay: 0s;
+  --card-border-direction: normal;
+  --card-border-angle: 0deg;
+}
+
+:is(
+  .card,
+  .project-card,
+  .article-card,
+  .growth-card,
+  .plan-card,
+  .market-options a,
+  .contact-option,
+  .value-card-grid article,
+  .metric-cards > div,
+  .process-cards article,
+  .guarantee-periods article
+):nth-child(3n + 2) {
+  --card-border-rgb: 255 87 34;
+  --card-border-delay: -1.2s;
+  --card-border-direction: reverse;
+  --card-border-angle: 120deg;
+}
+
+:is(
+  .card,
+  .project-card,
+  .article-card,
+  .growth-card,
+  .plan-card,
+  .market-options a,
+  .contact-option,
+  .value-card-grid article,
+  .metric-cards > div,
+  .process-cards article,
+  .guarantee-periods article
+):nth-child(3n) {
+  --card-border-rgb: 0 188 212;
+  --card-border-delay: -2.4s;
+  --card-border-direction: normal;
+  --card-border-angle: 240deg;
+}
+
+:is(
+  .card,
+  .project-card,
+  .article-card,
+  .growth-card,
+  .plan-card,
+  .market-options a,
+  .contact-option,
+  .value-card-grid article,
+  .metric-cards > div,
+  .process-cards article,
+  .guarantee-periods article
+)::after {
+  content: '';
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  width: auto;
+  height: auto;
+  padding: 2px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--card-border-angle),
+    transparent 0deg 292deg,
+    rgb(var(--card-border-rgb) / 0.03) 300deg,
+    rgb(var(--card-border-rgb) / 0.12) 312deg,
+    rgb(var(--card-border-rgb) / 0.34) 324deg,
+    rgb(var(--card-border-rgb) / 0.95) 339deg,
+    rgb(var(--card-border-rgb) / 0.42) 348deg,
+    rgb(var(--card-border-rgb) / 0.1) 356deg,
+    transparent 360deg
+  );
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: card-border-orbit 4.8s linear var(--card-border-delay) infinite;
+  animation-direction: var(--card-border-direction);
+}
+
+@keyframes card-border-orbit {
+  to { --card-border-angle: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(
+    .card,
+    .project-card,
+    .article-card,
+    .growth-card,
+    .plan-card,
+    .market-options a,
+    .contact-option,
+    .value-card-grid article,
+    .metric-cards > div,
+    .process-cards article,
+    .guarantee-periods article
+  )::after {
+    animation: none;
+  }
+}

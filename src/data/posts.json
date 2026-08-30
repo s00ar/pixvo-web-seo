@@ -1,0 +1,45 @@
+[
+  {
+    "slug": "ataque-real-en-npm-como-el-compromiso-de-axios-expuso-miles-de-entornos-sin-que-nadie-lo-notara",
+    "title": "Ataque real en NPM: cómo el compromiso de Axios expuso miles de entornos sin que nadie lo notara",
+    "excerpt": "Un análisis del riesgo de confiar automáticamente en dependencias, la ejecución silenciosa de código y la seguridad de la cadena de suministro.",
+    "category": "Ciberseguridad",
+    "tags": ["NPM", "Axios", "Supply chain", "JavaScript"],
+    "publishedAt": "2025-12-01",
+    "readingTime": "8 min",
+    "featuredImage": "blogAxios",
+    "featured": true,
+    "popular": true,
+    "overview": "Durante años, instalar una dependencia fue parte automática del flujo de desarrollo. El artículo revisa cómo esa confianza puede convertirse en un vector de ataque cuando un paquete, una cuenta de mantenimiento o un proceso de publicación queda comprometido.",
+    "topics": [
+      "La confianza implícita detrás de npm install",
+      "Ejecución en segundo plano y dificultad de detección",
+      "Escala del ecosistema de dependencias",
+      "Revisión de versiones, permisos y procesos de despliegue"
+    ],
+    "application": "Los equipos pueden reducir exposición con archivos de bloqueo revisados, actualización controlada, análisis de dependencias, privilegios mínimos y observabilidad del proceso de instalación y build.",
+    "conclusion": "La seguridad de producto incluye todo el software de terceros que entra al proyecto. Conviene tratar cada actualización como un cambio de código y no como una operación administrativa."
+  },
+  {
+    "slug": "matriz-objetivo-icp-canal-lead-magnet-pagina-evento-de-conversion-metricas",
+    "title": "Matriz Objetivo / ICP / Canal / Lead Magnet / Página / Evento de Conversión / Métricas",
+    "excerpt": "Una herramienta para conectar objetivos, cliente ideal, canal, propuesta, página, conversión y medición sin improvisar el marketing.",
+    "category": "Marketing digital",
+    "tags": ["ICP", "Conversión", "Métricas", "Funnel"],
+    "publishedAt": "2025-12-01",
+    "readingTime": "9 min",
+    "featuredImage": "blogFunnelMatrix",
+    "featured": false,
+    "popular": true,
+    "overview": "Cuando una campaña no produce resultados claros, el problema no siempre está en el canal. Con frecuencia faltan conexiones entre el objetivo de negocio, el público, la oferta, la experiencia de la página y el evento que se usa para optimizar.",
+    "topics": [
+      "Objetivo comercial explícito",
+      "Perfil de cliente ideal",
+      "Canal y lead magnet adecuados",
+      "Página y evento de conversión",
+      "Métricas de adquisición y calidad"
+    ],
+    "application": "La matriz permite documentar una fila por iniciativa y detectar incoherencias antes de invertir: por ejemplo, una oferta de alto compromiso que se muestra a una audiencia fría o una campaña optimizada con una señal demasiado superficial.",
+    "conclusion": "Una campaña es un sistema. Alinear sus piezas hace que la medición sea interpretable y permite aprender incluso cuando el primer resultado no es el esperado."
+  }
+]

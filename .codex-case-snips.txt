@@ -1,0 +1,128 @@
+﻿
+  export function SolutionPage() {
+    const market = useMarket(), { slug } = useParams(); const data = solutionCatalog[slug];
+>   if (!data || (market !== 'mx' && !['seo-para-pymes', 'automatizacion-de-procesos', 
+'seguimiento-de-leads'].includes(slug))) return <Navigate to="/404" replace />;
+    const routePath = `soluciones/${slug}`, crumbs = [{ label: 'Soluciones', path: localPath(market, 
+'sistema-crecimiento-digital') }, { label: data.title, path: localPath(market, routePath) }];
+    const related = market === 'mx' ? data.related : primarySolutions.filter((relatedSlug) => relatedSlug !== slug);
+    return <><Head market={market} routePath={routePath} title={`${data.title} | Pixvo`} description={data.description 
+|| `${data.lead} Conoce el alcance, los lÃmites y cÃ³mo se integra en Pixvo Growth System.`} 
+schema={[serviceSchema(market, data.title, data.lead, localPath(market, routePath)), breadcrumbSchema(market, crumbs), 
+faqSchema()]} /><Breadcrumbs market={market} items={[{ label: 'Soluciones', to: localPath(market, 
+'sistema-crecimiento-digital') }, { label: data.title }]} /><Hero market={market} eyebrow="SoluciÃ³n" title={data.h1} 
+lead={data.lead} /><Section title="El resultado comercial guÃa la prioridad" intro="No implementamos tareas aisladas 
+por acumular entregables. Primero identificamos el cuello de botella, despuÃ©s priorizamos una mejora verificable y la 
+conectamos con el resto del sistema." /><Section title="QuÃ© trabajamos"><CardGrid items={data.items} 
+/></Section><Section title="CÃ³mo priorizamos"><CardGrid items={['Impacto esperado', 'Evidencia disponible', 'Esfuerzo 
+y dependencias', 'Capacidad del equipo', 'MediciÃ³n posible']} /></Section>{data.excluded && <Section title="QuÃ© no 
+equivale a este servicio"><CardGrid items={data.excluded} /></Section>}<Section title="Soluciones 
+relacionadas"><RelatedSolutions market={market} slugs={related} /></Section><Section title="Preguntas 
+frecuentes"><Faqs /></Section><FinalCta market={market} /></>;
+  
+  export function ProblemPage() {
+>   const market = useMarket(), { slug } = useParams(), data = problemCatalog[slug]; if (!data || market !== 'mx') 
+return <Navigate to="/404" replace />;
+    const routePath = `problemas/${slug}`, crumbs = [{ label: 'Problemas', path: localPath(market) }, { label: 
+data.h1, path: localPath(market, routePath) }];
+    return <><Head market={market} routePath={routePath} title={`${data.h1.replace(/[Â¿?]/g, '')} | Pixvo`} 
+description={`${data.lead} Identifica causas y un siguiente paso realista con Pixvo.`} 
+schema={[breadcrumbSchema(market, crumbs), faqSchema()]} /><Breadcrumbs market={market} items={[{ label: 'Problemas', 
+to: localPath(market) }, { label: data.h1 }]} /><Hero market={market} eyebrow="Problema" title={data.h1} 
+lead={data.lead} /><Section title="Causas habituales"><CardGrid items={data.causes} /></Section><Section 
+title="SeÃ±ales del problema" intro="Los sÃntomas aislados no bastan para decidir. Revisamos datos, proceso y 
+capacidad de respuesta antes de proponer cambios." /><Section title="CÃ³mo identificar el cuello de botella"><CardGrid 
+items={['Recorrer el proceso completo', 'Validar mediciÃ³n y fuentes', 'Revisar responsables y tiempos', 'Priorizar 
+una correcciÃ³n comprobable']} /></Section><Section title="SoluciÃ³n recomendada"><RelatedSolutions market={market} 
+slugs={[data.primary, data.secondary]} /></Section><Section title="Preguntas frecuentes"><Faqs /></Section><FinalCta 
+market={market} /></>;
+  }
+  export function ResourcesIndex() { const market = useMarket(); return <><Head market={market} routePath="recursos" 
+title="Recursos para decidir cÃ³mo crecer | Pixvo" description="Comparativas prÃ¡cticas sobre SEO, automatizaciÃ³n, 
+analÃtica y conversiÃ³n para PyMEs." /><Breadcrumbs market={market} items={[{ label: 'Recursos' }]} /><Hero 
+market={market} eyebrow="Recursos" title="Decisiones de crecimiento con contexto" lead="Comparativas para entender 
+alternativas, lÃmites y cÃ³mo se conectan con un sistema comercial." /><Section title="Comparativas 
+disponibles"><CardGrid items={Object.entries(resourceCatalog).map(([slug, data]) => ({ title: data[0], text: data[1], 
+to: localPath(market, `recursos/${slug}`), link: 'Leer comparativa' }))} /></Section><FinalCta market={market} /></>; }
+  
+> export function ResourcePage() { const market = useMarket(), { slug } = useParams(), data = resourceCatalog[slug]; 
+if (!data || market !== 'mx') return <Navigate to="/404" replace />; const routePath = `recursos/${slug}`; return 
+<><Head market={market} routePath={routePath} title={`${data[0]} | GuÃa de decisiÃ³n de Pixvo`} description={data[1]} 
+type="article" schema={[{ '@context': 'https://schema.org', '@type': 'Article', headline: data[0], description: 
+data[1], author: { '@type': 'Organization', name: 'Pixvo' }, mainEntityOfPage: new URL(localPath(market, routePath), 
+DOMAIN).toString() }, breadcrumbSchema(market, [{ label: 'Recursos', path: localPath(market, 'recursos') }, { label: 
+data[0], path: localPath(market, routePath) }])]} /><Breadcrumbs market={market} items={[{ label: 'Recursos', to: 
+localPath(market, 'recursos') }, { label: data[0] }]} /><Hero market={market} eyebrow="Comparativa" title={data[0]} 
+lead={data[1]} /><Section title="QuÃ© conviene evaluar"><CardGrid items={['Objetivo y plazo', 'Capacidad interna', 
+'Coste total y mantenimiento', 'Datos e integraciones', 'CÃ³mo se medirÃ¡ el resultado']} /></Section><Section 
+title="No es una decisiÃ³n aislada" intro="La herramienta o modalidad correcta depende del proceso completo. Antes de 
+elegir, identifica el cuello de botella y quiÃ©n operarÃ¡ la soluciÃ³n." /><Section title="Siguientes lecturas 
+comerciales"><RelatedSolutions market={market} slugs={[data[2], data[3]]} /></Section><FinalCta market={market} /></>; 
+}
+  
+  export function AboutGrowthPage() { const market = useMarket(); return <><Head market={market} routePath="nosotros" 
+title="Sobre Pixvo Growth System" description="Conoce el enfoque, lÃmites y forma de trabajo de Pixvo para operar 
+sistemas de crecimiento digital." /><Breadcrumbs market={market} items={[{ label: 'Nosotros' }]} /><Hero 
+market={market} eyebrow="Nosotros" title="Un sistema operado con criterio y supervisiÃ³n humana" lead="Pixvo integra 
+SEO, automatizaciÃ³n, inteligencia artificial con supervisiÃ³n humana, analÃtica, WordPress y seguimiento de 
+oportunidades." /><Section title="CÃ³mo trabajamos" intro="Auditamos, priorizamos, implementamos y medimos dentro de 
+un alcance definido. No prometemos posiciones ni sustituimos al equipo comercial." /><Section title="Capacidad 
+deliberadamente limitada"><CardGrid items={['MÃ¡ximo inicial de cuatro clientes activos', 'MÃ¡ximo de un onboarding 
+nuevo por mes', 'Trabajo recurrente con alcance definido', 'Transparencia sobre lÃmites y dependencias']} 
+/></Section><FinalCta market={market} /></>; }
+  export function ContactGrowthPage() { const market = useMarket(); return <><Head market={market} 
+routePath="contacto" title={`Contacto de Pixvo en ${markets[market].name}`} description="Contacta con Pixvo por 
+WhatsApp o telÃ©fono para consultar sobre SEO, automatizaciÃ³n, analÃtica y sistemas de crecimiento digital." 
+/><Breadcrumbs market={market} items={[{ label: 'Contacto' }]} /><Hero market={market} eyebrow="Contacto" 
+title="CuÃ©ntanos quÃ© estÃ¡ frenando tu sistema comercial" lead="El diagnÃ³stico reÃºne el contexto necesario para 
+valorar el encaje. TambiÃ©n puedes comunicarte con Pixvo por WhatsApp o telÃ©fono." /><Section title="Habla con Pixvo" 
+intro="Atendemos de forma remota a empresas que necesitan conectar captaciÃ³n orgÃ¡nica, conversiÃ³n, automatizaciÃ³n 
+y seguimiento de leads."><div className="contact-options"><a className="contact-option contact-option--whatsapp" 
+href={contactConfig.whatsappUrl} target="_blank" 
+rel="noreferrer"><span>WhatsApp</span><strong>{contactConfig.whatsappPhone}</strong><small>Iniciar 
+conversaciÃ³n</small></a>{contactConfig.phones.map((phone) => <a className="contact-option" key={phone.href} 
+href={phone.href}><span>{phone.label}</span><strong>{phone.display}</strong><small>Llamar a 
+Pixvo</small></a>)}</div></Section><Section tone="section-tint" title="Â¿Prefieres aportar el contexto por escrito?" 
+intro="Completa la solicitud de diagnÃ³stico para que podamos revisar tu trÃ¡fico, mediciÃ³n, procesos y capacidad de 
+atenciÃ³n antes de recomendar un plan." /><FinalCta market={market} title="Empieza por una solicitud de diagnÃ³stico" 
+/></>; }
+> export function CasesPage() { const market = useMarket(); return <><Head market={market} routePath="casos-de-exito" 
+title="Casos de Ã©xito Pixvo | Resultados y proyectos" description="Casos de clientes y proyectos Pixvo: 
+automatizaciÃ³n de leads, plataformas operativas, informaciÃ³n georreferenciada y productos mobile + web." 
+/><Breadcrumbs market={market} items={[{ label: 'Casos de Ã©xito' }]} /><Hero market={market} eyebrow="Casos de Ã©xito 
+Pixvo" title="Problemas reales transformados en sistemas que el equipo puede utilizar" lead="Documentamos la 
+situaciÃ³n inicial, la soluciÃ³n, el cambio operativo y los resultados disponibles. Cuando no existe una mÃ©trica 
+pÃºblica, lo indicamos sin convertir una inferencia en un dato." /><Section title="Casos destacados" 
+intro="Microcuotas es el caso cuantificable principal. Los demÃ¡s demuestran transformaciÃ³n operativa, funcional o 
+tÃ©cnica con lÃmites de atribuciÃ³n explÃcitos."><CardGrid items={caseStudies.map((item) => ({ title: item.title, 
+text: item.summary, to: localPath(market, `casos-de-exito/${item.slug}`), link: 'Leer caso' }))} /></Section><Section 
+title="QuÃ© diferencia un caso de Ã©xito de un proyecto"><CardGrid items={['Problema anterior documentado', 'SoluciÃ³n 
+vinculada al problema', 'TransformaciÃ³n operacional verificable', 'MÃ©tricas o lÃmites de evidencia explÃcitos']} 
+/></Section><FinalCta market={market} /></>; }
+  
+> export function CaseStudyPage() { const market = useMarket(), { slug } = useParams(), item = 
+getCaseStudyBySlug(slug); if (!item || market !== 'mx') return <Navigate to="/404" replace />; const routePath = 
+`casos-de-exito/${slug}`; const crumbs = [{ label: 'Casos de Ã©xito', path: localPath(market, 'casos-de-exito') }, { 
+label: item.title, path: localPath(market, routePath) }]; const schema = { '@context': 'https://schema.org', '@type': 
+'WebPage', name: `Caso de Ã©xito: ${item.title}`, description: item.summary, mainEntity: { '@type': 'CreativeWork', 
+name: item.title, abstract: item.summary, creator: { '@type': 'Organization', name: 'Pixvo' } } }; return <><Head 
+market={market} routePath={routePath} title={`Caso de Ã©xito: ${item.title} | Pixvo`} description={item.summary} 
+schema={[schema, breadcrumbSchema(market, crumbs)]} /><Breadcrumbs market={market} items={[{ label: 'Casos de Ã©xito', 
+to: localPath(market, 'casos-de-exito') }, { label: item.title }]} /><Hero market={market} eyebrow={item.label} 
+title={`Caso de Ã©xito: ${item.title}`} lead={item.summary} /><Section title="SituaciÃ³n inicial" intro={item.problem} 
+/><Section tone="section-tint" title="SoluciÃ³n desarrollada" intro={item.solution} /><Section title="CÃ³mo cambiÃ³ la 
+operaciÃ³n" intro={item.transformation} /><Section title="Resultados y evidencia disponible"><CardGrid 
+items={item.results} /></Section><Section title="LÃmites de atribuciÃ³n" intro={item.caveat} /><Section 
+title="Soluciones relacionadas"><RelatedSolutions market={market} slugs={item.services} /></Section><FinalCta 
+market={market} title="Â¿Tu empresa tiene un cuello de botella parecido?" /></>; }
+  
+  export function ThankYouPage() { const market = useMarket(); return <><Head market={market} 
+routePath="gracias-diagnostico" title="Solicitud recibida | Pixvo" description="ConfirmaciÃ³n de recepciÃ³n de la 
+solicitud de diagnÃ³stico." robots="noindex,follow" /><section className="thank-you"><div><span 
+className="eyebrow">Solicitud recibida</span><h1>Gracias por compartir tu contexto</h1><p>Hemos registrado la 
+solicitud. La recepciÃ³n no implica aceptaciÃ³n ni una promesa de respuesta inmediata. Revisaremos el encaje y los 
+datos disponibles antes de indicar el siguiente paso.</p><a className="button button--secondary" 
+href={localPath(market)}>Volver a Pixvo</a></div></section></>; }
+  
+
+

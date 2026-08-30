@@ -1,0 +1,17 @@
+event,trigger,parameters,implementation,pii
+cta_click,Clic en CTA,country|currency|plan|page_type|cta_location|service|UTM,dataLayer,no
+pricing_view,Primera entrada de precios en viewport,country|currency|page_type,dataLayer,no
+plan_select,Clic en selección de plan,country|currency|plan,dataLayer,no
+form_start,Primer foco en formulario,country|currency|page_type|UTM,dataLayer,no
+form_step_complete,Paso válido completado,country|currency|page_type|lead_problem|UTM,dataLayer,no
+form_submit,Formulario validado y transferencia iniciada a WhatsApp,country|currency|plan|lead_problem|UTM,dataLayer,no
+qualified_lead,Clasificación privada aprobada,requiere proceso comercial externo,no implementado,no
+meeting_booked,Confirmación de calendario aprobado,defined by calendar integration,external/server,no
+audit_request,Selección de auditoría y envío válido,country|currency|lead_problem|UTM,backend/GTM,no
+country_select,Cambio de mercado,country|currency,dataLayer,no
+case_study_view,Vista de caso publicado,country|page_type|service,dataLayer pending cases,no
+email_click,Clic en enlace mailto,country|page_type,dataLayer delegated when contact approved,no
+phone_click,Clic en enlace tel,country|page_type,dataLayer mediante observador global de enlaces tel,no
+whatsapp_click,Clic en enlace WhatsApp,country|page_type,dataLayer mediante observador global de enlaces wa.me,no
+resource_download,Descarga identificada,country|page_type|service,dataLayer pending assets,no
+outbound_click,Clic en dominio externo,country|page_type|service,dataLayer delegated,no

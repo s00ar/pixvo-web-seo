@@ -1,0 +1,26 @@
+{
+  "slug": "por-que-necesitas-un-sitio-web-profesional-en-2025-y-como-conseguir-hosting-premium-con-descuento",
+  "title": "Por qué necesitás un sitio web profesional en 2025 (y cómo conseguir hosting premium con descuento)",
+  "excerpt": "El papel de una web propia para una empresa o marca personal y los criterios básicos al elegir hosting.",
+  "category": "Desarrollo web",
+  "tags": ["Sitio web", "Hosting", "Marca", "Conversión"],
+  "publishedAt": "2025-11-23",
+  "readingTime": "6 min",
+  "author": "Santiago Hernán Leston",
+  "authorBio": "Santiago es desarrollador full stack, analista funcional y líder de equipos tecnológicos. En Pixvo.Tech combina desarrollo web y mobile, automatización, SEO y estrategia digital para crear soluciones orientadas a mejorar procesos, visibilidad y resultados de negocio.",
+  "authorImage": "/images/authors/santiago.jpg",
+  "featuredImage": "/images/posts/blog-web-profesional.jpg",
+  "image": {
+    "src": "/images/posts/blog-web-profesional.jpg",
+    "srcset": "/images/posts/blog-web-profesional-640.webp 640w, /images/posts/blog-web-profesional-1200.webp 1200w",
+    "alt": "Por qué necesitar un sitio web profesional en 2025",
+    "width": 1200,
+    "height": 628
+  },
+  "overview": "Una presencia propia permite explicar la propuesta, organizar información, captar consultas y medir recorridos sin depender por completo de una plataforma social.",
+  "topics": ["Credibilidad y control de la marca", "Rendimiento y disponibilidad", "Seguridad y copias de respaldo", "Escalabilidad del plan de hosting"],
+  "application": "Antes de contratar conviene revisar soporte, recursos, ubicación, backups, certificados, renovación y facilidad de migración. Cualquier descuento o afiliación debe comunicarse con transparencia.",
+  "conclusion": "Una web profesional no se define solo por su apariencia: debe ser mantenible, rápida, accesible y capaz de acompañar los objetivos reales del negocio.",
+  "ctas": [{ "title": "Contratar hosting", "url": "/contact" }],
+  "related": []
+}

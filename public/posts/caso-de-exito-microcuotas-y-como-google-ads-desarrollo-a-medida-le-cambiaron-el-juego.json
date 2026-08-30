@@ -1,0 +1,26 @@
+{
+  "slug": "caso-de-exito-microcuotas-y-como-google-ads-desarrollo-a-medida-le-cambiaron-el-juego",
+  "title": "Google Ads, validación y Clientify: arquitectura del funnel de Microcuotas",
+  "excerpt": "Una lectura técnica del flujo que conecta captación, formulario, validación, normalización y CRM dentro del caso principal de Microcuotas.",
+  "category": "Automatización",
+  "tags": ["Microcuotas", "Google Ads", "React", "Automatización"],
+  "publishedAt": "2025-07-22",
+  "readingTime": "7 min",
+  "author": "Santiago Hernán Leston",
+  "authorBio": "Santiago es desarrollador full stack, analista funcional y líder de equipos tecnológicos. En Pixvo.Tech combina desarrollo web y mobile, automatización, SEO y estrategia digital para crear soluciones orientadas a mejorar procesos, visibilidad y resultados de negocio.",
+  "authorImage": "/images/authors/santiago.jpg",
+  "featuredImage": "/images/posts/blog-microcuotas.jpg",
+  "image": {
+    "src": "/images/posts/blog-microcuotas.jpg",
+    "srcset": "/images/posts/blog-microcuotas-640.webp 640w, /images/posts/blog-microcuotas-1200.webp 1200w",
+    "alt": "Caso de éxito Microcuotas: Google Ads y desarrollo a medida",
+    "width": 1200,
+    "height": 628
+  },
+  "overview": "Este artículo funciona como ampliación técnica del caso principal. El recorrido conecta campañas de Google Ads, un formulario React por pasos, validación y normalización de datos y la entrega de oportunidades a Clientify.",
+  "topics": ["Google Ads y webhook", "Formulario por pasos", "Validación y normalización", "Integración con Clientify", "Logs, errores y reintentos"],
+  "application": "El valor funcional surge al mantener un criterio trazable desde la captación hasta el CRM. Las métricas y sus límites se documentan únicamente en la página principal del caso para evitar narrativas duplicadas o comparaciones entre etapas diferentes.",
+  "conclusion": "La captación, la validación y el seguimiento forman un solo flujo; este artículo explica la arquitectura y no se presenta como un caso independiente.",
+  "caseStudySlug": "microcuotas",
+  "related": []
+}

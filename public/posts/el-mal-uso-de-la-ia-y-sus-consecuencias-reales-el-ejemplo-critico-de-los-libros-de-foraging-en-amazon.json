@@ -1,0 +1,27 @@
+{
+  "slug": "el-mal-uso-de-la-ia-y-sus-consecuencias-reales-el-ejemplo-critico-de-los-libros-de-foraging-en-amazon",
+  "title": "El mal uso de la IA y sus consecuencias reales: el ejemplo crítico de los libros de foraging en Amazon",
+  "excerpt": "Un caso señalado como no verificado en la fuente original para analizar el riesgo de publicar contenido sensible generado por IA sin validación experta.",
+  "category": "Inteligencia artificial",
+  "tags": ["IA", "Verificación", "Riesgo", "Contenido"],
+  "publishedAt": "2025-11-27",
+  "readingTime": "7 min",
+  "author": "Santiago Hernán Leston",
+  "authorBio": "Santiago es desarrollador full stack, analista funcional y líder de equipos tecnológicos. En Pixvo.Tech combina desarrollo web y mobile, automatización, SEO y estrategia digital para crear soluciones orientadas a mejorar procesos, visibilidad y resultados de negocio.",
+  "authorImage": "/images/authors/santiago.jpg",
+  "featuredImage": "/images/posts/blog-ia-foraging.jpg",
+  "image": {
+    "src": "/images/posts/blog-ia-foraging.jpg",
+    "srcset": "/images/posts/blog-ia-foraging-640.webp 640w, /images/posts/blog-ia-foraging-1200.webp 1200w",
+    "alt": "Mal uso de la IA: ejemplo de foraging en Amazon",
+    "width": 1200,
+    "height": 628
+  },
+  "popular": true,
+  "overview": "El artículo parte de un caso difundido sobre libros de identificación y recolección de hongos supuestamente generados por IA. La fuente original lo marca como no verificado, una advertencia que se conserva en esta migración.",
+  "topics": ["Riesgo de errores en información sensible", "Necesidad de expertos y fuentes trazables", "Responsabilidad editorial", "Diferencia entre asistencia y publicación automática"],
+  "application": "En temas de salud, seguridad o identificación de especies, la IA puede ayudar a organizar borradores, pero el contenido exige revisión experta, referencias comprobables y controles antes de publicarse.",
+  "conclusion": "La velocidad de generación no reduce la responsabilidad de quien publica. Cuanto mayor sea el daño potencial, más rigurosa debe ser la validación humana.",
+  "ctas": [{ "title": "Revisión editorial", "url": "/contact" }],
+  "related": []
+}

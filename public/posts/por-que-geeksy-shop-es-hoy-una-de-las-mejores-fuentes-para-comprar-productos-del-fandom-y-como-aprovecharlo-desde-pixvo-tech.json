@@ -1,0 +1,26 @@
+{
+  "slug": "por-que-geeksy-shop-es-hoy-una-de-las-mejores-fuentes-para-comprar-productos-del-fandom-y-como-aprovecharlo-desde-pixvo-tech",
+  "title": "Por qué Geeksy.shop es hoy una de las mejores fuentes para comprar productos del fandom",
+  "excerpt": "Una presentación de Geeksy.shop y su propuesta de reseñas y guías de compra para productos de fandom disponibles en Amazon.",
+  "category": "Colaboraciones",
+  "tags": ["Geeksy", "E-commerce", "Afiliación", "Contenido"],
+  "publishedAt": "2025-12-01",
+  "readingTime": "5 min",
+  "author": "Santiago Hernán Leston",
+  "authorBio": "Santiago es desarrollador full stack, analista funcional y líder de equipos tecnológicos. En Pixvo.Tech combina desarrollo web y mobile, automatización, SEO y estrategia digital para crear soluciones orientadas a mejorar procesos, visibilidad y resultados de negocio.",
+  "authorImage": "/images/authors/santiago.jpg",
+  "featuredImage": "/images/posts/blog-geeksy.jpg",
+  "image": {
+    "src": "/images/posts/blog-geeksy.jpg",
+    "srcset": "/images/posts/blog-geeksy-640.webp 640w, /images/posts/blog-geeksy-1200.webp 1200w",
+    "alt": "Geeksy Shop y oportunidades para el fandom",
+    "width": 1200,
+    "height": 628
+  },
+  "overview": "El artículo presenta Geeksy.shop como una fuente de selecciones, reseñas y guías de compra para comunidades de Harry Potter, Star Wars, Marvel, K-Pop y otros fandoms.",
+  "topics": ["Selecciones orientadas por temática", "Guías para comparar productos", "Descubrimiento a través de contenido", "Relación entre contenido editorial y afiliación"],
+  "application": "Los proyectos de afiliación necesitan indicar de forma clara su relación comercial, verificar disponibilidad y precios en la tienda de destino y mantener actualizadas las recomendaciones.",
+  "conclusion": "La utilidad editorial depende de ayudar a elegir con menos fricción. La transparencia sobre enlaces de afiliación protege la confianza de la audiencia.",
+  "ctas": [{ "title": "Contacto comercial", "url": "/contact" }],
+  "related": []
+}

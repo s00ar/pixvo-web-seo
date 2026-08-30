@@ -1,0 +1,26 @@
+{
+  "slug": "la-ia-esta-matando-la-creatividad",
+  "title": "La IA está matando la creatividad",
+  "excerpt": "Una reflexión sobre la creatividad como proceso de iteración y el papel de la IA cuando potencia el criterio en lugar de reemplazarlo.",
+  "category": "Inteligencia artificial",
+  "tags": ["IA", "Creatividad", "Criterio", "Proceso"],
+  "publishedAt": "2025-07-22",
+  "readingTime": "6 min",
+  "author": "Santiago Hernán Leston",
+  "authorBio": "Santiago es desarrollador full stack, analista funcional y líder de equipos tecnológicos. En Pixvo.Tech combina desarrollo web y mobile, automatización, SEO y estrategia digital para crear soluciones orientadas a mejorar procesos, visibilidad y resultados de negocio.",
+  "authorImage": "/images/authors/santiago.jpg",
+  "featuredImage": "/images/posts/blog-ia-creatividad.jpg",
+  "image": {
+    "src": "/images/posts/blog-ia-creatividad.jpg",
+    "srcset": "/images/posts/blog-ia-creatividad-640.webp 640w, /images/posts/blog-ia-creatividad-1200.webp 1200w",
+    "alt": "La IA y su impacto en la creatividad",
+    "width": 1200,
+    "height": 628
+  },
+  "overview": "La pregunta no se resuelve aceptando o rechazando la IA en bloque. El artículo propone observar cómo se usa dentro del proceso creativo y qué decisiones siguen dependiendo de intención, experiencia y criterio humano.",
+  "topics": ["Creatividad como iteración", "Diferencia entre generar y decidir", "Riesgo de resultados homogéneos", "IA como herramienta de exploración"],
+  "application": "Puede usarse para ampliar alternativas, investigar enfoques o acelerar borradores, mientras el equipo conserva la definición del problema, la selección y la responsabilidad sobre la pieza final.",
+  "conclusion": "La herramienta no sustituye una dirección creativa. Su aporte depende de la calidad de las preguntas, la edición y el criterio aplicado al resultado.",
+  "ctas": [{ "title": "Charla sobre IA y creatividad", "url": "/contact" }],
+  "related": []
+}

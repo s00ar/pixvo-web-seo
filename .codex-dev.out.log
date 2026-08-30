@@ -1,0 +1,14 @@
+
+> pixvo-tech@1.0.0 dev
+> vite --host 127.0.0.1
+
+04:36:10 [vite] (client) Re-optimizing dependencies because lockfile has changed
+
+  VITE v6.4.3  ready in 1158 ms
+
+  ➜  Local:   http://127.0.0.1:5173/
+04:42:54 [vite] (client) hmr update /src/components/growth/GrowthBlocks.jsx
+04:42:54 [vite] (client) hmr update /src/components/common/SeoHead.jsx
+04:42:54 [vite] (client) hmr update /src/components/common/SeoHead.jsx
+04:42:54 [vite] (client) hmr invalidate /src/components/growth/GrowthBlocks.jsx Could not Fast Refresh ("breadcrumbSchema" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+04:42:54 [vite] (client) hmr update /src/pages/growth/MarketPages.jsx

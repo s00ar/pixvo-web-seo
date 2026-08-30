@@ -1,0 +1,34 @@
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
+        { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains" }
+      ]
+    }
+  ],
+  "redirects": [
+    { "source": "/servicios/seo", "destination": "/mx/soluciones/seo-para-pymes/", "permanent": true },
+    { "source": "/servicios/automatizacion", "destination": "/mx/soluciones/automatizacion-de-procesos/", "permanent": true },
+    { "source": "/servicios/desarrollo-web", "destination": "/mx/soluciones/optimizacion-wordpress/", "permanent": true },
+    { "source": "/servicios/aplicaciones", "destination": "/mx/sistema-crecimiento-digital/", "permanent": true },
+    { "source": "/servicios/google-ads", "destination": "/mx/recursos/seo-vs-google-ads/", "permanent": true },
+    { "source": "/servicios/meta-ads", "destination": "/mx/sistema-crecimiento-digital/", "permanent": true },
+    { "source": "/servicios", "destination": "/mx/sistema-crecimiento-digital/", "permanent": true },
+    { "source": "/nosotros", "destination": "/mx/nosotros/", "permanent": true },
+    { "source": "/contacto", "destination": "/mx/contacto/", "permanent": true },
+    { "source": "/proyectos", "destination": "/mx/casos-de-exito/", "permanent": true },
+    { "source": "/proyectos/microcuotas", "destination": "/mx/casos-de-exito/microcuotas/", "permanent": true },
+    { "source": "/proyectos/sanidad-web", "destination": "/mx/casos-de-exito/sanidad-web/", "permanent": true },
+    { "source": "/proyectos/paola-informa", "destination": "/mx/casos-de-exito/paola-informa/", "permanent": true },
+    { "source": "/referidos", "destination": "/mx/solicitar-diagnostico/", "permanent": true },
+    { "source": "/politica-de-privacidad", "destination": "/legal/politica-de-privacidad/", "permanent": true },
+    { "source": "/legal/privacidad", "destination": "/legal/politica-de-privacidad/", "permanent": true },
+    { "source": "/legal/cookies", "destination": "/legal/politica-de-cookies/", "permanent": true },
+    { "source": "/mx/soluciones/c/", "destination": "/mx/soluciones/optimizacion-de-conversion/", "permanent": true }
+  ]
+}

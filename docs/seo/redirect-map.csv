@@ -1,0 +1,15 @@
+old_url,new_url,status,reason
+/servicios,/mx/sistema-crecimiento-digital/,301,Consolida la oferta integral
+/servicios/desarrollo-web,/mx/soluciones/optimizacion-wordpress/,301,Equivalente funcional más cercano
+/servicios/aplicaciones,/mx/sistema-crecimiento-digital/,301,El desarrollo completo no forma parte de la oferta
+/servicios/seo,/mx/soluciones/seo-para-pymes/,301,Consolida intención SEO comercial
+/servicios/google-ads,/mx/recursos/seo-vs-google-ads/,301,Publicidad pagada no incluida en plan base
+/servicios/meta-ads,/mx/sistema-crecimiento-digital/,301,Publicidad pagada no incluida en plan base
+/servicios/automatizacion,/mx/soluciones/automatizacion-de-procesos/,301,Consolida intención de automatización
+/proyectos,/mx/casos-de-exito/,301,Nuevo índice de evidencia
+/nosotros,/mx/nosotros/,301,Versión localizada
+/contacto,/mx/contacto/,301,Versión localizada
+/referidos,/mx/solicitar-diagnostico/,301,Conversión cualificada equivalente
+/politica-de-privacidad,/legal/politica-de-privacidad/,301,Normalización legal
+/legal/privacidad,/legal/politica-de-privacidad/,301,Alias legal histórico
+/legal/cookies,/legal/politica-de-cookies/,301,Normalización legal

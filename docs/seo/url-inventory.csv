@@ -1,0 +1,18 @@
+url,status_code,indexable,canonical,title,meta_description,h1,word_count,organic_clicks,organic_impressions,conversions,backlinks,recommended_action,target_url,notes
+/,200,yes,https://pixvo.tech/,Pixvo.Tech,,,,,,,,replace,,Se convierte en selector internacional x-default
+/servicios,301,no,,Servicios,,,,,,,,redirect,/mx/sistema-crecimiento-digital/,Sustituida por el hub comercial
+/servicios/desarrollo-web,301,no,,Desarrollo web,,,,,,,,redirect,/mx/soluciones/optimizacion-wordpress/,Equivalente más cercano
+/servicios/aplicaciones,301,no,,Aplicaciones,,,,,,,,redirect,/mx/sistema-crecimiento-digital/,No existe una oferta de software completo
+/servicios/seo,301,no,,SEO,,,,,,,,redirect,/mx/soluciones/seo-para-pymes/,Intención consolidada
+/servicios/google-ads,301,no,,Google Ads,,,,,,,,redirect,/mx/recursos/seo-vs-google-ads/,Servicio fuera del plan base
+/servicios/meta-ads,301,no,,Meta Ads,,,,,,,,redirect,/mx/sistema-crecimiento-digital/,Servicio fuera del plan base
+/servicios/automatizacion,301,no,,Automatización,,,,,,,,redirect,/mx/soluciones/automatizacion-de-procesos/,Intención consolidada
+/proyectos,301,no,,Proyectos,,,,,,,,redirect,/mx/casos-de-exito/,El índice nuevo no inventa casos
+/proyectos/:slug,200,yes,self,Proyecto existente,,,,,,,,keep,,Se conservan detalles existentes
+/blog,200,yes,self,Blog,,,,,,,,keep,,Contenido útil conservado
+/blog/:slug,200,yes,self,Artículo existente,,,,,,,,keep,,Artículos conservados
+/nosotros,301,no,,Nosotros,,,,,,,,redirect,/mx/nosotros/,Localización principal
+/contacto,301,no,,Contacto,,,,,,,,redirect,/mx/contacto/,Localización principal
+/referidos,301,no,,Referidos,,,,,,,,redirect,/mx/solicitar-diagnostico/,Conversión equivalente
+/politica-de-privacidad,301,no,,Privacidad,,,,,,,,redirect,/legal/politica-de-privacidad/,URL legal consolidada
+/legal/:slug,200,no,self,Documento legal,,,,,,,,replace,,Noindex hasta aprobación legal

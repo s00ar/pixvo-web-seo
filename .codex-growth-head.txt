@@ -1,0 +1,80 @@
+﻿export const DOMAIN = import.meta.env.VITE_SITE_URL || 'https://pixvo.tech';
+
+export const markets = {
+  mx: { code: 'mx', name: 'MÃ©xico', flag: 'ðŸ‡²ðŸ‡½', locale: 'es-MX', currency: 'MXN', currencyLabel: 'pesos mexicanos' },
+  ar: { code: 'ar', name: 'Argentina', flag: 'ðŸ‡¦ðŸ‡·', locale: 'es-AR', currency: 'USD', currencyLabel: 'dÃ³lares estadounidenses' },
+  es: { code: 'es', name: 'EspaÃ±a', flag: 'ðŸ‡ªðŸ‡¸', locale: 'es-ES', currency: 'EUR', currencyLabel: 'euros' },
+};
+
+export const contactConfig = {
+  whatsappPhone: '+39 392 142 5033',
+  whatsappUrl: 'https://wa.me/393921425033?text=Hola%2C%20quiero%20solicitar%20informaci%C3%B3n%20sobre%20Pixvo%20Growth%20System',
+  phones: [
+    { label: 'Italia y Europa', display: '+39 392 142 5033', href: 'tel:+393921425033' },
+    { label: 'Argentina y LatinoamÃ©rica', display: '+54 11 66837387', href: 'tel:+541166837387' },
+  ],
+};
+
+export const trafficGuarantee = {
+  title: 'GarantÃ­a de trÃ¡fico y KPI de captaciÃ³n',
+  summary: 'Pixvo acuerda por escrito un volumen objetivo de trÃ¡fico medible a partir de la lÃ­nea base, el mercado y el alcance contratado. Si el objetivo no se alcanza dentro del periodo inicial y se cumplen las condiciones de mediciÃ³n y colaboraciÃ³n, bonificamos la continuidad del servicio para trabajar hasta alcanzar el KPI acordado.',
+  periods: { core: 3, growth: 3, scale: 6 },
+};
+
+const envPrice = (key) => {
+  const value = import.meta.env[key];
+  return value && /^\d+(?:[.,]\d{1,2})?$/.test(value) ? Number(value.replace(',', '.')) : null;
+};
+
+export const plans = [
+  {
+    id: 'core', name: 'Pixvo Core', audience: 'Empresas que necesitan ordenar su SEO, mediciÃ³n y estrategia de crecimiento.', units: 2, minimum: 3,
+    included: ['AuditorÃ­a inicial', 'RevisiÃ³n de Search Console y GA4', 'Dashboard bÃ¡sico', 'Monitoreo e informe mensual', 'ReuniÃ³n mensual de hasta 30 minutos', 'Dos unidades operativas', 'Roadmap trimestral', 'AuditorÃ­a integral semestral', 'Recomendaciones de captaciÃ³n y leads'],
+    limits: ['Una persona de contacto', 'Una ronda de revisiÃ³n', 'Respuesta en hasta dos dÃ­as hÃ¡biles', 'Unidades no acumulables', 'Sin automatizaciÃ³n mensual garantizada'],
+  },
+  {
+    id: 'growth', name: 'Pixvo Growth', audience: 'Empresas que quieren mejorar su crecimiento orgÃ¡nico e incorporar automatizaciones progresivamente.', units: 4, minimum: 3, recommended: 6,
+    included: ['Todo Core', 'Cuatro unidades mensuales', 'Plan editorial e investigaciÃ³n de oportunidades', 'SEO tÃ©cnico y optimizaciÃ³n de contenidos', 'Automatizaciones pequeÃ±as con n8n', 'ReuniÃ³n mensual de hasta 45 minutos', 'RevisiÃ³n trimestral del embudo', 'Roadmap trimestral'],
+    limits: ['Hasta una automatizaciÃ³n pequeÃ±a mensual', 'Una ronda de revisiÃ³n', 'Los cambios de criterio consumen una unidad', 'Sin gestiÃ³n comercial de leads'],
+  },
+  {
+    id: 'scale', name: 'Pixvo Scale', audience: 'Empresas que ya generan oportunidades y necesitan optimizar marketing, web, automatizaciones y seguimiento comercial.', units: 6, minimum: 6,
+    included: ['Todo Growth', 'Seis unidades mensuales', 'ReuniÃ³n de hasta 60 minutos', 'PriorizaciÃ³n mensual', 'Dos automatizaciones pequeÃ±as o una mediana', 'Dashboard ampliado', 'EvaluaciÃ³n de landings y CRO', 'AuditorÃ­a estratÃ©gica trimestral', 'RevisiÃ³n del tratamiento de leads', 'DocumentaciÃ³n y roadmap de seis meses'],
+    limits: ['Sin disponibilidad inmediata', 'Sin desarrollo completo de software', 'Sin administraciÃ³n diaria de CRM', 'Sin atenciÃ³n de clientes finales'],
+  },
+];
+
+const esPrices = { core: { monthly: 550, onboarding: 700 }, growth: { monthly: 800, onboarding: 1000 }, scale: { monthly: 1200, onboarding: 1500 } };
+export function getPrice(market, plan) {
+  if (market === 'es') return esPrices[plan];
+  const prefix = market === 'mx' ? 'VITE_MX' : 'VITE_AR';
+  return { monthly: envPrice(`${prefix}_${plan.toUpperCase()}_MONTHLY`), onboarding: envPrice(`${prefix}_${plan.toUpperCase()}_ONBOARDING`) };
+}
+export const hasCompletePrices = (market) => plans.every(({ id }) => Object.values(getPrice(market, id)).every(Number.isFinite));
+
+export const primarySolutions = ['seo-para-pymes', 'automatizacion-de-procesos', 'seguimiento-de-leads'];
+export const solutionCatalog = {
+  'seo-para-pymes': { title: 'SEO para PyMEs orientado a captar clientes', h1: 'SEO para PyMEs orientado a captar oportunidades comerciales', lead: 'Posicionamos las pÃ¡ginas que pueden generar negocio, no contenidos creados Ãºnicamente para aumentar visitas.', description: 'Estrategia SEO, arquitectura, contenido y optimizaciÃ³n continua para captar bÃºsquedas con intenciÃ³n comercial, no trÃ¡fico vanidoso.', items: ['DiagnÃ³stico', 'Keyword research transaccional', 'Arquitectura y canibalizaciÃ³n', 'SEO tÃ©cnico', 'Landings y contenido', 'Enlazado interno', 'Search Console', 'Conversiones y mejora continua'], related: ['contenido-seo', 'seo-wordpress', 'analitica-digital'] },
+  'seo-wordpress': { title: 'SEO para WordPress', h1: 'SEO para WordPress orientado a visibilidad y conversiÃ³n', lead: 'Mejoramos cÃ³mo los buscadores rastrean, entienden y presentan tu sitio WordPress.', items: ['Rastreo', 'IndexaciÃ³n', 'Arquitectura', 'Metadatos', 'Schema', 'Enlazado', 'Contenido', 'Search Console'], related: ['optimizacion-wordpress', 'seo-para-pymes', 'optimizacion-de-conversion'] },
+  'contenido-seo': { title: 'Servicio de contenido SEO', h1: 'Contenido SEO diseÃ±ado para atraer y convertir', lead: 'Creamos rutas de contenido conectadas con pÃ¡ginas comerciales y revisadas por personas.', items: ['InvestigaciÃ³n', 'Briefs', 'ArtÃ­culos', 'Landings', 'ActualizaciÃ³n', 'IntenciÃ³n', 'RevisiÃ³n humana', 'Enlazado comercial'], related: ['seo-para-pymes', 'optimizacion-de-conversion', 'analitica-digital'] },
+  'automatizacion-de-procesos': { title: 'AutomatizaciÃ³n de procesos para PyMEs', h1: 'AutomatizaciÃ³n de procesos para PyMEs', lead: 'Conectamos herramientas y automatizamos tareas repetitivas para reducir trabajo manual, errores y tiempos de respuesta.', description: 'Reduce tareas manuales, conecta herramientas y mejora tus procesos con automatizaciones progresivas y supervisiÃ³n humana.', items: ['Registro de formularios', 'Notificaciones y alertas', 'CreaciÃ³n de tareas', 'ActualizaciÃ³n de hojas', 'ClasificaciÃ³n inicial', 'Registro UTM', 'Recordatorios', 'Dashboards e integraciones'], excluded: ['AplicaciÃ³n personalizada', 'CRM completo', 'Agente autÃ³nomo sin supervisiÃ³n', 'IntegraciÃ³n compleja', 'Soporte permanente', 'Desarrollo ilimitado'], related: ['seguimiento-de-leads', 'analitica-digital', 'automatizacion-de-marketing'] },
+  'automatizacion-de-marketing': { title: 'AutomatizaciÃ³n de marketing', h1: 'AutomatizaciÃ³n de marketing para PyMEs', lead: 'Organizamos la captaciÃ³n y las comunicaciones sin convertirlas en una caja negra.', items: ['Formularios', 'Notificaciones', 'Email', 'SegmentaciÃ³n', 'CaptaciÃ³n', 'Reporting'], related: ['seguimiento-de-leads', 'contenido-seo', 'analitica-digital'] },
+  'seguimiento-de-leads': { title: 'AutomatizaciÃ³n y seguimiento de leads', h1: 'Evita que tus leads se pierdan despuÃ©s del formulario', lead: 'Conectamos formularios, notificaciones, registros y recordatorios para que cada oportunidad tenga un siguiente paso claro.', description: 'Registra, clasifica y da seguimiento a las oportunidades generadas por tu web para reducir pÃ©rdidas y mejorar el tiempo de respuesta.', items: ['Registro y fuente', 'NotificaciÃ³n', 'ClasificaciÃ³n', 'AsignaciÃ³n', 'Recordatorios', 'Estado y alertas', 'CRM o Sheets', 'Correo, WhatsApp y dashboard'], related: ['automatizacion-de-procesos', 'analitica-digital', 'optimizacion-de-conversion'] },
+  'analitica-digital': { title: 'ConsultorÃ­a de analÃ­tica digital', h1: 'AnalÃ­tica digital para tomar decisiones, no acumular informes', lead: 'Medimos acciones y oportunidades sin enviar datos personales a las plataformas analÃ­ticas.', items: ['GA4', 'GTM', 'Search Console', 'Eventos', 'Conversiones', 'Dashboards', 'Fuentes', 'Trazabilidad'], related: ['seguimiento-de-leads', 'seo-para-pymes', 'optimizacion-de-conversion'] },
+  'optimizacion-wordpress': { title: 'OptimizaciÃ³n WordPress', h1: 'OptimizaciÃ³n continua de WordPress para empresas', lead: 'Mejoramos rendimiento, experiencia y estabilidad con un alcance evolutivo definido.', items: ['Rendimiento', 'UX', 'Estabilidad', 'ConversiÃ³n', 'Mejoras tÃ©cnicas', 'Mantenimiento evolutivo'], related: ['seo-wordpress', 'optimizacion-de-conversion', 'analitica-digital'] },
+  'optimizacion-de-conversion': { title: 'OptimizaciÃ³n de conversiÃ³n web', h1: 'OptimizaciÃ³n de conversiÃ³n para transformar visitas en oportunidades', lead: 'Detectamos fricciones y mejoramos la ruta hacia una solicitud cualificada.', items: ['Propuesta de valor', 'JerarquÃ­a', 'CTAs', 'Formularios', 'Objeciones', 'Prueba respaldada', 'Experimentos', 'MediciÃ³n'], related: ['analitica-digital', 'optimizacion-wordpress', 'contenido-seo'] },
+};
+
+export const problemCatalog = {
+  'leads-no-convierten': { h1: 'Â¿Por quÃ© tus leads no se convierten en clientes?', lead: 'Una consulta sin registro, responsable o siguiente paso puede perderse aunque la captaciÃ³n funcione.', causes: ['Respuesta tardÃ­a', 'Falta de clasificaciÃ³n', 'Responsabilidades difusas'], primary: 'seguimiento-de-leads', secondary: 'analitica-digital', conversion: 'auditoria-crecimiento-digital' },
+  'reducir-tareas-manuales': { h1: 'Reduce las tareas manuales que frenan a tu equipo', lead: 'Copiar datos y enviar avisos a mano consume tiempo y aumenta errores evitables.', causes: ['Herramientas desconectadas', 'Registros duplicados', 'Procesos no documentados'], primary: 'automatizacion-de-procesos', secondary: 'seguimiento-de-leads', conversion: 'solicitar-diagnostico' },
+  'web-no-convierte': { h1: 'Tu web recibe visitas, pero no genera oportunidades', lead: 'MÃ¡s trÃ¡fico no compensa una propuesta confusa, una ruta dÃ©bil o un formulario con fricciÃ³n.', causes: ['Propuesta poco clara', 'CTAs dispersos', 'Falta de mediciÃ³n'], primary: 'optimizacion-de-conversion', secondary: 'optimizacion-wordpress', conversion: 'auditoria-crecimiento-digital' },
+  'dependencia-publicidad-paga': { h1: 'Reduce la dependencia de la publicidad pagada', lead: 'Construye activos orgÃ¡nicos que complementen tus campaÃ±as sin prometer resultados inmediatos.', causes: ['Sin demanda orgÃ¡nica capturada', 'Landings insuficientes', 'Contenido desconectado'], primary: 'seo-para-pymes', secondary: 'contenido-seo', conversion: 'planes' },
+  'medir-resultados-marketing': { h1: 'Mide quÃ© acciones generan oportunidades', lead: 'Los informes solo son Ãºtiles cuando conectan fuentes, acciones y resultados comerciales.', causes: ['Eventos incompletos', 'UTM inconsistentes', 'Dashboards sin decisiones'], primary: 'analitica-digital', secondary: 'seguimiento-de-leads', conversion: 'auditoria-crecimiento-digital' },
+  'conectar-marketing-y-ventas': { h1: 'Conecta captaciÃ³n, seguimiento y ventas', lead: 'Marketing y ventas necesitan un registro compartido y prÃ³ximos pasos visibles.', causes: ['InformaciÃ³n aislada', 'AsignaciÃ³n manual', 'Estados sin actualizar'], primary: 'seguimiento-de-leads', secondary: 'automatizacion-de-marketing', conversion: 'solicitar-diagnostico' },
+  'wordpress-lento': { h1: 'Mejora un WordPress lento que perjudica la experiencia', lead: 'El rendimiento afecta a la experiencia, el rastreo y la capacidad de convertir.', causes: ['Recursos pesados', 'ConfiguraciÃ³n deficiente', 'Deuda tÃ©cnica'], primary: 'optimizacion-wordpress', secondary: 'seo-wordpress', conversion: 'auditoria-crecimiento-digital' },
+  'contenido-no-genera-clientes': { h1: 'Convierte el contenido en una ruta hacia la oportunidad', lead: 'El contenido sin intenciÃ³n ni enlaces comerciales puede atraer visitas sin crear demanda Ãºtil.', causes: ['Temas informativos aislados', 'Sin siguiente paso', 'CanibalizaciÃ³n'], primary: 'contenido-seo', secondary: 'seo-para-pymes', conversion: 'solicitar-diagnostico' },
+};
+
+export const resourceCatalog = {
+  'seo-vs-google-ads': ['SEO vs Google Ads', 'El SEO construye visibilidad orgÃ¡nica progresiva; Google Ads compra exposiciÃ³n mientras existe inversiÃ³n. Pueden complementarse segÃºn demanda, plazo y capacidad de conversiÃ³n.', 'seo-para-pymes', 'analitica-digital'],

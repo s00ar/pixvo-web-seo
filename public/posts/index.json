@@ -1,0 +1,139 @@
+[
+  {
+    "slug": "ataque-real-en-npm-como-el-compromiso-de-axios-expuso-miles-de-entornos-sin-que-nadie-lo-notara",
+    "title": "Ataque real en NPM: cómo el compromiso de Axios expuso miles de entornos sin que nadie lo notara",
+    "excerpt": "Un análisis del riesgo de confiar automáticamente en dependencias, la ejecución silenciosa de código y la seguridad de la cadena de suministro.",
+    "category": "Ciberseguridad",
+    "tags": ["NPM", "Axios", "Supply chain", "JavaScript"],
+    "publishedAt": "2025-12-01",
+    "readingTime": "8 min",
+    "featuredImage": "/images/posts/blog-axios-npm.jpg",
+    "featured": true,
+    "popular": true
+  },
+  {
+    "slug": "matriz-objetivo-icp-canal-lead-magnet-pagina-evento-de-conversion-metricas",
+    "title": "Matriz Objetivo / ICP / Canal / Lead Magnet / Página / Evento de Conversión / Métricas",
+    "excerpt": "Una herramienta para conectar objetivos, cliente ideal, canal, propuesta, página, conversión y medición sin improvisar el marketing.",
+    "category": "Marketing digital",
+    "tags": ["ICP", "Conversión", "Métricas", "Funnel"],
+    "publishedAt": "2025-12-01",
+    "readingTime": "9 min",
+    "featuredImage": "/images/posts/blog-matriz-funnel.jpg",
+    "popular": true
+  },
+  {
+    "slug": "por-que-un-sitio-wordpress-no-puede-quedar-librado-a-la-suerte-y-como-evitar-dolores-de-cabeza-despues",
+    "title": "Por qué un sitio WordPress no puede quedar librado a la suerte (y cómo evitar dolores de cabeza después)",
+    "excerpt": "Mantenimiento, actualizaciones y monitoreo para reducir caídas, vulnerabilidades y problemas de rendimiento en WordPress.",
+    "category": "Desarrollo web",
+    "tags": ["WordPress", "Mantenimiento", "Seguridad", "Rendimiento"],
+    "publishedAt": "2025-12-01",
+    "readingTime": "6 min",
+    "featuredImage": "/images/posts/blog-wordpress-mantenimiento.jpg",
+    "popular": true
+  },
+  {
+    "slug": "como-una-buena-automatizacion-puede-cambiar-por-completo-el-flujo-de-trabajo-de-tu-empresa",
+    "title": "Cómo una buena automatización puede cambiar por completo el flujo de trabajo de tu empresa",
+    "excerpt": "Formularios inteligentes, CRM y software a medida para reducir tareas repetitivas, ordenar leads y mejorar el flujo comercial.",
+    "category": "Automatización",
+    "tags": ["CRM", "Formularios", "Integraciones", "Software"],
+    "publishedAt": "2025-12-01",
+    "readingTime": "7 min",
+    "featuredImage": "/images/posts/blog-automatizacion.jpg",
+    "popular": true
+  },
+  {
+    "slug": "por-que-geeksy-shop-es-hoy-una-de-las-mejores-fuentes-para-comprar-productos-del-fandom-y-como-aprovecharlo-desde-pixvo-tech",
+    "title": "Por qué Geeksy.shop es hoy una de las mejores fuentes para comprar productos del fandom",
+    "excerpt": "Una presentación de Geeksy.shop y su propuesta de reseñas y guías de compra para productos de fandom disponibles en Amazon.",
+    "category": "Colaboraciones",
+    "tags": ["Geeksy", "E-commerce", "Afiliación", "Contenido"],
+    "publishedAt": "2025-12-01",
+    "readingTime": "5 min",
+    "featuredImage": "/images/posts/blog-geeksy.jpg"
+  },
+  {
+    "slug": "black-friday-y-cyber-week-el-momento-del-ano-donde-tu-negocio-no-puede-improvisar",
+    "title": "Black Friday y Cyber Week: el momento del año donde tu negocio no puede improvisar",
+    "excerpt": "Preparación técnica, comercial y publicitaria para sostener el tráfico, convertir y aprender durante los picos de demanda.",
+    "category": "Marketing digital",
+    "tags": ["Black Friday", "Cyber Week", "E-commerce", "Campañas"],
+    "publishedAt": "2025-11-30",
+    "readingTime": "7 min",
+    "featuredImage": "/images/posts/blog-black-friday.jpg"
+  },
+  {
+    "slug": "el-mal-uso-de-la-ia-y-sus-consecuencias-reales-el-ejemplo-critico-de-los-libros-de-foraging-en-amazon",
+    "title": "El mal uso de la IA y sus consecuencias reales: el ejemplo crítico de los libros de foraging en Amazon",
+    "excerpt": "Un caso señalado como no verificado en la fuente original para analizar el riesgo de publicar contenido sensible generado por IA sin validación experta.",
+    "category": "Inteligencia artificial",
+    "tags": ["IA", "Verificación", "Riesgo", "Contenido"],
+    "publishedAt": "2025-11-27",
+    "readingTime": "7 min",
+    "featuredImage": "/images/posts/blog-ia-foraging.jpg",
+    "popular": true
+  },
+  {
+    "slug": "por-que-necesitas-un-sitio-web-profesional-en-2025-y-como-conseguir-hosting-premium-con-descuento",
+    "title": "Por qué necesitás un sitio web profesional en 2025 (y cómo conseguir hosting premium con descuento)",
+    "excerpt": "El papel de una web propia para una empresa o marca personal y los criterios básicos al elegir hosting.",
+    "category": "Desarrollo web",
+    "tags": ["Sitio web", "Hosting", "Marca", "Conversión"],
+    "publishedAt": "2025-11-23",
+    "readingTime": "6 min",
+    "featuredImage": "/images/posts/blog-web-profesional.jpg"
+  },
+  {
+    "slug": "la-importancia-de-las-decisiones-y-resoluciones-eficientes-en-la-gestion-de-pequenas-y-medianas-empresas",
+    "title": "La importancia de las decisiones y resoluciones eficientes en la gestión de pequeñas y medianas empresas",
+    "excerpt": "Cómo la velocidad, la información disponible y la claridad de responsabilidades influyen en la sostenibilidad de una PyME.",
+    "category": "Gestión",
+    "tags": ["PyMEs", "Decisiones", "Procesos", "Datos"],
+    "publishedAt": "2025-07-22",
+    "readingTime": "7 min",
+    "featuredImage": "/images/posts/blog-pymes.jpg"
+  },
+  {
+    "slug": "crear-un-sitio-web-rapido-con-las-herramientas-de-ia-de-hostinger",
+    "title": "Crear un sitio web rápido con las herramientas de IA de Hostinger",
+    "excerpt": "Una introducción al AI Website Builder de Hostinger para generar y editar una web a partir de instrucciones.",
+    "category": "Desarrollo web",
+    "tags": ["Hostinger", "IA", "Website Builder", "No-code"],
+    "publishedAt": "2025-07-22",
+    "readingTime": "6 min",
+    "featuredImage": "/images/posts/blog-hostinger-ia.jpg"
+  },
+  {
+    "slug": "la-ia-esta-matando-la-creatividad",
+    "title": "La IA está matando la creatividad",
+    "excerpt": "Una reflexión sobre la creatividad como proceso de iteración y el papel de la IA cuando potencia el criterio en lugar de reemplazarlo.",
+    "category": "Inteligencia artificial",
+    "tags": ["IA", "Creatividad", "Criterio", "Proceso"],
+    "publishedAt": "2025-07-22",
+    "readingTime": "6 min",
+    "featuredImage": "/images/posts/blog-ia-creatividad.jpg"
+  },
+  {
+    "slug": "redactar-sin-ia-reduce-productividad-evidencia-limites-y-como-implementarlo-en-marketing",
+    "title": "Redactar sin IA reduce productividad: evidencia, límites y cómo implementarlo en marketing",
+    "excerpt": "Evidencia, límites y una forma responsable de usar IA en briefing, ideación y borradores sin delegar la validación.",
+    "category": "Inteligencia artificial",
+    "tags": ["IA", "Redacción", "Marketing", "Productividad"],
+    "publishedAt": "2025-07-22",
+    "readingTime": "8 min",
+    "featuredImage": "/images/posts/blog-redaccion-ia.jpg",
+    "popular": true
+  },
+  {
+    "slug": "caso-de-exito-microcuotas-y-como-google-ads-desarrollo-a-medida-le-cambiaron-el-juego",
+    "title": "Google Ads, validación y Clientify: arquitectura del funnel de Microcuotas",
+    "excerpt": "Una lectura técnica del flujo que conecta captación, formulario, validación, normalización y CRM dentro del caso principal de Microcuotas.",
+    "category": "Automatización",
+    "tags": ["Microcuotas", "Google Ads", "React", "Automatización"],
+    "publishedAt": "2025-07-22",
+    "readingTime": "7 min",
+    "featuredImage": "/images/posts/blog-microcuotas.jpg"
+  }
+]

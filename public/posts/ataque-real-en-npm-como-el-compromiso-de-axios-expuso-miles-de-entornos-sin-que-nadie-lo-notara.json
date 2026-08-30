@@ -1,0 +1,28 @@
+{
+  "slug": "ataque-real-en-npm-como-el-compromiso-de-axios-expuso-miles-de-entornos-sin-que-nadie-lo-notara",
+  "title": "Ataque real en NPM: cómo el compromiso de Axios expuso miles de entornos sin que nadie lo notara",
+  "excerpt": "Un análisis del riesgo de confiar automáticamente en dependencias, la ejecución silenciosa de código y la seguridad de la cadena de suministro.",
+  "category": "Ciberseguridad",
+  "tags": ["NPM", "Axios", "Supply chain", "JavaScript"],
+  "publishedAt": "2025-12-01",
+  "readingTime": "8 min",
+  "author": "Santiago Hernán Leston",
+  "authorBio": "Santiago es desarrollador full stack, analista funcional y líder de equipos tecnológicos. En Pixvo.Tech combina desarrollo web y mobile, automatización, SEO y estrategia digital para crear soluciones orientadas a mejorar procesos, visibilidad y resultados de negocio.",
+  "authorImage": "/images/authors/santiago.jpg",
+  "featuredImage": "/images/posts/blog-axios-npm.jpg",
+  "image": {
+    "src": "/images/posts/blog-axios-npm.jpg",
+    "srcset": "/images/posts/blog-axios-npm-640.webp 640w, /images/posts/blog-axios-npm-1200.webp 1200w",
+    "alt": "Compromiso de Axios en NPM explicado",
+    "width": 1200,
+    "height": 628
+  },
+  "featured": true,
+  "popular": true,
+  "overview": "Durante años, instalar una dependencia fue parte automática del flujo de desarrollo. El artículo revisa cómo esa confianza puede convertirse en un vector de ataque cuando un paquete, una cuenta de mantenimiento o un proceso de publicación queda comprometido.",
+  "topics": ["La confianza implícita detrás de npm install", "Ejecución en segundo plano y dificultad de detección", "Escala del ecosistema de dependencias", "Revisión de versiones, permisos y procesos de despliegue"],
+  "application": "Los equipos pueden reducir exposición con archivos de bloqueo revisados, actualización controlada, análisis de dependencias, privilegios mínimos y observabilidad del proceso de instalación y build.",
+  "conclusion": "La seguridad de producto incluye todo el software de terceros que entra al proyecto. Conviene tratar cada actualización como un cambio de código y no como una operación administrativa.",
+  "ctas": [{ "title": "Solicitar diagnóstico de seguridad", "url": "/contact" }],
+  "related": [{ "slug": "por-que-necesitas-un-sitio-web-profesional-en-2025-y-como-conseguir-hosting-premium-con-descuento", "title": "Por qué necesitás un sitio web profesional en 2025 (y cómo conseguir hosting premium con descuento)", "readingTime": "6 min", "featuredImage": "/images/posts/blog-web-profesional.jpg" }, { "slug": "por-que-un-sitio-wordpress-no-puede-quedar-librado-a-la-suerte-y-como-evitar-dolores-de-cabeza-despues", "title": "Por qué un sitio WordPress no puede quedar librado a la suerte (y cómo evitar dolores de cabeza después)", "readingTime": "6 min", "featuredImage": "/images/posts/blog-wordpress-mantenimiento.jpg" }]
+}
