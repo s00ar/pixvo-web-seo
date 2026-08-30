@@ -8,3 +8,14 @@ dist
 .vite
 .reference
 .vercel
+.npmrc
+*.pem
+*.key
+*.p12
+*.pfx
+*.sql
+*.bak
+*.backup
+*.tar
+*.tar.gz
+*.zip

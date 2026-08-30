@@ -2,6 +2,7 @@ import { access, readFile, stat, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { commercialTargets } from '../src/data/articleCommercial.js';
 import { buildSeoRegistry } from '../src/data/seoRegistry.js';
+import { legacyRedirects } from '../src/data/legacyRoutes.js';
 
 const domain = 'https://pixvo.tech';
 const marketCodes = ['mx', 'ar', 'es'];
@@ -50,8 +51,7 @@ function expandRecord(record, code) {
 const records = templateRegistry.flatMap((record) => record.url.includes('{pais}') ? marketCodes.map((code) => expandRecord(record, code)) : [record]);
 const recordByPath = new Map(records.map((record) => [normalizePath(record.url), record]));
 
-const redirectConfig = JSON.parse(await readFile('vercel.json', 'utf8'));
-const redirectPaths = new Set((redirectConfig.redirects || []).map((item) => normalizePath(item.source)));
+const redirectPaths = new Set(legacyRedirects.map((item) => normalizePath(item.source)));
 
 const htmlByPath = new Map();
 for (const url of urls) {
@@ -64,16 +64,18 @@ const incoming = new Map([...urlSet].map((path) => [path, new Set()]));
 const brokenLinks = [];
 const redirectLinks = [];
 const wrongMarketLinks = [];
+const edgeRows = [];
 
 for (const [sourcePath, html] of htmlByPath) {
   const links = new Set();
-  for (const match of html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)) {
+  for (const match of html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)) {
     const href = decode(match[1]);
     if (/^(?:mailto:|tel:|javascript:|#)/i.test(href)) continue;
     let target;
     try { target = new URL(href, `${domain}${sourcePath}`); } catch { continue; }
     if (target.origin !== domain) continue;
     const targetPath = normalizePath(target.pathname);
+    const anchor = stripTags(match[2]);
     links.add(targetPath);
     if (urlSet.has(targetPath)) incoming.get(targetPath).add(sourcePath);
     if (redirectPaths.has(targetPath)) redirectLinks.push({ source: sourcePath, target: targetPath });
@@ -83,6 +85,17 @@ for (const [sourcePath, html] of htmlByPath) {
     const targetMarket = targetPath.match(/^\/(mx|ar|es)\//)?.[1];
     const intentionalMarketSelector = targetMarket && targetPath === `/${targetMarket}/`;
     if (sourceMarket && targetMarket && sourceMarket !== targetMarket && !intentionalMarketSelector) wrongMarketLinks.push({ source: sourcePath, target: targetPath });
+    const sourceRecord = recordByPath.get(sourcePath) || {};
+    const targetRecord = recordByPath.get(targetPath) || {};
+    let relationship = 'internal';
+    if (normalizePath(sourceRecord.parent_url || '/') === targetPath) relationship = 'child_to_parent';
+    else if (normalizePath(targetRecord.parent_url || '/') === sourcePath) relationship = 'parent_to_child';
+    else if (['lead_form', 'pricing'].includes(targetRecord.page_type)) relationship = 'conversion';
+    else if (sourceRecord.page_type === 'problem' && targetRecord.page_type === 'solution') relationship = 'problem_to_solution';
+    else if (sourceRecord.page_type === 'case_study' && targetRecord.page_type === 'solution') relationship = 'case_to_solution';
+    else if (['article', 'comparison'].includes(sourceRecord.page_type) && ['solution', 'audit', 'commercial_hub'].includes(targetRecord.page_type)) relationship = 'editorial_to_money';
+    else if (sourceRecord.page_type === 'solution' && targetRecord.page_type === 'case_study') relationship = 'solution_to_case';
+    edgeRows.push({ source: `${domain}${sourcePath}`, destination: `${domain}${targetPath}`, relationship, anchor, priority: targetRecord.priority || '', market: sourceMarket || 'global' });
   }
   allInternalLinks.set(sourcePath, links);
 }
@@ -144,6 +157,14 @@ for (const url of urls) {
   for (const script of html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
     try { JSON.parse(script[1]); } catch { htmlIssues.push({ url, issue: 'json_ld_invalido' }); }
   }
+  const commercialPage = ['commercial_hub', 'solution', 'pricing', 'audit'].includes(record.page_type);
+  if (commercialPage && !new RegExp(`href=["']/${record.country}/solicitar-diagnostico/`, 'i').test(html)) htmlIssues.push({ url, issue: 'money_page_sin_cta_diagnostico' });
+  for (const link of html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)) {
+    const anchor = stripTags(link[2]);
+    const targetSlug = normalizePath(link[1]).split('/').filter(Boolean).at(-1) || '';
+    if (targetSlug.includes('-') && anchor.trim().toLowerCase() === targetSlug) htmlIssues.push({ url, issue: `slug_visible:${anchor}` });
+  }
+  if (/(?:casino|cosmobet|vavada|betting)/i.test(stripTags(main))) htmlIssues.push({ url, issue: 'termino_spam_en_html_publicado' });
 }
 
 const imageRows = [];
@@ -228,17 +249,31 @@ const priorityAverages = Object.fromEntries(['P1', 'P2', 'P3'].map((priority) =>
 const imageErrors = imageRows.filter((row) => row.status.startsWith('error'));
 const ownershipErrors = ownershipIssues.filter((row) => row.status === 'error');
 const belowGuide = contentRows.filter((row) => row.status === 'debajo_de_guia');
+const paragraphPages = new Map();
+for (const [pathname, html] of htmlByPath) for (const match of html.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)) {
+  const paragraph = stripTags(match[1]);
+  if (paragraph.length < 180) continue;
+  const key = normalizeText(paragraph);
+  if (!paragraphPages.has(key)) paragraphPages.set(key, { sample: paragraph, pages: new Set() });
+  paragraphPages.get(key).pages.add(pathname);
+}
+const repetitionRows = [...paragraphPages.values()].filter((item) => item.pages.size >= 5).map((item) => ({ occurrences: item.pages.size, status: item.pages.size > 40 ? 'error_extreme_repetition' : 'review_template_language', sample: item.sample, example_pages: [...item.pages].slice(0, 5).join(' | ') }));
+const repetitionErrors = repetitionRows.filter((row) => row.status.startsWith('error'));
 
 await writeFile('docs/seo/content-audit.csv', csvDocument(['url', 'country', 'page_type', 'cluster', 'primary_keyword', 'word_count', 'guide_min', 'guide_max', 'status', 'note'], contentRows), 'utf8');
-await writeFile('docs/seo/internal-link-graph.csv', csvDocument(['url', 'country', 'page_type', 'priority', 'cluster', 'parent_url', 'money_page', 'inbound_links', 'relevant_inbound_links', 'outbound_links', 'orphan', 'broken_outbound', 'redirect_outbound', 'wrong_country_outbound'], graphRows), 'utf8');
+const uniqueEdges = [...new Map(edgeRows.map((row) => [`${row.source}|${row.destination}|${row.anchor}`, row])).values()];
+await writeFile('docs/seo/internal-link-graph.csv', csvDocument(['source', 'destination', 'relationship', 'anchor', 'priority', 'market'], uniqueEdges), 'utf8');
+await writeFile('docs/seo/internal-link-summary.csv', csvDocument(['url', 'country', 'page_type', 'priority', 'cluster', 'parent_url', 'money_page', 'inbound_links', 'relevant_inbound_links', 'outbound_links', 'orphan', 'broken_outbound', 'redirect_outbound', 'wrong_country_outbound'], graphRows), 'utf8');
 await writeFile('docs/seo/image-audit.csv', csvDocument(['url', 'role', 'image_url', 'source_file', 'source_exists', 'build_exists', 'width', 'height', 'bytes', 'alt', 'loading', 'decoding', 'srcset', 'sizes', 'status'], imageRows), 'utf8');
 await writeFile('docs/seo/ownership-audit.csv', csvDocument(['issue_type', 'left_url', 'right_url', 'value', 'similarity', 'status'], ownershipIssues), 'utf8');
+await writeFile('docs/seo/html-issues.csv', csvDocument(['url', 'issue'], htmlIssues), 'utf8');
+await writeFile('docs/seo/content-repetition.csv', csvDocument(['occurrences', 'status', 'sample', 'example_pages'], repetitionRows), 'utf8');
 
-const report = `# Auditoría reproducible del build\n\nGenerada desde el HTML de \`dist\`; los rangos de palabras son orientativos y se validan como control editorial del contenido publicado.\n\n- URLs indexables auditadas: ${urls.length}\n- URLs con un único H1 y metadatos completos: ${urls.length - htmlIssues.length}/${urls.length}\n- Enlaces rotos: ${brokenLinks.length}\n- Enlaces internos a redirects: ${redirectLinks.length}\n- Enlaces comerciales hacia país incorrecto: ${wrongMarketLinks.length}\n- Páginas huérfanas (excluido el selector raíz): ${orphanRows.length}\n- Errores físicos de imágenes: ${imageErrors.length}\n- Conflictos de ownership: ${ownershipErrors.length}\n- Titles similares para revisión humana: ${ownershipIssues.filter((item) => item.issue_type === 'similar_title_review').length}\n- Promedio de enlaces entrantes relevantes P1: ${priorityAverages.P1.toFixed(2)}\n- Promedio P2: ${priorityAverages.P2.toFixed(2)}\n- Promedio P3: ${priorityAverages.P3.toFixed(2)}\n- URLs fuera de la convención minúsculas/guiones/trailing slash: ${malformedUrls.length}\n\n## Observaciones editoriales\n\n- URLs debajo de la guía orientativa: ${belowGuide.length}. Las ampliaciones se generan desde el contexto, las señales, los criterios, la evidencia y los límites ya documentados para cada plantilla.\n- Imágenes con advertencias no bloqueantes: ${imageRows.filter((row) => row.status.startsWith('warning')).length}. Las advertencias distinguen assets verticales específicos y archivos grandes cargados de forma diferida.\n- El proyecto técnico se audita como \`project\`, separado de \`case_study\`.\n`;
+const report = `# Auditoría reproducible del build\n\nGenerada desde el HTML de \`dist\`; los rangos de palabras son una guía para revisión humana, no un umbral de ranking ni un motivo para añadir relleno.\n\n- URLs indexables auditadas: ${urls.length}\n- URLs con un único H1 y metadatos completos: ${urls.length - htmlIssues.length}/${urls.length}\n- Enlaces rotos: ${brokenLinks.length}\n- Enlaces internos a redirects: ${redirectLinks.length}\n- Enlaces comerciales hacia país incorrecto: ${wrongMarketLinks.length}\n- Páginas huérfanas (excluido el selector raíz): ${orphanRows.length}\n- Errores físicos de imágenes: ${imageErrors.length}\n- Conflictos de ownership: ${ownershipErrors.length}\n- Repeticiones editoriales extremas: ${repetitionErrors.length}\n- Titles similares para revisión humana: ${ownershipIssues.filter((item) => item.issue_type === 'similar_title_review').length}\n- Promedio de enlaces entrantes relevantes P1: ${priorityAverages.P1.toFixed(2)}\n- Promedio P2: ${priorityAverages.P2.toFixed(2)}\n- Promedio P3: ${priorityAverages.P3.toFixed(2)}\n- URLs fuera de la convención minúsculas/guiones/trailing slash: ${malformedUrls.length}\n\n## Observaciones editoriales\n\n- URLs debajo de la guía orientativa: ${belowGuide.length}. Se informan para revisión; no provocan un fallo automático.\n- Imágenes con advertencias no bloqueantes: ${imageRows.filter((row) => row.status.startsWith('warning')).length}. Las advertencias distinguen assets verticales específicos y archivos grandes cargados de forma diferida.\n- El proyecto técnico se audita como \`project\`, separado de \`case_study\`.\n`;
 await writeFile('docs/seo/final-build-audit.md', report, 'utf8');
 
-if (brokenLinks.length || redirectLinks.length || wrongMarketLinks.length || orphanRows.length || imageErrors.length || ownershipErrors.length || malformedUrls.length || htmlIssues.length || belowGuide.length) {
-  throw new Error(`Auditoría del build falló: broken=${brokenLinks.length}, redirects=${redirectLinks.length}, wrong-country=${wrongMarketLinks.length}, orphans=${orphanRows.length}, images=${imageErrors.length}, ownership=${ownershipErrors.length}, urls=${malformedUrls.length}, html=${htmlIssues.length}, below-guide=${belowGuide.length}.`);
+if (brokenLinks.length || redirectLinks.length || wrongMarketLinks.length || orphanRows.length || imageErrors.length || ownershipErrors.length || malformedUrls.length || htmlIssues.length || repetitionErrors.length) {
+  throw new Error(`Auditoría del build falló: broken=${brokenLinks.length}, redirects=${redirectLinks.length}, wrong-country=${wrongMarketLinks.length}, orphans=${orphanRows.length}, images=${imageErrors.length}, ownership=${ownershipErrors.length}, urls=${malformedUrls.length}, html=${htmlIssues.length}, extreme-repetition=${repetitionErrors.length}.`);
 }
 if (priorityAverages.P1 < priorityAverages.P3) throw new Error(`La autoridad interna relevante P1 (${priorityAverages.P1.toFixed(2)}) es menor que P3 (${priorityAverages.P3.toFixed(2)}).`);
 console.log(`Auditoría build: ${urls.length} URLs, ${imageRows.length} imágenes, grafo sin huérfanas/rotos/redirects/país incorrecto y ownership sin conflictos.`);

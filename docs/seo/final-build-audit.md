@@ -1,6 +1,6 @@
 # Auditoría reproducible del build
 
-Generada desde el HTML de `dist`; los rangos de palabras son orientativos y se validan como control editorial del contenido publicado.
+Generada desde el HTML de `dist`; los rangos de palabras son una guía para revisión humana, no un umbral de ranking ni un motivo para añadir relleno.
 
 - URLs indexables auditadas: 172
 - URLs con un único H1 y metadatos completos: 172/172
@@ -10,6 +10,7 @@ Generada desde el HTML de `dist`; los rangos de palabras son orientativos y se v
 - Páginas huérfanas (excluido el selector raíz): 0
 - Errores físicos de imágenes: 0
 - Conflictos de ownership: 0
+- Repeticiones editoriales extremas: 0
 - Titles similares para revisión humana: 0
 - Promedio de enlaces entrantes relevantes P1: 4.58
 - Promedio P2: 2.70
@@ -18,6 +19,6 @@ Generada desde el HTML de `dist`; los rangos de palabras son orientativos y se v
 
 ## Observaciones editoriales
 
-- URLs debajo de la guía orientativa: 0. Las ampliaciones se generan desde el contexto, las señales, los criterios, la evidencia y los límites ya documentados para cada plantilla.
+- URLs debajo de la guía orientativa: 105. Se informan para revisión; no provocan un fallo automático.
 - Imágenes con advertencias no bloqueantes: 111. Las advertencias distinguen assets verticales específicos y archivos grandes cargados de forma diferida.
 - El proyecto técnico se audita como `project`, separado de `case_study`.

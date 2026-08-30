@@ -98,4 +98,28 @@ const linkColumns = ['source_url', 'destination_url', 'relationship', 'cluster',
 const uniqueLinks = [...new Map(internalLinks.map((item) => [`${item.source_url}|${item.destination_url}`, item])).values()];
 const linkContents = [linkColumns.join(','), ...uniqueLinks.map((row) => linkColumns.map((column) => csv(row[column])).join(','))].join('\n') + '\n';
 await writeFile('docs/seo/internal-link-map.csv', linkContents, 'utf8');
-console.log(`Registros generados: ${rows.length} entidades SEO, ${expandedKeywordRows.length} URLs en el keyword map y ${uniqueLinks.length} relaciones internas.`);
+
+const editorialReview = {
+  'ataque-real-en-npm-como-el-compromiso-de-axios-expuso-miles-de-entornos-sin-que-nadie-lo-notara': ['MANUAL_REVIEW', 'indirecta', 'Tema de seguridad útil, pero fuera del núcleo comercial; validar histórico antes de cambiar.', 'medium'],
+  'por-que-geeksy-shop-es-hoy-una-de-las-mejores-fuentes-para-comprar-productos-del-fandom-y-como-aprovecharlo-desde-pixvo-tech': ['MANUAL_REVIEW', 'baja', 'La pieza sobre una tienda externa queda lejos del posicionamiento actual.', 'high'],
+  'black-friday-y-cyber-week-el-momento-del-ano-donde-tu-negocio-no-puede-improvisar': ['UPDATE', 'media', 'Actualizar temporalidad y reforzar la decisión de CRO/medición.', 'medium'],
+  'el-mal-uso-de-la-ia-y-sus-consecuencias-reales-el-ejemplo-critico-de-los-libros-de-foraging-en-amazon': ['MANUAL_REVIEW', 'indirecta', 'La gobernanza editorial es relevante, pero el ejemplo queda fuera de la oferta principal.', 'medium'],
+  'por-que-necesitas-un-sitio-web-profesional-en-2025-y-como-conseguir-hosting-premium-con-descuento': ['UPDATE', 'media', 'La referencia 2025 y el descuento requieren validación editorial/comercial.', 'high'],
+  'crear-un-sitio-web-rapido-con-las-herramientas-de-ia-de-hostinger': ['UPDATE', 'media', 'Verificar vigencia de herramientas y mantener el vínculo con rendimiento/conversión.', 'medium'],
+  'la-ia-esta-matando-la-creatividad': ['MANUAL_REVIEW', 'indirecta', 'Es editorialmente adyacente, no una pieza central del sistema de crecimiento.', 'medium'],
+};
+const inventoryRows = [];
+for (const post of posts) {
+  const classification = getArticleCommercialData(post);
+  const target = resolveCommercialTarget(classification.commercialTarget);
+  const [action = 'KEEP', relevance = 'alta', reason = 'Apoya una capacidad comercial existente y tiene un siguiente paso explícito.', risk = 'low'] = editorialReview[post.slug] || [];
+  for (const market of ['global', ...marketCodes]) inventoryRows.push({
+    url: market === 'global' ? `/blog/${post.slug}/` : `/${market}/blog/${post.slug}/`, title: post.title, topic: classification.cluster, market,
+    linked_money_page: market === 'global' ? `/{pais}/${target.route}/` : `/${market}/${target.route}/`, business_relevance: relevance,
+    current_status: 'published_indexable', proposed_action: action, reason, risk, needs_gsc_validation: action === 'KEEP' ? 'no' : 'yes',
+  });
+}
+const inventoryColumns = ['url', 'title', 'topic', 'market', 'linked_money_page', 'business_relevance', 'current_status', 'proposed_action', 'reason', 'risk', 'needs_gsc_validation'];
+await writeFile('docs/seo/content-inventory.csv', [inventoryColumns.join(','), ...inventoryRows.map((row) => inventoryColumns.map((column) => csv(row[column])).join(','))].join('\n') + '\n', 'utf8');
+
+console.log(`Registros generados: ${rows.length} entidades SEO, ${expandedKeywordRows.length} URLs en el keyword map, ${uniqueLinks.length} relaciones y ${inventoryRows.length} filas editoriales.`);

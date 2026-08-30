@@ -38,6 +38,12 @@
 .growth-faqs summary { cursor:pointer; color:var(--color-primary); font-weight:700; }
 .growth-faqs p { margin:14px 0 0; }
 .pricing-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; align-items:start; margin-top:40px; }
+.plan-comparison { overflow-x:auto; margin-top:32px; border:1px solid var(--color-border); border-radius:14px; }
+.plan-comparison:focus { outline:3px solid rgba(0,188,212,.28); outline-offset:3px; }
+.plan-comparison table { width:100%; min-width:720px; border-collapse:collapse; background:#fff; }
+.plan-comparison caption { padding:16px; font-weight:800; text-align:left; color:var(--color-primary); }
+.plan-comparison th,.plan-comparison td { padding:14px 16px; border-top:1px solid var(--color-border); text-align:left; vertical-align:top; }
+.plan-comparison thead th { background:var(--color-surface); }
 .plan-card { position:relative; padding:30px; border:1px solid var(--color-border); border-radius:var(--radius-md); background:#fff; }
 .plan-card.is-featured { border:2px solid var(--color-secondary-dark); box-shadow:var(--shadow-float); }
 .plan-badge { display:inline-block; margin-bottom:16px; padding:5px 9px; border-radius:20px; background:var(--color-secondary-soft); color:var(--color-secondary-dark); font-size:.7rem; font-weight:800; text-transform:uppercase; }

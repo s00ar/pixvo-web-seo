@@ -3,7 +3,8 @@ import { dirname, join } from 'node:path';
 import { getArticleCommercialData, resolveCommercialTarget } from '../src/data/articleCommercial.js';
 import { caseStudies } from '../src/data/caseStudies.js';
 import { getEditorialExpansion } from '../src/data/editorialExpansions.js';
-import { auditFaqs, getProblemCta, getSolutionConnections, getSolutionFaqs, planFaqs, plans, problemCatalog, resourceCatalog, solutionCatalog, systemFaqs } from '../src/data/growthSystem.js';
+import { getEntityPresentation } from '../src/data/entityPresentation.js';
+import { auditFaqs, getPrice, getProblemCta, getSolutionConnections, getSolutionFaqs, planFaqs, plans, problemCatalog, resourceCatalog, solutionCatalog, systemFaqs } from '../src/data/growthSystem.js';
 import { getNavigationItem, getNavigationItems, resolveNavigationUrl } from '../src/data/navigation.js';
 import { marketRoutePaths, seoRecordByMarketPath } from '../src/data/seoRegistry.js';
 
@@ -13,9 +14,9 @@ const postBySlug = Object.fromEntries(fullPosts.map((post) => [post.slug, post])
 
 const domain = process.env.SITE_URL || 'https://pixvo.tech';
 const markets = {
-  mx: { name: 'México', locale: 'es-MX' },
-  ar: { name: 'Argentina', locale: 'es-AR' },
-  es: { name: 'España', locale: 'es-ES' },
+  mx: { name: 'México', locale: 'es-MX', currency: 'MXN' },
+  ar: { name: 'Argentina', locale: 'es-AR', currency: 'USD' },
+  es: { name: 'España', locale: 'es-ES', currency: 'EUR' },
 };
 
 const solutionLabels = {
@@ -181,12 +182,19 @@ function marketPage(marketCode, path) {
   const pageImage = caseStudy?.socialImage || caseStudy?.image || article?.featuredImage || leadCase?.socialImage || leadCase?.image;
   const imageWidth = caseStudy?.socialImageWidth || caseStudy?.imageWidth || article?.image?.width || leadCase?.socialImageWidth || leadCase?.imageWidth;
   const imageHeight = caseStudy?.socialImageHeight || caseStudy?.imageHeight || article?.image?.height || leadCase?.socialImageHeight || leadCase?.imageHeight;
-  const heading = seoEntity?.h1 || (caseStudy ? caseStudy.title : article?.title || routeTitles[path] || labels[slug] || 'Pixvo Growth System');
+  const heading = seoEntity?.h1 || (caseStudy ? caseStudy.title : article?.title || routeTitles[path] || getEntityPresentation(slug)?.label || labels[slug] || 'Pixvo Growth System');
   const title = path === 'soluciones/seo-para-pymes'
     ? `SEO para PyMEs en ${market.name} | Pixvo`
     : `${seoEntity?.title || `${heading} | Pixvo`} — ${market.name}`;
   const canonical = `${domain}/${marketCode}/${path}${path ? '/' : ''}`;
-  const description = caseStudy?.summary || article?.excerpt || solution?.description || solution?.lead || problem?.lead || resource?.lead || (path === 'casos-de-exito'
+  const routeDescriptions = {
+    'solicitar-diagnostico': 'Comparte el contexto de tu empresa para valorar un diagnóstico de captación, conversión, automatización, seguimiento y medición.',
+    planes: 'Compara alcance, capacidad operativa, permanencia, límites y precios aprobados de Pixvo Growth System.',
+    'auditoria-crecimiento-digital': 'Auditoría de captación, SEO, conversión, medición y seguimiento para priorizar un roadmap verificable.',
+    contacto: 'Consulta los canales de contacto de Pixvo y comparte el contexto de tu empresa.',
+    nosotros: 'Conoce el enfoque, las responsabilidades y los límites de trabajo de Pixvo Growth System.',
+  };
+  const description = caseStudy?.summary || article?.excerpt || solution?.description || solution?.lead || problem?.lead || resource?.lead || routeDescriptions[path] || (path === 'casos-de-exito'
     ? 'Casos de trabajo y experiencia asociada: problemas, soluciones, transformación funcional, métricas disponibles y límites de evidencia explícitos.'
     : path === ''
       ? `Pixvo conecta SEO, automatización y analítica para ayudar a las PyMEs de ${market.name} a generar y aprovechar oportunidades comerciales.`
@@ -239,7 +247,7 @@ function marketPage(marketCode, path) {
             : problem
               ? `<main data-prerendered="true"><article><h1>${esc(heading)}</h1><p>${esc(problem.lead)}</p><h2>Síntomas que conviene comprobar</h2><ul>${problem.symptoms.map((item) => `<li>${esc(item)}</li>`).join('')}</ul><h2>Causas habituales</h2><ul>${problem.causes.map((item) => `<li>${esc(item)}</li>`).join('')}</ul><h2>Cómo diagnosticar el cuello de botella</h2><ul>${problem.diagnosis.map((item) => `<li>${esc(item)}</li>`).join('')}</ul><h2>Soluciones relacionadas con el problema</h2><p>${routeLink(`soluciones/${problem.primary}`, solutionCatalog[problem.primary].title)} · ${routeLink(`soluciones/${problem.secondary}`, solutionCatalog[problem.secondary].title)}</p><h2>Auditoría o diagnóstico</h2><p>${routeLink('auditoria-crecimiento-digital', 'Auditoría de crecimiento digital')} · ${routeLink(problem.conversion, getProblemCta(slug))}</p></article></main>`
               : resource
-                ? `<main data-prerendered="true"><article><h1>${esc(resource.title)}</h1><p>${esc(resource.lead)}</p><h2>Qué decisión ayuda a resolver</h2><p>${esc(resource.decision)}</p><h2>Criterios para comparar</h2><ul>${resource.criteria.map((item) => `<li>${esc(item)}</li>`).join('')}</ul><h2>Cuándo elegir cada alternativa</h2>${resource.options.map((item) => `<h3>${esc(item.title)}</h3><p>${esc(item.text)}</p>`).join('')}<h2>Soluciones comerciales relacionadas</h2><p>${solutionCatalog[resource.primary] ? routeLink(`soluciones/${resource.primary}`, solutionCatalog[resource.primary].title) : routeLink(resource.primary, labels[resource.primary] || resource.primary)} · ${solutionCatalog[resource.secondary] ? routeLink(`soluciones/${resource.secondary}`, solutionCatalog[resource.secondary].title) : routeLink(resource.secondary, labels[resource.secondary] || resource.secondary)}</p><h2>Siguiente paso</h2><p>${routeLink(resource.nextStep, labels[resource.nextStep] || routeTitles[resource.nextStep] || resource.nextStep)} · ${routeLink('planes', 'Planes y precios')} · ${routeLink('solicitar-diagnostico', 'Solicitar diagnóstico')}</p></article></main>`
+                ? `<main data-prerendered="true"><article><h1>${esc(resource.title)}</h1><p>${esc(resource.lead)}</p><h2>Qué decisión ayuda a resolver</h2><p>${esc(resource.decision)}</p><h2>Criterios para comparar</h2><ul>${resource.criteria.map((item) => `<li>${esc(item)}</li>`).join('')}</ul><h2>Cuándo elegir cada alternativa</h2>${resource.options.map((item) => `<h3>${esc(item.title)}</h3><p>${esc(item.text)}</p>`).join('')}<h2>Soluciones comerciales relacionadas</h2><p>${routeLink(getEntityPresentation(resource.primary).route, getEntityPresentation(resource.primary).label)} · ${routeLink(getEntityPresentation(resource.secondary).route, getEntityPresentation(resource.secondary).label)}</p><h2>Siguiente paso</h2><p>${routeLink(getEntityPresentation(resource.nextStep).route, getEntityPresentation(resource.nextStep).label)} · ${routeLink('planes', 'Planes y precios')} · ${routeLink('solicitar-diagnostico', 'Solicitar diagnóstico')}</p></article></main>`
                 : path === 'sistema-crecimiento-digital'
                   ? `<main data-prerendered="true"><article><h1>${esc(heading)}</h1><p>${esc(description)}</p><h2>Un sistema, no una colección de servicios aislados</h2><p>La consultoría parte del cuello de botella y organiza SEO, automatización, conversión, seguimiento y analítica dentro de un roadmap común. El objetivo es conectar demanda, experiencia, procesos y datos sin prometer ventas ni posiciones concretas.</p><h2>Problemas que puede priorizar</h2><ul>${Object.entries(problemCatalog).map(([problemSlug, item]) => `<li>${routeLink(`problemas/${problemSlug}`, item.h1)}. ${esc(item.lead)}</li>`).join('')}</ul><h2>Soluciones del sistema</h2><ul>${Object.entries(solutionCatalog).map(([solutionSlug, item]) => `<li>${routeLink(`soluciones/${solutionSlug}`, item.title)}. ${esc(item.lead)}</li>`).join('')}</ul><h2>Decisiones relacionadas</h2><p>${routeLink('recursos/seo-vs-sistema-de-crecimiento', 'SEO vs sistema de crecimiento digital')} · ${routeLink('recursos/seo-mensual-vs-auditoria', 'SEO mensual vs auditoría')}</p><h2>Evidencia y contratación</h2><p>${routeLink('casos-de-exito/microcuotas', 'Caso Microcuotas')} · ${routeLink('auditoria-crecimiento-digital', 'Auditoría')} · ${routeLink('planes', 'Planes')} · ${routeLink('solicitar-diagnostico', 'Diagnóstico')}</p></article></main>`
                   : path === 'planes'
@@ -255,9 +263,15 @@ function marketPage(marketCode, path) {
                 : path === 'contacto'
                   ? `<main data-prerendered="true"><article><h1>${esc(heading)}</h1><p>${esc(description)}</p><h2>Habla con Pixvo</h2><p>La primera conversación sirve para entender el problema, la evidencia disponible y la capacidad de implementación. No implica una promesa de encaje ni de resultados.</p><p>${routeLink('solicitar-diagnostico', 'Aportar el contexto por escrito')} · ${routeLink('sistema-crecimiento-digital', 'Entender el sistema')}</p></article></main>`
                   : path === 'solicitar-diagnostico'
-                    ? `<main data-prerendered="true"><article><h1>${esc(heading)}</h1><p>${esc(description)}</p><h2>Información necesaria</h2><p>La solicitud reúne el objetivo, el problema, los canales, la capacidad de atención y el contexto comercial necesarios para valorar el encaje. El formulario completo se activa con la aplicación.</p><p>${routeLink('auditoria-crecimiento-digital', 'Conocer el alcance de la auditoría')} · ${routeLink('planes', 'Revisar planes')}</p></article></main>`
+                    ? `<main data-prerendered="true"><article><h1>${esc(heading)}</h1><p>${esc(description)}</p><h2>Qué es y para quién</h2><p>El diagnóstico organiza el contexto de una PyME que necesita localizar un cuello de botella en captación, conversión, automatización, seguimiento o medición. Sirve para valorar el encaje; no garantiza una contratación ni un resultado.</p><h2>Qué analizamos</h2><ul><li>Objetivo, oferta y problema prioritario.</li><li>Canales, volumen aproximado de oportunidades y capacidad de atención.</li><li>Sitio web, herramientas, CRM, medición y responsables disponibles.</li><li>Presupuesto aprobado o pendiente y momento previsto de inicio.</li></ul><h2>Qué información pedimos</h2><p>El formulario solicita datos de contacto, empresa, situación actual y condiciones de encaje. Al terminar prepara un resumen en WhatsApp: la persona debe confirmar el envío y nada se transmite por esa vía sin su acción.</p><h2>Qué sucede después</h2><p>Pixvo revisa si el problema, la evidencia y la capacidad disponible permiten definir una auditoría o un alcance. Las lagunas se mantienen como pendientes y las condiciones deben quedar documentadas antes de implementar.</p><h2>Privacidad y alternativa</h2><p>Los datos personales del formulario no se envían a Analytics. ${routeLink('contacto', 'Consulta los canales de contacto')} o revisa la <a href="/legal/politica-de-privacidad/">política de privacidad</a>.</p><h2>Evidencia y siguiente paso</h2><p>${routeLink('casos-de-exito/microcuotas', 'Caso relacionado de automatización y seguimiento')} · ${routeLink('auditoria-crecimiento-digital', 'Conocer el alcance de la auditoría')} · ${routeLink('planes', 'Revisar planes')}</p></article></main>`
                     : `<main data-prerendered="true"><article><h1>${esc(heading)}</h1><p>${esc(description)}</p></article></main>`;
   const editorialData = caseStudy || solution || problem || resource || {};
+  if (path === 'planes') {
+    const money = (value) => new Intl.NumberFormat(market.locale, { style: 'currency', currency: market.currency, maximumFractionDigits: 0 }).format(value);
+    const priceCell = (plan, field) => { const value = getPrice(marketCode, plan.id)[field]; return Number.isFinite(value) ? money(value) : 'Bajo consulta'; };
+    const comparison = `<h2>Comparación de planes</h2><div class="plan-comparison"><table><caption>Alcance comercial aprobado por plan</caption><thead><tr><th>Criterio</th>${plans.map((plan) => `<th>${esc(plan.name)}</th>`).join('')}</tr></thead><tbody><tr><th>Mensualidad</th>${plans.map((plan) => `<td>${esc(priceCell(plan, 'monthly'))}</td>`).join('')}</tr><tr><th>Onboarding</th>${plans.map((plan) => `<td>${esc(priceCell(plan, 'onboarding'))}</td>`).join('')}</tr><tr><th>Unidades operativas</th>${plans.map((plan) => `<td>${plan.units} al mes</td>`).join('')}</tr><tr><th>Permanencia mínima</th>${plans.map((plan) => `<td>${plan.minimum} meses</td>`).join('')}</tr></tbody></table></div>`;
+    body = body.replace('<h2>Antes de elegir un plan</h2>', `${comparison}<h2>Antes de elegir un plan</h2>`);
+  }
   const editorialSections = getEditorialExpansion({ pageType: seoEntity?.page_type, marketCode, data: editorialData });
   if (editorialSections.length) body = body.replace('</article></main>', `${editorialExpansionHtml(editorialSections)}</article></main>`);
   body = body.replace('<main data-prerendered="true">', `<main data-prerendered="true">${breadcrumbHtml(breadcrumbItems)}`);
@@ -325,11 +339,12 @@ for (const project of projects) {
 }
 
 await mkdir('dist/404', { recursive: true });
-await writeFile('dist/404/index.html', render({ title: 'Página no encontrada | Pixvo', description: 'La página solicitada no existe.', canonical: `${domain}/404/`, robots: 'noindex,follow' }));
+await writeFile('dist/404/index.html', render({ title: 'Página no encontrada | Pixvo', description: 'La página solicitada no existe.', canonical: `${domain}/404/`, robots: 'noindex,follow', body: globalShell('<main data-prerendered="true"><article><h1>Esta ruta no lleva a ningún sitio</h1><p>La página puede haber cambiado o la dirección no es correcta.</p><p><a href="/">Volver al selector internacional</a> · <a href="/mx/sistema-crecimiento-digital/">Ver Pixvo Growth System</a></p></article></main>') }));
 for (const slug of ['aviso-legal', 'politica-de-privacidad', 'politica-de-cookies', 'condiciones-del-servicio']) {
   const file = join('dist', 'legal', slug, 'index.html');
   await mkdir(dirname(file), { recursive: true });
-  await writeFile(file, render({ title: `${slug.replaceAll('-', ' ')} | Pixvo`, description: 'Información legal de Pixvo.', canonical: `${domain}/legal/${slug}/`, robots: 'noindex,follow' }));
+  const legalTitle = slug.replaceAll('-', ' ');
+  await writeFile(file, render({ title: `${legalTitle} | Pixvo`, description: 'Información legal de Pixvo.', canonical: `${domain}/legal/${slug}/`, robots: 'noindex,follow', body: globalShell(`<main data-prerendered="true"><article><h1>${esc(legalTitle)}</h1><p>Información legal de Pixvo. El contenido completo se muestra mediante la aplicación.</p><p><a href="/">Volver al inicio</a></p></article></main>`) }));
 }
 
 const xml = (urls) => `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((url) => `  <url><loc>${url}</loc></url>`).join('\n')}\n</urlset>\n`;

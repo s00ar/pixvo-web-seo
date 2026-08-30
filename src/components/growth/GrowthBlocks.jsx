@@ -2,7 +2,8 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Container } from '../common/Container';
-import { commonFaqs, DOMAIN, getPrice, localPath, markets, plans, solutionCatalog, trafficGuarantee } from '../../data/growthSystem';
+import { commonFaqs, DOMAIN, getPrice, localPath, markets, plans, trafficGuarantee } from '../../data/growthSystem';
+import { entityPath, getEntityPresentation } from '../../data/entityPresentation';
 import { track } from '../../utils/tracking';
 import workspaceImage from '../../assets/images/services-workspace.jpg';
 
@@ -97,17 +98,24 @@ export function Pricing({ market }) {
     node.addEventListener('click', selectPlan);
     observer.observe(node); return () => { observer.disconnect(); node.removeEventListener('click', selectPlan); };
   }, [market]);
-  return <div className="pricing-grid" data-pricing>{plans.map((plan) => { const price = getPrice(market, plan.id); const visible = Number.isFinite(price.monthly) && Number.isFinite(price.onboarding); return <article className={`plan-card ${plan.id === 'growth' ? 'is-featured' : ''}`} key={plan.id}>{plan.id === 'growth' && <span className="plan-badge">Plan central</span>}<h2>{plan.name}</h2><p>{plan.audience}</p>{visible ? <div className="price"><strong>{money(price.monthly, market)}</strong><span>/ mes</span><small>Onboarding: {money(price.onboarding, market)}</small></div> : <div className="price price--private"><strong>Precio bajo consulta</strong><span>Importe en {markets[market].currency} pendiente de aprobación comercial.</span></div>}<p><strong>{plan.units} unidades operativas al mes</strong><br />Permanencia mínima: {plan.minimum} meses{plan.recommended ? ` · recomendada: ${plan.recommended} meses` : ''}</p><h3>Incluye</h3><ul>{plan.included.map((item) => <li key={item}>{item}</li>)}</ul><h3>Límites</h3><ul>{plan.limits.map((item) => <li key={item}>{item}</li>)}</ul><CtaLink market={market} location="pricing" className="button button--primary" onClick={() => track('plan_select', { country: market, currency: markets[market].currency, plan: plan.id })}>Seleccionar este plan</CtaLink></article>; })}</div>;
+  return <><div className="pricing-grid" data-pricing>{plans.map((plan) => { const price = getPrice(market, plan.id); const visible = Number.isFinite(price.monthly) && Number.isFinite(price.onboarding); return <article className={`plan-card ${plan.id === 'growth' ? 'is-featured' : ''}`} key={plan.id}>{plan.id === 'growth' && <span className="plan-badge">Plan central</span>}<h2>{plan.name}</h2><p>{plan.audience}</p>{visible ? <div className="price"><strong>{money(price.monthly, market)}</strong><span>/ mes</span><small>Onboarding: {money(price.onboarding, market)}</small></div> : <div className="price price--private"><strong>Precio bajo consulta</strong><span>Importe en {markets[market].currency} pendiente de aprobación comercial.</span></div>}<p><strong>{plan.units} unidades operativas al mes</strong><br />Permanencia mínima: {plan.minimum} meses{plan.recommended ? ` · recomendada: ${plan.recommended} meses` : ''}</p><h3>Incluye</h3><ul>{plan.included.map((item) => <li key={item}>{item}</li>)}</ul><h3>Límites</h3><ul>{plan.limits.map((item) => <li key={item}>{item}</li>)}</ul><CtaLink market={market} location="pricing" className="button button--primary" onClick={() => track('plan_select', { country: market, currency: markets[market].currency, plan: plan.id })}>Seleccionar este plan</CtaLink></article>; })}</div><PlanComparison market={market} /></>;
 }
 
 export function RelatedSolutions({ market, slugs }) {
-  const hubPages = {
-    'sistema-crecimiento-digital': { title: 'Pixvo Growth System', text: 'Conecta captación, conversión, automatización y seguimiento.' },
-    'auditoria-crecimiento-digital': { title: 'Auditoría de crecimiento digital', text: 'Identifica cuellos de botella y prioriza el siguiente paso.' },
-    planes: { title: 'Planes y precios', text: 'Compara alcance, unidades operativas, permanencia y límites.' },
-    'solicitar-diagnostico': { title: 'Solicitar diagnóstico', text: 'Comparte el contexto necesario para valorar el encaje y el siguiente paso.' },
+  const items = slugs.map((id) => {
+    const entity = getEntityPresentation(id);
+    if (!entity) return null;
+    return { title: entity.label, text: entity.description, to: entityPath(id, market), link: 'Ver cómo funciona' };
+  }).filter(Boolean);
+  return <CardGrid items={items} />;
+}
+
+export function PlanComparison({ market }) {
+  const displayPrice = (plan, field) => {
+    const price = getPrice(market, plan.id);
+    return Number.isFinite(price[field]) ? money(price[field], market) : 'Bajo consulta';
   };
-  return <CardGrid items={slugs.map((slug) => ({ title: solutionCatalog[slug]?.title || hubPages[slug]?.title || 'Pixvo Growth System', text: solutionCatalog[slug]?.lead || hubPages[slug]?.text || 'Conecta captación, conversión y seguimiento.', to: solutionCatalog[slug] ? localPath(market, `soluciones/${slug}`) : localPath(market, slug), link: 'Ver cómo funciona' }))} />;
+  return <div className="plan-comparison" tabIndex="0" role="region" aria-label="Comparación de planes"><table><caption>Alcance comercial aprobado por plan</caption><thead><tr><th scope="col">Criterio</th>{plans.map((plan) => <th scope="col" key={plan.id}>{plan.name}</th>)}</tr></thead><tbody><tr><th scope="row">Mensualidad</th>{plans.map((plan) => <td key={plan.id}>{displayPrice(plan, 'monthly')}</td>)}</tr><tr><th scope="row">Onboarding</th>{plans.map((plan) => <td key={plan.id}>{displayPrice(plan, 'onboarding')}</td>)}</tr><tr><th scope="row">Unidades operativas</th>{plans.map((plan) => <td key={plan.id}>{plan.units} al mes</td>)}</tr><tr><th scope="row">Permanencia mínima</th>{plans.map((plan) => <td key={plan.id}>{plan.minimum} meses</td>)}</tr><tr><th scope="row">Automatización</th>{plans.map((plan) => <td key={plan.id}>{plan.id === 'core' ? 'No garantizada cada mes' : plan.id === 'growth' ? 'Hasta una pequeña al mes' : 'Dos pequeñas o una mediana'}</td>)}</tr></tbody></table></div>;
 }
 
 export function FinalCta({ market, title = 'Identifiquemos qué está frenando tu crecimiento digital', description = 'Cuéntanos cómo funciona actualmente tu captación. Revisaremos si Pixvo encaja con tu situación y cuál debería ser el siguiente paso.', actionLabel = 'Solicitar diagnóstico', target = 'solicitar-diagnostico' }) {

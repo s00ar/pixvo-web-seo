@@ -1,12 +1,13 @@
 {
   "name": "pixvo-tech",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "generate:hosting": "node scripts/generate-hostinger-config.mjs",
     "generate:seo-map": "node scripts/generate-seo-map.mjs",
-    "build": "npm run generate:seo-map && vite build && node scripts/postbuild.mjs && npm run audit:build",
+    "build": "npm run generate:hosting && npm run generate:seo-map && vite build && node scripts/postbuild.mjs && npm run audit:build",
     "audit:build": "node scripts/audit-build.mjs",
     "check:secrets": "node scripts/check-secrets.mjs",
     "check:seo": "node scripts/qa.mjs",

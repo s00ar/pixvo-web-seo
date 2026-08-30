@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { LoadingState } from '../components/common/LoadingState';
 import { SiteLayout } from '../layouts/SiteLayout';
 import { AboutGrowthPage, AuditPage, CasesPage, CaseStudyPage, ContactGrowthPage, LegacyRedirect, MarketHome, PlansPage, ProblemPage, ResourcePage, ResourcesIndex, RootMarketSelector, SolutionPage, SystemPage, ThankYouPage } from '../pages/growth/MarketPages';
+import { legacyRedirects } from '../data/legacyRoutes';
 
 const DiagnosisForm = lazy(() => import('../components/forms/DiagnosisForm'));
 const BlogPage = lazy(() => import('../pages/BlogPage'));
@@ -20,7 +21,6 @@ export function AppRoutes() {
     <Route path=":market/auditoria-crecimiento-digital" element={<AuditPage />} />
     <Route path=":market/solicitar-diagnostico" element={<DiagnosisForm />} />
     <Route path=":market/gracias-diagnostico" element={<ThankYouPage />} />
-    <Route path="mx/soluciones/c" element={<LegacyRedirect to="/mx/soluciones/optimizacion-de-conversion/" />} />
     <Route path=":market/soluciones/:slug" element={<SolutionPage />} />
     <Route path=":market/problemas/:slug" element={<ProblemPage />} />
     <Route path=":market/recursos" element={<ResourcesIndex />} />
@@ -33,13 +33,9 @@ export function AppRoutes() {
     <Route path=":market/blog" element={<BlogPage />} />
     <Route path="blog/:slug" element={<ArticlePage />} />
     <Route path=":market/blog/:slug" element={<ArticlePage />} />
-    <Route path="proyectos/microcuotas" element={<LegacyRedirect to="/mx/casos-de-exito/microcuotas/" />} />
-    <Route path="proyectos/sanidad-web" element={<LegacyRedirect to="/mx/casos-de-exito/sanidad-web/" />} />
-    <Route path="proyectos/paola-informa" element={<LegacyRedirect to="/mx/casos-de-exito/paola-informa/" />} />
+    {legacyRedirects.map(({ source, destination }) => <Route key={source} path={source.replace(/^\//, '').replace(/\/$/, '')} element={<LegacyRedirect to={destination} />} />)}
     <Route path="proyectos/:slug" element={<ProjectDetailPage />} />
-    <Route path="legal/:slug" element={<LegalPage />} /><Route path="politica-de-privacidad" element={<LegacyRedirect to="/legal/politica-de-privacidad/" />} />
-    <Route path="servicios" element={<LegacyRedirect to="/mx/sistema-crecimiento-digital/" />} /><Route path="servicios/seo" element={<LegacyRedirect to="/mx/soluciones/seo-para-pymes/" />} /><Route path="servicios/automatizacion" element={<LegacyRedirect to="/mx/soluciones/automatizacion-de-procesos/" />} /><Route path="servicios/:slug" element={<LegacyRedirect to="/mx/sistema-crecimiento-digital/" />} />
-    <Route path="nosotros" element={<LegacyRedirect to="/mx/nosotros/" />} /><Route path="contacto" element={<LegacyRedirect to="/mx/contacto/" />} /><Route path="proyectos" element={<LegacyRedirect to="/mx/casos-de-exito/" />} /><Route path="referidos" element={<LegacyRedirect to="/mx/solicitar-diagnostico/" />} />
+    <Route path="legal/:slug" element={<LegalPage />} />
     <Route path="404" element={<NotFoundPage />} /><Route path="*" element={<NotFoundPage />} />
   </Route></Routes></Suspense>;
 }

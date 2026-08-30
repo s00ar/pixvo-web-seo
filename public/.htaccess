@@ -1,0 +1,64 @@
+# Generado por scripts/generate-hostinger-config.mjs. No editar a mano.
+Options -Indexes
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Un único host HTTPS para evitar duplicados entre http/www/apex.
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} !^pixvo\.tech$ [NC]
+  RewriteRule ^ https://pixvo.tech%{REQUEST_URI} [R=301,L,NE]
+
+  # Spam confirmado sin sustituto: se elimina con 410, nunca se redirige a la Home.
+  RewriteRule ^official-site/?$ - [R=410,L]
+
+  # Endpoints WordPress ausentes en el proyecto actual.
+  RewriteRule ^(?:wp-admin|wp-content|wp-includes)(?:/|$) - [R=404,L,NC]
+  RewriteRule ^(?:wp-login\.php|xmlrpc\.php)$ - [R=404,L,NC]
+
+  # Migraciones legacy con equivalencia explícita.
+  RewriteRule ^servicios/?$ /mx/sistema-crecimiento-digital/ [R=301,L,NE]
+RewriteRule ^servicios/seo/?$ /mx/soluciones/seo-para-pymes/ [R=301,L,NE]
+RewriteRule ^servicios/automatizacion/?$ /mx/soluciones/automatizacion-de-procesos/ [R=301,L,NE]
+RewriteRule ^proyectos/?$ /mx/casos-de-exito/ [R=301,L,NE]
+RewriteRule ^proyectos/microcuotas/?$ /mx/casos-de-exito/microcuotas/ [R=301,L,NE]
+RewriteRule ^proyectos/sanidad-web/?$ /mx/casos-de-exito/sanidad-web/ [R=301,L,NE]
+RewriteRule ^proyectos/paola-informa/?$ /mx/casos-de-exito/paola-informa/ [R=301,L,NE]
+RewriteRule ^nosotros/?$ /mx/nosotros/ [R=301,L,NE]
+RewriteRule ^contacto/?$ /mx/contacto/ [R=301,L,NE]
+RewriteRule ^politica-de-privacidad/?$ /legal/politica-de-privacidad/ [R=301,L,NE]
+RewriteRule ^legal/privacidad/?$ /legal/politica-de-privacidad/ [R=301,L,NE]
+RewriteRule ^legal/cookies/?$ /legal/politica-de-cookies/ [R=301,L,NE]
+RewriteRule ^mx/soluciones/c/?$ /mx/soluciones/optimizacion-de-conversion/ [R=301,L,NE]
+</IfModule>
+
+# Las rutas SEO válidas existen físicamente como directorios prerenderizados.
+# No hay fallback global a index.html: una URL desconocida debe conservar HTTP 404.
+ErrorDocument 404 /404/index.html
+ErrorDocument 410 /404/index.html
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+  Header always set Content-Security-Policy "upgrade-insecure-requests"
+</IfModule>
+
+<FilesMatch "(^\.|\.(?:env|ini|log|sql|bak|old|dist|key|pem|p12|pfx)$)">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
