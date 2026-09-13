@@ -1,5 +1,6 @@
 node_modules
 dist
+.chrome-test-profile*
 .DS_Store
 *.local
 .env
