@@ -15,6 +15,7 @@
 
 @media (max-width: 1023px) {
   :root { --section-space: 80px; --gutter: 28px; }
+  .market-options { grid-template-columns: repeat(2,1fr); gap: 20px; }
   .hero__grid { grid-template-columns: 1fr 390px; gap: 42px; }
   .hero-visual { min-height: 400px; }
   .service-grid { grid-template-columns: repeat(2,1fr); }
@@ -61,6 +62,9 @@
 @media (max-width: 767px) {
   :root { --gutter: 16px; --section-space: 72px; }
   body { font-size: 15px; }
+  .market-options { grid-template-columns: 1fr; gap: 16px; margin-top: 32px; }
+  .market-options a { padding: 20px; }
+  .market-flag { width: 64px; height: 42px; }
   h1 { font-size: clamp(2.12rem,11vw,3.2rem); }
   h2 { font-size: clamp(1.65rem,8vw,2.15rem); }
   .section-heading-row { align-items: flex-start; flex-direction: column; gap: 4px; margin-bottom: 38px; }
