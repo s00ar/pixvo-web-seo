@@ -7,6 +7,7 @@
     "dev": "vite",
     "generate:hosting": "node scripts/generate-hostinger-config.mjs",
     "generate:seo-map": "node scripts/generate-seo-map.mjs",
+    "optimize:images": "node scripts/convert-to-webp.mjs && node scripts/generate-og-images.mjs",
     "build": "npm run generate:hosting && npm run generate:seo-map && vite build && node scripts/postbuild.mjs && npm run audit:build",
     "audit:build": "node scripts/audit-build.mjs",
     "check:secrets": "node scripts/check-secrets.mjs",
@@ -30,6 +31,8 @@
     "eslint-plugin-react-hooks": "5.2.0",
     "eslint-plugin-react-refresh": "0.4.19",
     "globals": "15.15.0",
+    "sharp": "^0.35.4",
+    "terser": "^5.51.2",
     "vite": "^6.4.3"
   }
 }
