@@ -3,6 +3,18 @@ import { caseStudies, caseStudySlugs } from './caseStudies.js';
 const runtimeEnv = import.meta.env || {};
 export const DOMAIN = runtimeEnv.VITE_SITE_URL || 'https://pixvo.tech';
 
+// Mapeo de imágenes OG específicas por tipo de página
+export const ogImagesByType = {
+  'solution': '/images/og/solutions-default.png',
+  'problem': '/images/og/problems-default.png',
+  'case_study': '/images/og/cases-default.png',
+  'article': '/images/og/articles-default.png',
+  'resource': '/images/og/resources-default.png',
+  'commercial_hub': '/images/og/growth-system.png',
+  'pricing': '/images/og/growth-system.png',
+  'audit': '/images/og/growth-system.png',
+};
+
 export const markets = {
   mx: { code: 'mx', name: 'México', flag: '🇲🇽', locale: 'es-MX', currency: 'MXN', currencyLabel: 'pesos mexicanos' },
   ar: { code: 'ar', name: 'Argentina', flag: '🇦🇷', locale: 'es-AR', currency: 'USD', currencyLabel: 'dólares estadounidenses' },
