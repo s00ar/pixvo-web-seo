@@ -37,19 +37,33 @@ export function RevealObserver() {
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
 
+    let index = 0;
     const register = (root = document) => {
-      root.querySelectorAll(revealSelector).forEach((element, index) => {
-        element.classList.add('reveal', ['reveal--fade', 'reveal--slide', 'reveal--scale'][index % 3]);
-        if (!element.classList.contains('is-visible')) observer.observe(element);
+      root.querySelectorAll(revealSelector).forEach((element) => {
+        if (!element.classList.contains('reveal')) {
+          element.classList.add('reveal', ['reveal--fade', 'reveal--slide', 'reveal--scale'][index % 3]);
+          index += 1;
+          if (!element.classList.contains('is-visible')) observer.observe(element);
+        }
       });
     };
 
-    register();
-    const mutations = new MutationObserver(() => register());
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => register());
+    } else {
+      register();
+    }
+
+    let mutationTimeout;
+    const mutations = new MutationObserver(() => {
+      clearTimeout(mutationTimeout);
+      mutationTimeout = setTimeout(() => register(), 150);
+    });
     const main = document.querySelector('main');
     if (main) mutations.observe(main, { childList: true, subtree: true });
 
     return () => {
+      clearTimeout(mutationTimeout);
       mutations.disconnect();
       observer.disconnect();
       document.querySelectorAll('.reveal:not(.is-visible)').forEach((element) => element.classList.add('is-visible'));

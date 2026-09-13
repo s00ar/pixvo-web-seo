@@ -5,8 +5,8 @@ import defaultSocialImage from '../../assets/images/services-workspace.jpg';
 export function SeoHead({ title, description = 'Pixvo integra SEO, automatización y analítica en un sistema de crecimiento digital para PyMEs.', path = '/', market, routePath = '', type = 'website', image = defaultSocialImage, imageWidth, imageHeight, robots = 'index,follow', schema = [], rootAlternates = false, author, publishedTime, modifiedTime }) {
   const canonical = new URL(path, DOMAIN).toString();
   const absoluteImage = new URL(image || '/favicon.png', DOMAIN).toString();
-  const resolvedImageWidth = imageWidth || (image === defaultSocialImage ? 512 : undefined);
-  const resolvedImageHeight = imageHeight || (image === defaultSocialImage ? 279 : undefined);
+  const resolvedImageWidth = imageWidth || (image === defaultSocialImage ? 512 : 1200);
+  const resolvedImageHeight = imageHeight || (image === defaultSocialImage ? 279 : 630);
   const baseTitle = title.includes('Pixvo') ? title : `${title} | Pixvo`;
   const pageTitle = market ? `${baseTitle} — ${markets[market].name}` : baseTitle;
   const locale = market ? markets[market].locale.replace('-', '_') : 'es_ES';
