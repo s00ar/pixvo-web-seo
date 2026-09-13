@@ -65,6 +65,8 @@
   .market-options { grid-template-columns: 1fr; gap: 16px; margin-top: 32px; }
   .market-options a { padding: 20px; }
   .market-flag { width: 64px; height: 42px; }
+  .service-card, .article-card, .project-card, .benefit-grid article, .process-cards article, .testimonial-card { animation: none; }
+  .page-hero, .hero { animation: none; }
   h1 { font-size: clamp(2.12rem,11vw,3.2rem); }
   h2 { font-size: clamp(1.65rem,8vw,2.15rem); }
   .section-heading-row { align-items: flex-start; flex-direction: column; gap: 4px; margin-bottom: 38px; }

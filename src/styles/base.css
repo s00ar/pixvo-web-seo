@@ -57,6 +57,36 @@ main { min-height: 60vh; }
 .motion-ready :is(.service-grid,.project-grid,.article-grid,.testimonial-grid,.growth-grid,.metric-cards,.process-cards,.value-card-grid) > .reveal:nth-child(2) { --reveal-delay: 55ms; }
 .motion-ready :is(.service-grid,.project-grid,.article-grid,.testimonial-grid,.growth-grid,.metric-cards,.process-cards,.value-card-grid) > .reveal:nth-child(3) { --reveal-delay: 110ms; }
 .motion-ready :is(.service-grid,.project-grid,.article-grid,.testimonial-grid,.growth-grid,.metric-cards,.process-cards,.value-card-grid) > .reveal:nth-child(4) { --reveal-delay: 165ms; }
+/* Global animations */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleHover {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+@keyframes expandBorder {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 16px 48px rgba(102,126,234,.1), inset 0 0 0 1px rgba(102,126,234,.1); }
+  50% { box-shadow: 0 16px 48px rgba(102,126,234,.2), inset 0 0 0 1px rgba(102,126,234,.2); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
   .reveal { opacity: 1 !important; transform: none !important; }
