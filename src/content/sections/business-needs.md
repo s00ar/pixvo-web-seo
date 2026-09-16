@@ -1,0 +1,26 @@
+---
+enable: true
+badge: ""
+title: "Los 5 pilares de <strong>Pixvo Growth System</strong>"
+items:
+  - image: "/images/brands-group-1.png"
+    number: "01"
+    title: "CAPTACIÓN"
+    content: "SEO y campañas de captación que llevan tráfico relevante desde buscadores y redes hacia tu web."
+  - image: "/images/brands-group-2.png"
+    number: "02"
+    title: "CONVERSIÓN"
+    content: "Optimización de la web y sus formularios para convertir visitas en oportunidades comerciales reales."
+  - image: "/images/brands-group-3.png"
+    number: "03"
+    title: "MEDICIÓN"
+    content: "Analítica y KPI definidos por escrito, con línea base verificable antes de empezar a implementar."
+  - image: "/images/brands-group-4.png"
+    number: "04"
+    title: "AUTOMATIZACIÓN"
+    content: "Procesos y marketing automatizados para reducir tareas manuales y responder más rápido a cada lead."
+  - image: "/images/brands-group-5.png"
+    number: "05"
+    title: "SEGUIMIENTO"
+    content: "Seguimiento comercial de leads para que ninguna oportunidad se pierda entre captación y cierre."
+---

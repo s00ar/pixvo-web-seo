@@ -1,125 +1,195 @@
-import { readFile, writeFile } from 'node:fs/promises';
-import { getArticleCommercialData, resolveCommercialTarget } from '../src/data/articleCommercial.js';
-import { caseStudies } from '../src/data/caseStudies.js';
-import { getSolutionConnections, markets, problemCatalog, resourceCatalog, solutionCatalog } from '../src/data/growthSystem.js';
-import { buildSeoRegistry, seoColumns } from '../src/data/seoRegistry.js';
+/**
+ * Genera `docs/seo/keyword-url-map.csv` cruzando el registro central de
+ * entidades SEO (`scripts/seo-entities.mjs`) con las URLs REALES del build
+ * (`dist/client`). Si aparece una página nueva sin entidad declarada, el
+ * script falla: así el CSV nunca queda incompleto.
+ */
+import fs from "node:fs";
+import path from "node:path";
+import {
+  ROOT,
+  MARKETS,
+  collectPages,
+  readFrontmatter,
+} from "./lib/seo-build.mjs";
+import {
+  MARKET_ENTITIES,
+  GLOBAL_ENTITIES,
+  BLOG_TEMPLATE,
+  NON_INDEXABLE_TEMPLATE,
+} from "./seo-entities.mjs";
 
-const posts = JSON.parse(await readFile('public/posts/index.json', 'utf8'));
-const rows = buildSeoRegistry(posts);
-const marketCodes = Object.keys(markets);
-const csv = (value = '') => {
-  const text = String(value);
-  return /[",\r\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
+const OUT = path.join(ROOT, "docs", "seo", "keyword-url-map.csv");
+
+const COLUMNS = [
+  "url",
+  "country",
+  "cluster",
+  "primary_keyword",
+  "secondary_keywords",
+  "intent",
+  "funnel",
+  "page_type",
+  "priority",
+  "conversion",
+  "parent_url",
+  "status",
+  "lastmod",
+  "sitemap",
+];
+
+const csvCell = (v) => {
+  const s = v == null ? "" : String(v);
+  return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 };
 
-const expandedKeywordRows = rows.flatMap((row) => row.url.includes('{pais}')
-  ? marketCodes.map((market) => ({
-    ...row,
-    url: row.url.replaceAll('{pais}', market),
-    country: market,
-    parent_url: row.parent_url.replaceAll('{pais}', market),
-    title: `${row.title} — ${markets[market].name}`,
-  }))
-  : [row]);
-const contents = [seoColumns.join(','), ...expandedKeywordRows.map((row) => seoColumns.map((column) => csv(row[column])).join(','))].join('\n') + '\n';
-await writeFile('docs/seo/keyword-url-map.csv', contents, 'utf8');
-
-const marketUrl = (path = '') => `/{pais}/${path}${path ? '/' : ''}`;
-const destinationFor = (target) => solutionCatalog[target] ? marketUrl(`soluciones/${target}`) : marketUrl(target);
-const internalLinks = [];
-const addLink = (source, destination, relationship, cluster, funnelRole, placement) => internalLinks.push({ source_url: source, destination_url: destination, relationship, cluster, funnel_role: funnelRole, placement, status: 'published' });
-
-addLink(marketUrl(), marketUrl('sistema-crecimiento-digital'), 'parent-to-hub', 'growth-system', 'BOFU', 'hero');
-addLink(marketUrl(), marketUrl('planes'), 'home-to-pricing', 'conversion', 'BOFU', 'content');
-addLink(marketUrl(), marketUrl('solicitar-diagnostico'), 'home-to-conversion', 'conversion', 'BOFU', 'cta');
-for (const slug of Object.keys(solutionCatalog)) addLink(marketUrl('sistema-crecimiento-digital'), marketUrl(`soluciones/${slug}`), 'hub-to-solution', rows.find((item) => item.url === marketUrl(`soluciones/${slug}`))?.cluster || 'solution', 'BOFU', 'solution-grid');
-for (const target of ['auditoria-crecimiento-digital', 'planes', 'solicitar-diagnostico']) addLink(marketUrl('sistema-crecimiento-digital'), marketUrl(target), 'hub-to-conversion', 'conversion', 'BOFU', target === 'solicitar-diagnostico' ? 'cta' : 'content');
-
-for (const [slug, solution] of Object.entries(solutionCatalog)) {
-  const source = marketUrl(`soluciones/${slug}`);
-  const connections = getSolutionConnections(slug);
-  addLink(source, marketUrl('sistema-crecimiento-digital'), 'solution-to-parent', 'growth-system', 'BOFU', 'hero');
-  addLink(source, marketUrl('auditoria-crecimiento-digital'), 'solution-to-audit', 'conversion', 'BOFU', 'scope');
-  addLink(source, marketUrl('planes'), 'solution-to-pricing', 'conversion', 'BOFU', 'scope');
-  addLink(source, marketUrl('solicitar-diagnostico'), 'solution-to-diagnosis', 'conversion', 'BOFU', 'cta');
-  for (const related of solution.related.slice(0, 3)) addLink(source, marketUrl(`soluciones/${related}`), 'related-solution', rows.find((item) => item.url === marketUrl(`soluciones/${related}`))?.cluster || 'solution', 'BOFU', 'related-solutions');
-  for (const item of connections.problems) addLink(source, marketUrl(`problemas/${item.slug}`), 'solution-to-problem', 'problem', 'MOFU', 'problem-context');
-  for (const item of connections.resources) addLink(source, marketUrl(`recursos/${item.slug}`), 'solution-to-resource', 'research', 'MOFU', 'decision-support');
-  for (const item of connections.cases) addLink(source, marketUrl(`casos-de-exito/${item.slug}`), 'solution-to-case', 'proof', 'MOFU', 'evidence');
-}
-
-for (const [slug, problem] of Object.entries(problemCatalog)) {
-  const source = marketUrl(`problemas/${slug}`);
-  addLink(source, marketUrl(`soluciones/${problem.primary}`), 'problem-to-primary-solution', 'solution', 'MOFU-to-BOFU', 'solution');
-  addLink(source, marketUrl(`soluciones/${problem.secondary}`), 'problem-to-secondary-solution', 'solution', 'MOFU-to-BOFU', 'solution');
-  addLink(source, marketUrl('auditoria-crecimiento-digital'), 'problem-to-audit', 'conversion', 'BOFU', 'diagnosis');
-  addLink(source, destinationFor(problem.conversion), 'problem-to-next-step', 'conversion', 'BOFU', 'diagnosis');
-  addLink(source, marketUrl('solicitar-diagnostico'), 'problem-to-diagnosis', 'conversion', 'BOFU', 'cta');
-}
-
-for (const [slug, resource] of Object.entries(resourceCatalog)) {
-  const source = marketUrl(`recursos/${slug}`);
-  addLink(source, marketUrl('recursos'), 'resource-to-parent', 'research', 'MOFU', 'hero');
-  addLink(source, destinationFor(resource.primary), 'resource-to-primary-solution', 'solution', 'MOFU-to-BOFU', 'commercial-recommendation');
-  addLink(source, destinationFor(resource.secondary), 'resource-to-secondary-solution', 'solution', 'MOFU-to-BOFU', 'commercial-recommendation');
-  addLink(source, destinationFor(resource.nextStep), 'resource-to-next-step', 'conversion', 'BOFU', 'next-step');
-  addLink(source, marketUrl('planes'), 'resource-to-pricing', 'conversion', 'BOFU', 'next-step');
-  addLink(source, marketUrl('solicitar-diagnostico'), 'resource-to-diagnosis', 'conversion', 'BOFU', 'cta');
-}
-
-for (const item of caseStudies) {
-  const source = marketUrl(`casos-de-exito/${item.slug}`);
-  for (const service of item.services) addLink(source, marketUrl(`soluciones/${service}`), 'case-to-solution', 'solution', 'MOFU-to-BOFU', 'related-capabilities');
-  for (const link of item.commercialLinks || []) if (!link.target.startsWith('soluciones/')) addLink(source, marketUrl(link.target), 'case-to-commercial-step', 'conversion', 'BOFU', 'related-capabilities');
-  for (const related of item.relatedCases) addLink(source, marketUrl(`casos-de-exito/${related}`), 'related-case', 'proof', 'MOFU', 'related-cases');
-  addLink(source, marketUrl('solicitar-diagnostico'), 'case-to-diagnosis', 'conversion', 'BOFU', 'cta');
-}
-
-for (const post of posts) {
-  const classification = getArticleCommercialData(post);
-  const targets = [classification.commercialTarget, ...(classification.relatedTargets || [])];
-  for (const targetId of targets) {
-    const target = resolveCommercialTarget(targetId);
-    addLink(`/blog/${post.slug}/`, marketUrl(target.route), targetId === classification.commercialTarget ? 'global-article-to-primary-commercial' : 'global-article-to-related-commercial', classification.cluster, 'TOFU-to-BOFU', 'article-conversion');
-    addLink(marketUrl(`blog/${post.slug}`), marketUrl(target.route), targetId === classification.commercialTarget ? 'market-article-to-primary-commercial' : 'market-article-to-related-commercial', classification.cluster, 'TOFU-to-BOFU', 'article-conversion');
-  }
-  if (classification.projectSlug) {
-    addLink(`/blog/${post.slug}/`, `/proyectos/${classification.projectSlug}/`, 'article-to-technical-project', classification.cluster, 'TOFU-to-MOFU', 'related-project');
-    addLink(marketUrl(`blog/${post.slug}`), `/proyectos/${classification.projectSlug}/`, 'market-article-to-technical-project', classification.cluster, 'TOFU-to-MOFU', 'related-project');
-  }
-}
-
-for (const [source, targets] of [
-  ['planes', ['sistema-crecimiento-digital', 'auditoria-crecimiento-digital', 'recursos/seo-mensual-vs-auditoria', 'casos-de-exito/microcuotas', 'solicitar-diagnostico']],
-  ['auditoria-crecimiento-digital', ['sistema-crecimiento-digital', 'soluciones/seo-para-pymes', 'soluciones/automatizacion-de-procesos', 'soluciones/seguimiento-de-leads', 'recursos/seo-mensual-vs-auditoria', 'planes', 'casos-de-exito/microcuotas', 'solicitar-diagnostico']],
-]) for (const target of targets) addLink(marketUrl(source), marketUrl(target), 'commercial-journey', 'conversion', 'BOFU', 'content');
-
-const linkColumns = ['source_url', 'destination_url', 'relationship', 'cluster', 'funnel_role', 'placement', 'status'];
-const uniqueLinks = [...new Map(internalLinks.map((item) => [`${item.source_url}|${item.destination_url}`, item])).values()];
-const linkContents = [linkColumns.join(','), ...uniqueLinks.map((row) => linkColumns.map((column) => csv(row[column])).join(','))].join('\n') + '\n';
-await writeFile('docs/seo/internal-link-map.csv', linkContents, 'utf8');
-
-const editorialReview = {
-  'ataque-real-en-npm-como-el-compromiso-de-axios-expuso-miles-de-entornos-sin-que-nadie-lo-notara': ['MANUAL_REVIEW', 'indirecta', 'Tema de seguridad útil, pero fuera del núcleo comercial; validar histórico antes de cambiar.', 'medium'],
-  'por-que-geeksy-shop-es-hoy-una-de-las-mejores-fuentes-para-comprar-productos-del-fandom-y-como-aprovecharlo-desde-pixvo-tech': ['MANUAL_REVIEW', 'baja', 'La pieza sobre una tienda externa queda lejos del posicionamiento actual.', 'high'],
-  'black-friday-y-cyber-week-el-momento-del-ano-donde-tu-negocio-no-puede-improvisar': ['UPDATE', 'media', 'Actualizar temporalidad y reforzar la decisión de CRO/medición.', 'medium'],
-  'el-mal-uso-de-la-ia-y-sus-consecuencias-reales-el-ejemplo-critico-de-los-libros-de-foraging-en-amazon': ['MANUAL_REVIEW', 'indirecta', 'La gobernanza editorial es relevante, pero el ejemplo queda fuera de la oferta principal.', 'medium'],
-  'por-que-necesitas-un-sitio-web-profesional-en-2025-y-como-conseguir-hosting-premium-con-descuento': ['UPDATE', 'media', 'La referencia 2025 y el descuento requieren validación editorial/comercial.', 'high'],
-  'crear-un-sitio-web-rapido-con-las-herramientas-de-ia-de-hostinger': ['UPDATE', 'media', 'Verificar vigencia de herramientas y mantener el vínculo con rendimiento/conversión.', 'medium'],
-  'la-ia-esta-matando-la-creatividad': ['MANUAL_REVIEW', 'indirecta', 'Es editorialmente adyacente, no una pieza central del sistema de crecimiento.', 'medium'],
+const SITEMAP_FILE = {
+  mx: "sitemap-mx.xml",
+  ar: "sitemap-ar.xml",
+  es: "sitemap-es.xml",
+  blog: "sitemap-blog.xml",
+  projects: "sitemap-projects.xml",
+  pages: "sitemap-pages.xml",
 };
-const inventoryRows = [];
-for (const post of posts) {
-  const classification = getArticleCommercialData(post);
-  const target = resolveCommercialTarget(classification.commercialTarget);
-  const [action = 'KEEP', relevance = 'alta', reason = 'Apoya una capacidad comercial existente y tiene un siguiente paso explícito.', risk = 'low'] = editorialReview[post.slug] || [];
-  for (const market of ['global', ...marketCodes]) inventoryRows.push({
-    url: market === 'global' ? `/blog/${post.slug}/` : `/${market}/blog/${post.slug}/`, title: post.title, topic: classification.cluster, market,
-    linked_money_page: market === 'global' ? `/{pais}/${target.route}/` : `/${market}/${target.route}/`, business_relevance: relevance,
-    current_status: 'published_indexable', proposed_action: action, reason, risk, needs_gsc_validation: action === 'KEEP' ? 'no' : 'yes',
-  });
-}
-const inventoryColumns = ['url', 'title', 'topic', 'market', 'linked_money_page', 'business_relevance', 'current_status', 'proposed_action', 'reason', 'risk', 'needs_gsc_validation'];
-await writeFile('docs/seo/content-inventory.csv', [inventoryColumns.join(','), ...inventoryRows.map((row) => inventoryColumns.map((column) => csv(row[column])).join(','))].join('\n') + '\n', 'utf8');
 
-console.log(`Registros generados: ${rows.length} entidades SEO, ${expandedKeywordRows.length} URLs en el keyword map, ${uniqueLinks.length} relaciones y ${inventoryRows.length} filas editoriales.`);
+export function buildSeoMap({ write = true, log = console.log } = {}) {
+  const pages = collectPages().filter((p) => p.url !== "/404");
+  const rows = [];
+  const missing = [];
+
+  for (const page of pages) {
+    if (!page.indexable) {
+      rows.push({
+        ...NON_INDEXABLE_TEMPLATE,
+        url: page.url,
+        country: page.market ?? "global",
+        parent_url: page.canonical || "",
+        status: `canonicalizada-no-indexable (${page.excludeReasons.join("; ")})`,
+        lastmod: page.lastmod,
+        sitemap: "",
+      });
+      continue;
+    }
+
+    const sitemap = SITEMAP_FILE[page.section] ?? "";
+
+    if (page.market) {
+      const rest = page.url.slice(`/${page.market}`.length);
+      const e = MARKET_ENTITIES[rest];
+      if (!e) {
+        missing.push(page.url);
+        continue;
+      }
+      rows.push({
+        url: page.url,
+        country: page.market,
+        cluster: e.cluster,
+        primary_keyword: e.primary_keyword,
+        secondary_keywords: e.secondary_keywords,
+        intent: e.intent,
+        funnel: e.funnel,
+        page_type: e.page_type,
+        priority: e.priority,
+        conversion: e.conversion,
+        parent_url: e.parent === null ? "/" : `/${page.market}${e.parent}`,
+        status: "indexable",
+        lastmod: page.lastmod,
+        sitemap,
+      });
+      continue;
+    }
+
+    const g = GLOBAL_ENTITIES[page.url];
+    if (g) {
+      rows.push({
+        url: page.url,
+        country: "global",
+        cluster: g.cluster,
+        primary_keyword: g.primary_keyword,
+        secondary_keywords: g.secondary_keywords,
+        intent: g.intent,
+        funnel: g.funnel,
+        page_type: g.page_type,
+        priority: g.priority,
+        conversion: g.conversion,
+        parent_url: g.parent_url,
+        status: g.status ?? "indexable",
+        lastmod: page.lastmod,
+        sitemap,
+      });
+      continue;
+    }
+
+    // Artículos del blog: keyword primaria derivada del título real del md.
+    if (page.section === "blog") {
+      const fm = readFrontmatter(page.source);
+      if (!fm.title) {
+        missing.push(page.url);
+        continue;
+      }
+      rows.push({
+        ...BLOG_TEMPLATE,
+        url: page.url,
+        country: "global",
+        primary_keyword: fm.title,
+        // `tags` viene como array YAML inline: se normaliza a "a | b | c".
+        secondary_keywords: (fm.tags ?? "")
+          .replace(/^\[|\]$/g, "")
+          .split(",")
+          .map((t) => t.trim().replace(/^["']|["']$/g, ""))
+          .filter(Boolean)
+          .join(" | "),
+        status: "indexable",
+        lastmod: page.lastmod,
+        sitemap,
+      });
+      continue;
+    }
+
+    missing.push(page.url);
+  }
+
+  if (missing.length) {
+    throw new Error(
+      `Hay URLs indexables sin entidad SEO declarada en scripts/seo-entities.mjs:\n  ` +
+        missing.join("\n  "),
+    );
+  }
+
+  rows.sort((a, b) => a.url.localeCompare(b.url));
+
+  const csv =
+    COLUMNS.join(",") +
+    "\n" +
+    rows.map((r) => COLUMNS.map((c) => csvCell(r[c])).join(",")).join("\n") +
+    "\n";
+
+  if (write) {
+    fs.mkdirSync(path.dirname(OUT), { recursive: true });
+    fs.writeFileSync(OUT, csv, "utf8");
+  }
+
+  // Canibalización: misma primary_keyword dentro del mismo country.
+  const byKey = new Map();
+  for (const r of rows) {
+    if (!r.primary_keyword) continue;
+    const k = `${r.country}::${r.primary_keyword.toLowerCase()}`;
+    if (!byKey.has(k)) byKey.set(k, []);
+    byKey.get(k).push(r.url);
+  }
+  const cannibal = [...byKey.entries()].filter(([, u]) => u.length > 1);
+
+  if (log) {
+    log(`[seo] docs/seo/keyword-url-map.csv -> ${rows.length} filas`);
+    log(`[seo]   indexables: ${rows.filter((r) => r.status.startsWith("indexable")).length}`);
+    log(`[seo]   no indexables: ${rows.filter((r) => !r.status.startsWith("indexable")).length}`);
+    log(`[seo]   canibalización: ${cannibal.length}`);
+    for (const [k, u] of cannibal) log(`[seo]     ${k} -> ${u.join(", ")}`);
+  }
+
+  return { rows, cannibal, pages, missing };
+}
+
+if (process.argv[1]?.endsWith("generate-seo-map.mjs")) {
+  buildSeoMap();
+}

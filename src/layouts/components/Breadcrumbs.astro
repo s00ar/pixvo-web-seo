@@ -1,0 +1,49 @@
+---
+import type { Crumb } from "@/lib/utils/breadcrumbs";
+
+export interface Props {
+  crumbs: Crumb[];
+}
+
+const { crumbs } = Astro.props;
+---
+
+{
+  crumbs.length > 1 && (
+    <nav
+      aria-label="Ruta de navegación"
+      class="relative z-20 pt-26 -mb-32 lg:pt-32 lg:-mb-38"
+    >
+      <div class="container">
+        <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-text">
+          {crumbs.map((crumb, index) => {
+            const isLast = index === crumbs.length - 1;
+            return (
+              <li class="flex items-center gap-x-2">
+                {index > 0 && (
+                  <span aria-hidden="true" class="text-text/50">
+                    ›
+                  </span>
+                )}
+                {isLast ? (
+                  <span aria-current="page" class="text-white">
+                    {crumb.name}
+                  </span>
+                ) : crumb.href ? (
+                  <a
+                    href={crumb.href}
+                    class="text-text hover:text-white transition-colors duration-200"
+                  >
+                    {crumb.name}
+                  </a>
+                ) : (
+                  <span>{crumb.name}</span>
+                )}
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </nav>
+  )
+}

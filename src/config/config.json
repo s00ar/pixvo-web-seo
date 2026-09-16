@@ -1,0 +1,39 @@
+{
+  "site": {
+    "title": "Pixvo",
+    "base_url": "https://pixvo.tech",
+    "base_path": "/",
+    "trailing_slash": false,
+    "favicon": "/images/favicon.png",
+    "logo": "/images/logo.png",
+    "logo_width": "168",
+    "logo_height": "33",
+    "logo_text": "Pixvo"
+  },
+  "settings": {
+    "sticky_header": true
+  },
+  "params": {
+    "contact_form_action": "#",
+    "checklist_form_action": "#",
+    "apply_form_action": "#",
+    "copyright": "Copyright &copy; 2026 <strong>Pixvo.Tech</strong> Todos los derechos reservados.",
+    "footer_tagline": "Desarrollo web y mobile, Google Ads, SEO, inteligencia artificial y automatización para empresas y emprendedores.",
+    "footer_email": "info@pixvo.tech",
+    "footer_phone": "+39 392 142 5033"
+  },
+  "navigation_button": {
+    "enable": true,
+    "label": "Solicitar diagnóstico",
+    "link": "/mx/contacto"
+  },
+  "google_tag_manager": {
+    "enable": false,
+    "gtm_id": "GTM-XXXXXX"
+  },
+  "metadata": {
+    "meta_author": "Pixvo.Tech",
+    "meta_image": "/images/og-image.png",
+    "meta_description": "Desarrollo web y mobile, Google Ads, SEO, inteligencia artificial y automatización para empresas y emprendedores."
+  }
+}

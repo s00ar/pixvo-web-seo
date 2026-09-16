@@ -1,22 +1,29 @@
-node_modules
-dist
-.chrome-test-profile*
-.DS_Store
-*.local
-.env
-.env.*
-!.env.example
-.vite
-.reference
+# build output
+dist/
+.output/
+.json/
 .vercel
-.npmrc
-*.pem
-*.key
-*.p12
-*.pfx
-*.sql
-*.bak
-*.backup
-*.tar
-*.tar.gz
-*.zip
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+
+# ignore .astro directory
+.astro
+.claude
+# ide
+.idea/

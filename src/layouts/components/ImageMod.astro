@@ -1,0 +1,147 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+
+// Props interface for the component
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  loading?: "eager" | "lazy" | null | undefined;
+  decoding?: "async" | "auto" | "sync" | null | undefined;
+  format?: "auto" | "avif" | "jpeg" | "png" | "svg" | "webp";
+  fit?: "cover" | "contain" | "fill" | "none" | "scale-down";
+  class?: string;
+  style?: any;
+  /** Anchos concretos para el srcset. Si no se pasa, se calculan solos. */
+  widths?: number[];
+  /** Atributo sizes. Si no se pasa, se genera uno conservador. */
+  sizes?: string;
+  /** Imagen LCP / above the fold: eager + fetchpriority alto, nunca lazy. */
+  priority?: boolean;
+  /** Alias de priority. */
+  eager?: boolean;
+  /** Desactiva la generación automática de srcset para esta imagen. */
+  responsive?: boolean;
+  fetchpriority?: "high" | "low" | "auto";
+}
+
+// Destructuring Astro.props to get the component's props
+let {
+  src,
+  alt,
+  width,
+  height,
+  loading,
+  decoding,
+  class: className,
+  format,
+  style,
+  fit,
+  widths,
+  sizes,
+  priority,
+  eager,
+  responsive = true,
+  fetchpriority,
+} = Astro.props;
+
+src = `/public${src}`;
+
+// Glob pattern to load images from the /public/images folder
+// (incluye .webp/.avif: antes quedaban fuera y las referencias fallaban en silencio)
+const images = import.meta.glob(
+  "/public/images/**/*.{jpeg,jpg,png,gif,svg,webp,avif}",
+);
+
+// Check if the source path is valid
+const isValidPath = images[src] ? true : false;
+
+// Log a warning message in red if the image is not found
+!isValidPath &&
+  console.error(
+    `\x1b[31mImage not found - ${src}.\x1b[0m Make sure the image is in the /public/images folder.`,
+  );
+
+// El alt puede venir de frontmatter con markup (p. ej. "<strong>"), lo que
+// rompería el atributo HTML. Se limpia a texto plano.
+const altText = String(alt ?? "")
+  .replace(/<[^>]*>/g, "")
+  .replace(/&nbsp;/g, " ")
+  .replace(/\s+/g, " ")
+  .trim();
+
+// Metadata real de la imagen (ancho/alto/formato de origen)
+const metadata: ImageMetadata | undefined = isValidPath
+  ? ((await images[src]()) as { default: ImageMetadata }).default
+  : undefined;
+
+// SVG y GIF no se transforman: no tiene sentido generar srcset
+const sourceFormat = metadata?.format ?? "";
+const isTransformable =
+  responsive && !!metadata && !["svg", "gif"].includes(sourceFormat);
+
+// Ancho al que se muestra la imagen (el declarado o el intrínseco)
+const intrinsicWidth = metadata?.width ?? 0;
+// Tope razonable: evita generar (y servir) variantes gigantes desde masters de 4K+
+const MAX_WIDTH = 2048;
+const rawDisplayWidth = width ?? intrinsicWidth;
+const displayWidth = Math.min(rawDisplayWidth, MAX_WIDTH);
+
+// Breakpoints por defecto, acotados al ancho real del archivo:
+// nunca se pide una variante mayor que el original (Astro no hace upscaling útil).
+const DEFAULT_BREAKPOINTS = [320, 480, 640, 768, 1024, 1280, 1536, 1920];
+const autoWidths = Array.from(
+  new Set(
+    [...DEFAULT_BREAKPOINTS, displayWidth, rawDisplayWidth * 2]
+      .map((w) => Math.round(w))
+      .filter((w) => w > 0 && w <= Math.min(intrinsicWidth, MAX_WIDTH)),
+  ),
+).sort((a, b) => a - b);
+
+const finalWidths = widths?.length ? widths : autoWidths;
+
+// Solo merece la pena el srcset si hay más de un candidato real
+const useSrcset = isTransformable && finalWidths.length > 1;
+
+// sizes por defecto: a viewports más estrechos que el ancho de render,
+// la imagen ocupa como mucho el ancho de la ventana.
+const finalSizes =
+  sizes ?? (displayWidth ? `(max-width: ${displayWidth}px) 100vw, ${displayWidth}px` : "100vw");
+
+const isPriority = priority === true || eager === true;
+const finalLoading = isPriority ? "eager" : (loading ?? "lazy");
+const finalDecoding = isPriority ? (decoding ?? "auto") : (decoding ?? "async");
+const finalFetchPriority = fetchpriority ?? (isPriority ? "high" : undefined);
+
+// width/height siempre presentes para evitar CLS
+// Si no se declara width, se usa el intrínseco acotado a MAX_WIDTH para no
+// renderizar un fallback de 4K; la relación de aspecto se mantiene igual.
+const baseWidth = width ?? displayWidth;
+const finalWidth = baseWidth || metadata?.width;
+const finalHeight =
+  height ??
+  (baseWidth && metadata?.width
+    ? Math.round((baseWidth * (metadata.height ?? 0)) / metadata.width)
+    : metadata?.height);
+---
+
+{
+  isValidPath && (
+    <Image
+      src={images[src]() as Promise<{ default: ImageMetadata }>}
+      alt={altText}
+      width={finalWidth as any}
+      height={finalHeight as any}
+      loading={finalLoading}
+      fit={fit ? fit : "contain"}
+      decoding={finalDecoding}
+      class={className}
+      format={format}
+      style={style}
+      fetchpriority={finalFetchPriority}
+      {...(useSrcset ? { widths: finalWidths, sizes: finalSizes } : {})}
+    />
+  )
+}

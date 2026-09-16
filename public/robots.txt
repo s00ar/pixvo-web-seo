@@ -1,6 +1,11 @@
 User-agent: *
 Allow: /
 
-Disallow: /buscar
+Disallow: /api/*
+
+# Nota: /about, /contact y /pricing son duplicados heredados del theme y
+# quedan fuera de los sitemaps porque su canonical apunta a /mx/nosotros,
+# /mx/contacto y /es/planes. NO se bloquean acá a propósito: Google necesita
+# poder rastrearlas para leer ese canonical.
 
 Sitemap: https://pixvo.tech/sitemap_index.xml

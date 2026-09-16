@@ -1,0 +1,152 @@
+---
+import config from "@/config/config.json";
+import Base from "@/layouts/Base.astro";
+import CallToAction from "@/layouts/components/CallToAction.astro";
+import DiagnosisForm from "@/layouts/components/DiagnosisForm";
+import { MARKETS, marketLabel } from "@/lib/utils/markets";
+
+export async function getStaticPaths() {
+  return MARKETS.map((market) => ({ params: { market } }));
+}
+
+const { market } = Astro.params;
+const pais = marketLabel(market);
+
+const CURRENCY: Record<string, string> = { mx: "MXN", ar: "USD", es: "EUR" };
+
+// Número de WhatsApp publicado en la ficha de contacto del sitio.
+const WHATSAPP = "393921425033";
+
+const pasos = [
+  {
+    titulo: "Vos confirmás el envío",
+    texto:
+      "Al completar los tres pasos se abre WhatsApp con el resumen ya redactado. Nada se envía sin tu acción.",
+  },
+  {
+    titulo: "Pixvo revisa el encaje",
+    texto:
+      "Se contrasta el problema, los accesos disponibles y la capacidad de implementación. Lo que falte queda anotado como pendiente.",
+  },
+  {
+    titulo: "Se define el siguiente paso",
+    texto:
+      "Si hay encaje, se concreta auditoría, alcance, dependencias y medición. No se prometen ventas ni posiciones en buscadores.",
+  },
+];
+
+const revisamos = [
+  "Objetivo comercial y oferta actual",
+  "Canales y volumen aproximado de oportunidades",
+  "Web, herramientas y CRM disponibles",
+  "Capacidad de atención y responsables",
+  "Presupuesto y momento de inicio",
+  "Problema prioritario y plan de interés",
+];
+---
+
+<Base
+  title="Solicitá un diagnóstico de crecimiento digital"
+  meta_title={`Solicitar diagnóstico de crecimiento digital | Pixvo ${pais}`}
+  description={`Completá la solicitud de diagnóstico de SEO, automatización y crecimiento digital para ${pais} y continuá el envío por WhatsApp.`}
+  breadcrumbLabel="Solicitar diagnóstico"
+>
+  <!-- Encabezado -->
+  <section class="section-ph pb-10 relative overflow-hidden">
+    <div class="container relative">
+      <div class="lg:max-w-3xl mx-auto text-center">
+        <h1 class="mb-6 text-h3 lg:text-h1 hasHighlight">
+          Solicitá un diagnóstico de crecimiento digital
+        </h1>
+        <p class="text-lg text-text">
+          Contanos el contexto de tu empresa para identificar si el cuello de botella está en
+          captación, conversión, automatización, seguimiento o medición. El formulario prepara el
+          mensaje que vos decidís enviar por WhatsApp.
+        </p>
+      </div>
+    </div>
+    <div
+      class="absolute left-1/2 top-0 -translate-y-1/2 -translate-x-1/2 size-160 xl:size-300 -z-20 blur-2xl blob-shimmer"
+      style="background: radial-gradient(circle, var(--color-primary) 0%, color-mix(in srgb, var(--color-primary) 78%, transparent) 20%, transparent 70%);"
+    >
+    </div>
+  </section>
+
+  <!-- Formulario -->
+  <section class="section-sm pt-0">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="lg:col-9">
+          <div class="bg-light rounded-4xl p-7 md:p-12 border border-border">
+            <DiagnosisForm
+              client:load
+              market={market as "mx" | "ar" | "es"}
+              countryName={pais}
+              currency={CURRENCY[market!] ?? "USD"}
+              whatsappNumber={WHATSAPP}
+              privacyUrl="/legal/politica-de-privacidad"
+              contactUrl={`/${market}/contacto`}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Qué revisamos -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="lg:col-9">
+          <h2 class="text-h4 lg:text-h3 mb-4">Qué revisamos con tu contexto</h2>
+          <p class="text-text mb-8 lg:col-9">
+            La solicitud sirve para decidir si existe encaje y qué información falta antes de
+            recomendar <a class="text-white underline" href={`/${market}/auditoria-crecimiento-digital`}>una auditoría</a>
+            o un alcance recurrente como los de <a class="text-white underline" href={`/${market}/planes`}>los planes</a>.
+          </p>
+          <ul class="grid md:grid-cols-2 gap-4">
+            {
+              revisamos.map((item) => (
+                <li class="flex items-start gap-3 bg-light rounded-2xl p-5 border border-border">
+                  <span class="mt-2 size-2 rounded-full bg-primary shrink-0" aria-hidden="true" />
+                  <span class="text-text">{item}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Qué sucede después -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="lg:col-9">
+          <h2 class="text-h4 lg:text-h3 mb-8">Qué sucede después</h2>
+          <div class="grid md:grid-cols-3 gap-6">
+            {
+              pasos.map((paso, i) => (
+                <div class="bg-light rounded-3xl p-7 border border-border">
+                  <div class="text-h5 font-secondary text-primary mb-3">{i + 1}</div>
+                  <h3 class="text-white text-lg mb-3">{paso.titulo}</h3>
+                  <p class="text-text text-sm">{paso.texto}</p>
+                </div>
+              ))
+            }
+          </div>
+          <p class="text-text mt-8">
+            Un caso relacionado con automatización y seguimiento de oportunidades:
+            <a class="text-white underline" href={`/${market}/casos-de-exito/microcuotas`}>
+              Microcuotas, con más de 5.600 leads semanales
+            </a>. Si preferís no preparar el mensaje, podés usar los canales publicados en
+            <a class="text-white underline" href={`/${market}/contacto`}>la página de contacto</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CallToAction />
+</Base>

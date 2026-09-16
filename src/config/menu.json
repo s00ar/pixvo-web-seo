@@ -1,0 +1,105 @@
+{
+  "main": [
+    {
+      "name": "Sistema de Crecimiento",
+      "url": "/mx/sistema-crecimiento-digital"
+    },
+    {
+      "name": "Planes",
+      "url": "/mx/planes"
+    },
+    {
+      "name": "Casos de Éxito",
+      "url": "/mx/casos-de-exito"
+    },
+    {
+      "name": "Recursos",
+      "url": "/mx/recursos"
+    },
+    {
+      "name": "Blog",
+      "url": "/blog"
+    },
+    {
+      "name": "Nosotros",
+      "url": "/mx/nosotros"
+    },
+    {
+      "name": "Contacto",
+      "url": "/mx/contacto"
+    }
+  ],
+  "footer_col_1_title": "Sistema",
+  "footer_col_2_title": "Mercados",
+  "footer_col_3_title": "Legal",
+  "footer_primary": [
+    {
+      "name": "Inicio",
+      "url": "/"
+    },
+    {
+      "name": "Nosotros",
+      "url": "/mx/nosotros"
+    },
+    {
+      "name": "Sistema de Crecimiento",
+      "url": "/mx/sistema-crecimiento-digital"
+    },
+    {
+      "name": "Planes",
+      "url": "/mx/planes"
+    },
+    {
+      "name": "Contacto",
+      "url": "/mx/contacto"
+    },
+    {
+      "name": "Qué hacemos",
+      "url": "/features"
+    },
+    {
+      "name": "Integraciones",
+      "url": "/integrations"
+    }
+  ],
+  "footer_resource": [
+    {
+      "name": "México",
+      "url": "/mx"
+    },
+    {
+      "name": "Argentina",
+      "url": "/ar"
+    },
+    {
+      "name": "España",
+      "url": "/es"
+    },
+    {
+      "name": "Casos de Éxito",
+      "url": "/mx/casos-de-exito"
+    },
+    {
+      "name": "Blog",
+      "url": "/blog"
+    }
+  ],
+  "footer_legal": [
+    {
+      "name": "Aviso legal",
+      "url": "/legal/aviso-legal"
+    },
+    {
+      "name": "Política de privacidad",
+      "url": "/legal/politica-de-privacidad"
+    },
+    {
+      "name": "Política de cookies",
+      "url": "/legal/politica-de-cookies"
+    },
+    {
+      "name": "Condiciones del servicio",
+      "url": "/legal/condiciones-del-servicio"
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+---
+import config from "@/config/config.json";
+import type { Crumb } from "@/lib/utils/breadcrumbs";
+
+export interface SchemaData {
+  /** Tipo principal de la página. */
+  kind?: "webpage" | "article" | "creativeWork";
+  datePublished?: string | Date;
+  dateModified?: string | Date;
+  author?: string;
+  image?: string;
+}
+
+export interface Props {
+  canonicalUrl: string;
+  siteUrl: string;
+  name: string;
+  description: string;
+  inLanguage: string;
+  crumbs: Crumb[];
+  schema?: SchemaData;
+}
+
+const {
+  canonicalUrl,
+  siteUrl,
+  name,
+  description,
+  inLanguage,
+  crumbs,
+  schema = {},
+} = Astro.props;
+
+const orgId = `${siteUrl}/#organization`;
+const siteId = `${siteUrl}/#website`;
+const pageId = `${canonicalUrl}#webpage`;
+const breadcrumbId = `${canonicalUrl}#breadcrumb`;
+
+const absolute = (url?: string) =>
+  !url ? undefined : /^https?:\/\//.test(url) ? url : `${siteUrl}${url}`;
+
+const isoDate = (value?: string | Date) => {
+  if (!value) return undefined;
+  const date = value instanceof Date ? value : new Date(value);
+  return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
+};
+
+/** Elimina claves undefined para no emitir propiedades vacías. */
+const clean = <T extends Record<string, any>>(obj: T) =>
+  Object.fromEntries(
+    Object.entries(obj).filter(([, value]) => value !== undefined),
+  );
+
+const graph: Record<string, any>[] = [];
+
+graph.push({
+  "@type": "Organization",
+  "@id": orgId,
+  name: config.site.title,
+  url: `${siteUrl}/`,
+  logo: {
+    "@type": "ImageObject",
+    url: `${siteUrl}${config.site.logo}`,
+  },
+});
+
+graph.push({
+  "@type": "WebSite",
+  "@id": siteId,
+  url: `${siteUrl}/`,
+  name: config.site.title,
+  inLanguage,
+  publisher: { "@id": orgId },
+});
+
+const hasBreadcrumb = crumbs.length > 1;
+
+graph.push(
+  clean({
+    "@type": "WebPage",
+    "@id": pageId,
+    url: canonicalUrl,
+    name,
+    description,
+    inLanguage,
+    isPartOf: { "@id": siteId },
+    breadcrumb: hasBreadcrumb ? { "@id": breadcrumbId } : undefined,
+  }),
+);
+
+if (hasBreadcrumb) {
+  graph.push({
+    "@type": "BreadcrumbList",
+    "@id": breadcrumbId,
+    itemListElement: crumbs.map((crumb, index) =>
+      clean({
+        "@type": "ListItem",
+        position: index + 1,
+        name: crumb.name,
+        item: crumb.href ? `${siteUrl}${crumb.href === "/" ? "/" : crumb.href}` : undefined,
+      }),
+    ),
+  });
+}
+
+const publishedAt = isoDate(schema.datePublished);
+const modifiedAt = isoDate(schema.dateModified);
+const imageUrl = absolute(schema.image);
+
+if (schema.kind === "article") {
+  graph.push(
+    clean({
+      "@type": "Article",
+      "@id": `${canonicalUrl}#article`,
+      headline: name,
+      description,
+      inLanguage,
+      url: canonicalUrl,
+      mainEntityOfPage: { "@id": pageId },
+      image: imageUrl,
+      datePublished: publishedAt,
+      dateModified: modifiedAt,
+      author: schema.author
+        ? { "@type": "Person", name: schema.author }
+        : undefined,
+      publisher: { "@id": orgId },
+    }),
+  );
+}
+
+if (schema.kind === "creativeWork") {
+  graph.push(
+    clean({
+      "@type": "CreativeWork",
+      "@id": `${canonicalUrl}#creativework`,
+      name,
+      description,
+      inLanguage,
+      url: canonicalUrl,
+      mainEntityOfPage: { "@id": pageId },
+      image: imageUrl,
+      datePublished: publishedAt,
+      dateModified: modifiedAt,
+      author: { "@id": orgId },
+      publisher: { "@id": orgId },
+    }),
+  );
+}
+
+const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": graph });
+---
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={jsonLd.replace(/</g, "\\u003c")}
+/>

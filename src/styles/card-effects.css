@@ -1,81 +1,46 @@
+/* ------------------------------------------------------------------ *
+ * Pixvo legacy effects, ported from v1.1.0 to the dark "Automark" theme
+ *  1) .card-orbit  -> orbiting 2px conic border on cards
+ *  2) .animate-gradient-shift / .animate-shimmer -> moving backgrounds
+ * Both are purely decorative and honour prefers-reduced-motion.
+ * ------------------------------------------------------------------ */
+
 @property --card-border-angle {
   syntax: '<angle>';
   inherits: false;
   initial-value: 0deg;
 }
 
-/* Decorative overlay only: it does not participate in layout or receive input. */
-:is(
-  .card,
-  .project-card,
-  .article-card,
-  .growth-card,
-  .plan-card,
-  .market-options a,
-  .contact-option,
-  .value-card-grid article,
-  .metric-cards > div,
-  .process-cards article,
-  .guarantee-periods article
-) {
+/* ---------------------------------- *
+ * 1) Orbiting card border
+ * ---------------------------------- */
+
+.card-orbit {
   position: relative;
-  --card-border-rgb: 52 79 156;
+  /* Variant A - theme primary (purple #937AFF) */
+  --card-border-rgb: 147 122 255;
   --card-border-delay: 0s;
   --card-border-direction: normal;
   --card-border-angle: 0deg;
 }
 
-:is(
-  .card,
-  .project-card,
-  .article-card,
-  .growth-card,
-  .plan-card,
-  .market-options a,
-  .contact-option,
-  .value-card-grid article,
-  .metric-cards > div,
-  .process-cards article,
-  .guarantee-periods article
-):nth-child(3n + 2) {
-  --card-border-rgb: 255 87 34;
+/* Variant B - theme secondary (#FF5353), the isotipo's warm accent */
+.card-orbit:nth-child(3n + 2) {
+  --card-border-rgb: 255 83 83;
   --card-border-delay: -1.2s;
   --card-border-direction: reverse;
   --card-border-angle: 120deg;
 }
 
-:is(
-  .card,
-  .project-card,
-  .article-card,
-  .growth-card,
-  .plan-card,
-  .market-options a,
-  .contact-option,
-  .value-card-grid article,
-  .metric-cards > div,
-  .process-cards article,
-  .guarantee-periods article
-):nth-child(3n) {
+/* Variant C - isotipo cyan (#00BCD4) */
+.card-orbit:nth-child(3n) {
   --card-border-rgb: 0 188 212;
   --card-border-delay: -2.4s;
   --card-border-direction: normal;
   --card-border-angle: 240deg;
 }
 
-:is(
-  .card,
-  .project-card,
-  .article-card,
-  .growth-card,
-  .plan-card,
-  .market-options a,
-  .contact-option,
-  .value-card-grid article,
-  .metric-cards > div,
-  .process-cards article,
-  .guarantee-periods article
-)::after {
+.card-orbit::after {
   content: '';
   position: absolute;
   z-index: 4;
@@ -105,23 +70,64 @@
 }
 
 @keyframes card-border-orbit {
-  to { --card-border-angle: 360deg; }
+  to {
+    --card-border-angle: 360deg;
+  }
 }
 
+/* ---------------------------------- *
+ * 2) Animated gradient backgrounds
+ * Movement only: colours stay whatever the theme already sets.
+ * ---------------------------------- */
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 4s ease-in-out infinite;
+}
+
+/* Theme blobs (`bg-radial` utility in GradientBlob.astro, PricingCard, etc.)
+   pulse instead of panning, so the blob keeps its size and position. */
+.bg-radial.animate-blob,
+.blob-shimmer,
+.bg-radial.rounded-full {
+  animation: shimmer 4s ease-in-out infinite;
+  will-change: opacity;
+}
+
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+/* ---------------------------------- *
+ * Reduced motion
+ * ---------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  :is(
-    .card,
-    .project-card,
-    .article-card,
-    .growth-card,
-    .plan-card,
-    .market-options a,
-    .contact-option,
-    .value-card-grid article,
-    .metric-cards > div,
-    .process-cards article,
-    .guarantee-periods article
-  )::after {
+  .card-orbit::after,
+  .animate-gradient-shift,
+  .animate-shimmer,
+  .bg-radial.animate-blob,
+  .blob-shimmer,
+  .bg-radial.rounded-full {
     animation: none;
   }
 }
