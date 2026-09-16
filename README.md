@@ -29,6 +29,35 @@ pnpm dev
 bun dev
 ```
 
+## Hostinger Node.js
+
+Use Node.js 22 or newer in the Hostinger application settings.
+
+Build command:
+
+```bash
+npm run build
+```
+
+Startup command:
+
+```bash
+npm run start
+```
+
+The generated server entry point is `dist/server/entry.mjs`. Hostinger must
+provide the `PORT` environment variable; the Astro Node adapter listens on it.
+
+Configure these environment variables in Hostinger. Do not commit their
+values:
+
+```text
+GHL_API_KEY
+GHL_LOCATION_ID
+STRIPE_SECRET_KEY
+STRIPE_WEBHOOK_SECRET
+```
+
 ## Author 
 ```
 Design and code is completely written by Themefisher and development team. 
