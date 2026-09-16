@@ -56,7 +56,10 @@ export default defineConfig({
   base: config.site.base_path ? config.site.base_path : "/",
   trailingSlash: config.site.trailing_slash ? "always" : "never",
   // La ruta en inglés venía del theme; el sitio es íntegramente en español.
-  redirects: { "/contact": "/contacto" },
+  // "/contacto" (sin prefijo de país) era la página genérica del theme: el
+  // formulario ahora vive directamente en /{mercado}/contacto, así que ambas
+  // rutas redirigen al mercado por defecto en vez de duplicar contenido.
+  redirects: { "/contact": "/mx/contacto", "/contacto": "/mx/contacto" },
   image: { service: sharp(), dangerouslyProcessSVG: true },
   vite: { plugins: [tailwindcss()] },
   fonts: fontsConfig,
