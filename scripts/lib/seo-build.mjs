@@ -1,18 +1,19 @@
 /**
  * Utilidades compartidas para derivar el inventario SEO desde el BUILD real
- * (`dist/client`), no desde listas escritas a mano.
+ * (`dist/`), no desde listas escritas a mano.
  *
  * Lo usan `scripts/generate-sitemaps.mjs`, `scripts/generate-seo-map.mjs`
  * y `scripts/verify-seo.mjs`.
+ *
+ * El sitio es 100% estático (sin adapter): `astro build` escribe
+ * directamente en `dist/`, no en `dist/client`.
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const ROOT = path.resolve(fileURLToPath(new URL("../../", import.meta.url)));
-export const DIST = path.join(ROOT, "dist", "client");
-/** El adapter de Vercel copia `dist/client` acá durante el build. */
-export const VERCEL_STATIC = path.join(ROOT, ".vercel", "output", "static");
+export const DIST = path.join(ROOT, "dist");
 
 export const SITE = "https://pixvo.tech";
 export const MARKETS = ["mx", "ar", "es"];
@@ -39,7 +40,7 @@ const readdirDeep = (dir) => {
   return out;
 };
 
-/** `dist/client/mx/planes/index.html` -> `/mx/planes` (trailingSlash: "never"). */
+/** `dist/mx/planes/index.html` -> `/mx/planes` (trailingSlash: "never"). */
 const fileToUrlPath = (file) => {
   const rel = path.relative(DIST, file).split(path.sep).join("/");
   let url = "/" + rel.replace(/index\.html$/, "").replace(/\.html$/, "");
@@ -187,20 +188,15 @@ export function collectPages() {
 
 export const indexablePages = (pages = collectPages()) => pages.filter((p) => p.indexable);
 
-/** Escribe el archivo en dist/client y lo espeja en .vercel/output/static. */
+/** Escribe el archivo en dist/. */
 export function writeOutput(relPath, contents) {
-  const targets = [path.join(DIST, relPath)];
-  if (fs.existsSync(VERCEL_STATIC)) targets.push(path.join(VERCEL_STATIC, relPath));
-  for (const t of targets) {
-    fs.mkdirSync(path.dirname(t), { recursive: true });
-    fs.writeFileSync(t, contents, "utf8");
-  }
-  return targets;
+  const target = path.join(DIST, relPath);
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.writeFileSync(target, contents, "utf8");
+  return [target];
 }
 
 export function removeOutput(relPath) {
-  for (const base of [DIST, VERCEL_STATIC]) {
-    const t = path.join(base, relPath);
-    if (fs.existsSync(t)) fs.rmSync(t, { force: true });
-  }
+  const target = path.join(DIST, relPath);
+  if (fs.existsSync(target)) fs.rmSync(target, { force: true });
 }

@@ -1,5 +1,5 @@
 /**
- * Genera los sitemaps segmentados a partir del BUILD real (`dist/client`).
+ * Genera los sitemaps segmentados a partir del BUILD real (`dist/`).
  *
  *   /sitemap_index.xml
  *     ├── sitemap-mx.xml        -> /mx/*

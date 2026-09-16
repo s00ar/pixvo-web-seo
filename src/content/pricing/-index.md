@@ -22,7 +22,7 @@ plans:
     button:
       enable: true
       label: "Solicitar diagnóstico"
-      link: "/mx/contacto"
+      link: "/mx/solicitar-diagnostico"
     description: "Empresas que necesitan ordenar su SEO, medición y estrategia de crecimiento."
     features:
       - label: "Auditoría inicial + revisión de Search Console y GA4"
@@ -45,7 +45,7 @@ plans:
     button:
       enable: true
       label: "Solicitar diagnóstico"
-      link: "/mx/contacto"
+      link: "/mx/solicitar-diagnostico"
     description: "Empresas que quieren mejorar su crecimiento orgánico e incorporar automatizaciones progresivamente."
     features:
       - label: "Todo lo de Pixvo Core"
@@ -67,7 +67,7 @@ plans:
     button:
       enable: true
       label: "Solicitar diagnóstico"
-      link: "/mx/contacto"
+      link: "/mx/solicitar-diagnostico"
     description: "Empresas que ya generan oportunidades y necesitan optimizar marketing, web, automatizaciones y seguimiento comercial."
     features:
       - label: "Todo lo de Pixvo Growth"

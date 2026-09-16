@@ -71,7 +71,7 @@ const { lead_generation } = Astro.props;
                     id="lead-form-success"
                     class="hidden mt-4 text-green-500 font-medium text-sm text-center"
                   >
-                    ✅ ¡Listo! Te enviamos la guía gratuita por correo.
+                    ✅ Abrimos WhatsApp para coordinar el envío de la guía.
                   </div>
                   <div
                     id="lead-form-error"
@@ -118,35 +118,31 @@ const { lead_generation } = Astro.props;
     if (errorText && msg) errorText.textContent = msg;
   }
 
-  form?.addEventListener("submit", async (e) => {
+  form?.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    // Hide previous status
     successEl?.classList.add("hidden");
     errorEl?.classList.add("hidden");
 
     const formData = new FormData(form);
     setLoading(true);
 
+    // No hay envío de correo automatizado: se compone el pedido y la
+    // persona lo confirma por WhatsApp, igual que el resto del sitio.
     try {
-      const res = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.get("name"),
-          email: formData.get("email"),
-        }),
-      });
-
-      const json = await res.json().catch(() => ({}));
-
-      if (res.ok && json.success) {
-        showSuccess();
-      } else {
-        showError(json.error ?? "Algo salió mal. Probá de nuevo.");
-      }
+      const nombre = String(formData.get("name") ?? "");
+      const correo = String(formData.get("email") ?? "");
+      const mensaje = [
+        "Hola, quiero la guía gratuita de diagnóstico rápido de crecimiento.",
+        `Nombre: ${nombre}`,
+        `Correo: ${correo}`,
+      ].join("\n");
+      showSuccess();
+      window.location.assign(
+        `https://wa.me/393921425033?text=${encodeURIComponent(mensaje)}`,
+      );
     } catch {
-      showError("Error de conexión — revisá tu red e intentá de nuevo.");
+      showError("No pudimos abrir WhatsApp. Escribinos a info@pixvo.tech.");
     } finally {
       setLoading(false);
     }

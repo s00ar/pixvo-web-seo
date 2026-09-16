@@ -1,6 +1,5 @@
 import { unified } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
-import node from "@astrojs/node";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 import AutoImport from "astro-auto-import";
@@ -49,7 +48,10 @@ const fontsConfig = Object.entries(theme.fonts.font_family)
 
 // https://astro.build/config
 export default defineConfig({
-  adapter: node({ mode: "standalone" }),
+  // Sitio 100% estático: los formularios componen el mensaje en el cliente y
+  // abren WhatsApp, así que no hace falta ningún servidor Node en producción
+  // (Hostinger despliega el build como archivos estáticos, no como app Node).
+  output: "static",
   site: config.site.base_url ? config.site.base_url : "http://examplesite.com",
   base: config.site.base_path ? config.site.base_path : "/",
   trailingSlash: config.site.trailing_slash ? "always" : "never",

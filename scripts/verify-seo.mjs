@@ -1,5 +1,5 @@
 /**
- * Verificación sobre el BUILD (`dist/client`). Falla con exit 1 si algo
+ * Verificación sobre el BUILD (`dist/`). Falla con exit 1 si algo
  * no cierra. Se ejecuta como parte de `npm run build`.
  */
 import fs from "node:fs";
@@ -24,7 +24,7 @@ const FILES = [
   "sitemap-pages.xml",
 ];
 
-console.log("\n== Verificación SEO sobre dist/client ==\n");
+console.log("\n== Verificación SEO sobre dist/ ==\n");
 
 // 1. Existencia + parseo XML (parser mínimo: balance de tags + declaración).
 const contents = {};

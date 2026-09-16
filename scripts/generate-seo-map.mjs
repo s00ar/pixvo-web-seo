@@ -1,7 +1,7 @@
 /**
  * Genera `docs/seo/keyword-url-map.csv` cruzando el registro central de
  * entidades SEO (`scripts/seo-entities.mjs`) con las URLs REALES del build
- * (`dist/client`). Si aparece una página nueva sin entidad declarada, el
+ * (`dist/`). Si aparece una página nueva sin entidad declarada, el
  * script falla: así el CSV nunca queda incompleto.
  */
 import fs from "node:fs";

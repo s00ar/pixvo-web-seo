@@ -25,7 +25,7 @@
   "navigation_button": {
     "enable": true,
     "label": "Solicitar diagnóstico",
-    "link": "/mx/contacto"
+    "link": "/mx/solicitar-diagnostico"
   },
   "google_tag_manager": {
     "enable": false,

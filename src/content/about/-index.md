@@ -28,10 +28,16 @@ our_team:
   title: "Conocé al <strong>equipo</strong>"
   # NOTA: solo se publica el equipo real verificable. Se eliminaron los perfiles demo del theme
   # (personas inventadas) porque no existen fotos ni datos reales de otros integrantes.
+  # PENDIENTE: la foto de Ángel Raimundo todavía no llegó al repositorio (el archivo
+  # pegado en el chat nunca se guardó en disco) — se usa el avatar genérico del theme
+  # como placeholder hasta reemplazarlo por /images/pixvo/angel.jpg o similar.
   members:
     - image: "/images/pixvo/santiago.jpg"
       name: "Santiago Hernán Leston"
       role: "Fundador y responsable técnico"
+    - image: "/images/avatar-lg.png"
+      name: "Ángel Raimundo"
+      role: "Cofundador"
 
 core_values:
   enable: true
