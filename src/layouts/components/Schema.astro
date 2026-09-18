@@ -92,14 +92,20 @@ if (hasBreadcrumb) {
   graph.push({
     "@type": "BreadcrumbList",
     "@id": breadcrumbId,
-    itemListElement: crumbs.map((crumb, index) =>
-      clean({
+    itemListElement: crumbs.map((crumb, index) => {
+      const isLast = index === crumbs.length - 1;
+      const url = crumb.href
+        ? `${siteUrl}${crumb.href === "/" ? "/" : crumb.href}`
+        : isLast
+          ? canonicalUrl
+          : undefined;
+      return clean({
         "@type": "ListItem",
         position: index + 1,
         name: crumb.name,
-        item: crumb.href ? `${siteUrl}${crumb.href === "/" ? "/" : crumb.href}` : undefined,
-      }),
-    ),
+        item: url,
+      });
+    }),
   });
 }
 
