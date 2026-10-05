@@ -4,11 +4,12 @@ import type { Crumb } from "@/lib/utils/breadcrumbs";
 
 export interface SchemaData {
   /** Tipo principal de la página. */
-  kind?: "webpage" | "article" | "creativeWork";
+  kind?: "webpage" | "article" | "creativeWork" | "service";
   datePublished?: string | Date;
   dateModified?: string | Date;
   author?: string;
   image?: string;
+  serviceType?: string;
 }
 
 export interface Props {
@@ -149,6 +150,22 @@ if (schema.kind === "creativeWork") {
       dateModified: modifiedAt,
       author: { "@id": orgId },
       publisher: { "@id": orgId },
+    }),
+  );
+}
+
+if (schema.kind === "service") {
+  graph.push(
+    clean({
+      "@type": "Service",
+      "@id": `${canonicalUrl}#service`,
+      name,
+      description,
+      serviceType: schema.serviceType,
+      inLanguage,
+      url: canonicalUrl,
+      mainEntityOfPage: { "@id": pageId },
+      provider: { "@id": orgId },
     }),
   );
 }

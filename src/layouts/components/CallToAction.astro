@@ -4,9 +4,28 @@ import { getListPage } from "@/lib/contentParser.astro";
 import { resolveMarketUrl } from "@/lib/utils/markets";
 import type { CtaSection } from "@/types";
 
+interface Props {
+  /** Sobrescribe el copy del CTA global en páginas con una propuesta propia. */
+  title?: string;
+  description?: string;
+  buttonLabel?: string;
+  buttonLink?: string;
+}
+const override = Astro.props;
+
 const ctaEntry = await getListPage("ctaSection", "call-to-action");
-const ctaData: CtaSection = ctaEntry.data;
-if (!ctaData.enable) return;
+const ctaBase: CtaSection = ctaEntry.data;
+if (!ctaBase.enable) return;
+const ctaData: CtaSection = {
+  ...ctaBase,
+  title: override.title ?? ctaBase.title,
+  description: override.description ?? ctaBase.description,
+  button: {
+    ...ctaBase.button,
+    label: override.buttonLabel ?? ctaBase.button.label,
+    link: override.buttonLink ?? ctaBase.button.link,
+  },
+};
 ---
 
 <section class="section">

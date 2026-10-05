@@ -216,6 +216,24 @@ export const MARKET_ENTITIES = {
     parent: "/sistema-crecimiento-digital",
   },
 
+  // --- Servicios (landing transaccional para agencias) ---
+  "/servicios/marca-blanca": {
+    cluster: "marca-blanca",
+    primary_keyword: "desarrollo en marca blanca para agencias",
+    secondary_keywords: S(
+      "servicios tecnológicos white label",
+      "partner tecnológico para agencias",
+      "outsourcing de desarrollo web para agencias",
+      "programadores para agencias",
+    ),
+    intent: "transaccional",
+    funnel: "BOFU",
+    page_type: "landing-servicio",
+    priority: "0.8",
+    conversion: "contacto",
+    parent: "",
+  },
+
   // --- Problemas (MOFU: capturan el dolor y derivan a su solución) ---
   "/problemas/leads-no-convierten": {
     cluster: "automatizacion",
@@ -454,6 +472,51 @@ export const MARKET_ENTITIES = {
     priority: "0.6",
     conversion: "solicitar-diagnostico",
     parent: "/soluciones/contenido-seo",
+  },
+  "/casos-de-exito/tdefa": {
+    cluster: "prueba-social",
+    primary_keyword: "aplicación web con Node.js y MySQL",
+    secondary_keywords: S(
+      "desarrollo de aplicación web a medida",
+      "desarrollo frontend y backend",
+      "sistema web con API y base de datos",
+    ),
+    intent: "comercial",
+    funnel: "MOFU",
+    page_type: "caso-de-exito",
+    priority: "0.6",
+    conversion: "solicitar-diagnostico",
+    parent: "/servicios/marca-blanca",
+  },
+  "/casos-de-exito/arbitros-de-futbol": {
+    cluster: "prueba-social",
+    primary_keyword: "campus virtual con WordPress y Tutor LMS",
+    secondary_keywords: S(
+      "venta de cursos online con WooCommerce",
+      "plataforma educativa autogestionada",
+      "web institucional para comunidad deportiva",
+    ),
+    intent: "comercial",
+    funnel: "MOFU",
+    page_type: "caso-de-exito",
+    priority: "0.6",
+    conversion: "solicitar-diagnostico",
+    parent: "/servicios/marca-blanca",
+  },
+  "/casos-de-exito/katriel": {
+    cluster: "prueba-social",
+    primary_keyword: "recuperación y seguridad de sitio WordPress",
+    secondary_keywords: S(
+      "catálogo industrial en WordPress",
+      "auditoría de seguridad WordPress",
+      "migración y mantenimiento de WordPress",
+    ),
+    intent: "comercial",
+    funnel: "MOFU",
+    page_type: "caso-de-exito",
+    priority: "0.6",
+    conversion: "solicitar-diagnostico",
+    parent: "/soluciones/optimizacion-wordpress",
   },
   "/casos-de-exito/arpitools": {
     cluster: "prueba-social",

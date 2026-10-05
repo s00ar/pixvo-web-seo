@@ -50,6 +50,10 @@
       "url": "/mx/planes"
     },
     {
+      "name": "Marca blanca para agencias",
+      "url": "/mx/servicios/marca-blanca"
+    },
+    {
       "name": "Contacto",
       "url": "/mx/contacto"
     },

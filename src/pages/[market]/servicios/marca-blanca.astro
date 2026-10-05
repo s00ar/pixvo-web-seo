@@ -1,0 +1,473 @@
+---
+import Base from "@/layouts/Base.astro";
+import Badge from "@/layouts/components/Badge.astro";
+import CallToAction from "@/layouts/components/CallToAction.astro";
+import PageHeader from "@/layouts/components/PageHeader.astro";
+import ValueCard from "@/layouts/components/ValueCard.astro";
+import { MARKETS, marketLabel } from "@/lib/utils/markets";
+
+export async function getStaticPaths() {
+  return MARKETS.map((market) => ({ params: { market } }));
+}
+
+const { market } = Astro.params;
+const pais = marketLabel(market);
+const to = (path: string) => `/${market}${path}`;
+const contactUrl = to("/contacto");
+
+// Referencias comerciales documentadas. Se expresan en USD en los tres
+// mercados: no se derivan importes locales sin una tarifa vigente.
+const PRICING = {
+  devHours: { amount: "USD 350", unit: "/ 8 horas" },
+  googleAds: { amount: "USD 250", unit: "/ mes (aprox.)" },
+};
+
+const services = [
+  {
+    logo: "/images/icons/creativity.svg",
+    title: "Desarrollo web",
+    list: [
+      "Sitios institucionales y landing pages en WordPress y Elementor",
+      "Formularios e integraciones",
+      "WooCommerce cuando corresponde",
+      "Correcciones y mantenimiento",
+    ],
+  },
+  {
+    logo: "/images/icons/innovation.svg",
+    title: "Desarrollo web avanzado",
+    list: [
+      "React y TypeScript",
+      "Aplicaciones web y dashboards",
+      "Sistemas internos y software a medida",
+    ],
+  },
+  {
+    logo: "/images/icons/membership.svg",
+    title: "Aplicaciones móviles",
+    list: [
+      "React Native",
+      "Apps móviles para iOS y Android",
+      "Integración con APIs y servicios existentes",
+    ],
+  },
+  {
+    logo: "/images/icons/collaboration.svg",
+    title: "Backend e integraciones",
+    list: [
+      "Node.js y APIs",
+      "Webhooks y autenticación",
+      "Integraciones con CRM, ERP y otras plataformas",
+    ],
+  },
+  {
+    logo: "/images/icons/result-driven.svg",
+    title: "Automatización",
+    list: [
+      "Automatización de procesos con n8n",
+      "Automatización de leads e integración con CRM",
+      "Automatizaciones asistidas por IA cuando son técnicamente adecuadas",
+    ],
+  },
+  {
+    logo: "/images/icons/starred-folder.svg",
+    title: "Marketing técnico",
+    list: [
+      "Google Ads",
+      "SEO técnico y CRO",
+      "Tracking, analytics y reportes",
+    ],
+  },
+  {
+    logo: "/images/icons/security.svg",
+    title: "Mantenimiento y soporte",
+    list: [
+      "Mantenimiento WordPress",
+      "Desarrollo evolutivo y correcciones",
+      "Soporte técnico y bancos de horas",
+    ],
+  },
+];
+
+const steps = [
+  {
+    title: "Nos enviás el proyecto",
+    content:
+      "Brief, diseño, requerimientos, acceso al repositorio o la necesidad de tu cliente.",
+  },
+  {
+    title: "Revisamos el alcance",
+    content: "Analizamos tecnología, horas, dependencias y riesgos.",
+  },
+  {
+    title: "Cotizamos",
+    content:
+      "Por proyecto, por banco de horas o con un partner técnico continuo, según lo que necesites.",
+  },
+  {
+    title: "Ejecutamos",
+    content:
+      "Trabajamos integrados a tu flujo: GitHub, repositorios existentes, staging y las herramientas y procesos de tu agencia.",
+  },
+  {
+    title: "Entregamos",
+    content: "Código, deploy, documentación o el entregable acordado.",
+  },
+  {
+    title: "Vos mantenés la relación",
+    content:
+      "Cuando el trabajo es verdaderamente white label, permanecemos detrás de tu marca y no necesitamos interactuar con el cliente final.",
+  },
+];
+
+const modalities = [
+  {
+    title: "Proyecto cerrado",
+    description: "Para alcances definidos: un sitio, una app, una integración.",
+    price: "Cotización según alcance",
+    note: "Presupuesto según complejidad.",
+    cta: "Solicitar presupuesto",
+  },
+  {
+    title: "Banco de horas",
+    description:
+      "Para agencias que necesitan capacidad técnica flexible, sin sumar personal.",
+    price: `Desde ${PRICING.devHours.amount}`,
+    unit: PRICING.devHours.unit,
+    note: "Desarrollo y soporte técnico.",
+    cta: "Consultar disponibilidad",
+    featured: true,
+  },
+  {
+    title: "Partner técnico continuo",
+    description: "Para agencias con demanda recurrente de desarrollo y soporte.",
+    price: "Cotización según capacidad requerida",
+    note: "Se define según el volumen mensual de trabajo.",
+    cta: "Hablar con PIXVO",
+  },
+];
+
+const stack = [
+  "React",
+  "React Native",
+  "TypeScript",
+  "JavaScript",
+  "Node.js",
+  "WordPress",
+  "Elementor",
+  "WooCommerce",
+  "MySQL",
+  "Firebase",
+  "APIs y webhooks",
+  "n8n",
+  "GitHub",
+];
+
+const related = [
+  { label: "Automatización de procesos", href: to("/soluciones/automatizacion-de-procesos") },
+  { label: "Seguimiento de leads", href: to("/soluciones/seguimiento-de-leads") },
+  { label: "Optimización WordPress", href: to("/soluciones/optimizacion-wordpress") },
+  { label: "SEO para WordPress", href: to("/soluciones/seo-wordpress") },
+  { label: "Analítica digital", href: to("/soluciones/analitica-digital") },
+  { label: "Optimización de conversión", href: to("/soluciones/optimizacion-de-conversion") },
+];
+
+const subtitle = `Tu agencia vende el proyecto y mantiene al cliente; PIXVO suma capacidad técnica para ejecutarlo, desde WordPress hasta aplicaciones a medida, sin ampliar tu estructura permanente.<span class="mt-8 flex flex-wrap justify-center gap-4"><a href="${contactUrl}" class="btn btn-primary">Quiero sumar capacidad técnica a mi agencia</a><a href="#modalidades" class="btn btn-outline">Ver modalidades y precios</a></span>`;
+---
+
+<Base
+  title="Servicios en marca blanca para agencias"
+  meta_title={`Desarrollo en marca blanca para agencias | Pixvo ${pais}`}
+  description="Partner tecnológico en marca blanca para agencias, estudios y consultoras: desarrollo web, apps, integraciones y automatización detrás de tu marca."
+  breadcrumbLabel="Marca blanca"
+  schema={{
+    kind: "service",
+    serviceType: "Desarrollo y servicios tecnológicos en marca blanca para agencias",
+  }}
+>
+  <PageHeader
+    title="Desarrollo en marca blanca: <strong>tu marca al frente, nuestro equipo detrás</strong>"
+    subtitle={subtitle}
+  />
+
+  <!-- Problema y propuesta -->
+  <section class="section pt-0">
+    <div class="container">
+      <div class="grid lg:grid-cols-2 gap-12 items-start">
+        <div>
+          <h2 class="text-h3 lg:text-h2 mb-6">
+            Vender más proyectos de los que podés ejecutar
+          </h2>
+          <div class="text-text space-y-4">
+            <p>
+              Una agencia puede cerrar más trabajo del que su equipo alcanza a
+              entregar. Resolverlo con personal permanente implica selección,
+              onboarding, salarios, capacidad ociosa cuando baja la demanda,
+              gestión y una especialización siempre limitada.
+            </p>
+            <p>
+              PIXVO funciona como partner tecnológico detrás de tu marca: vos
+              mantenés la relación comercial, tu cuenta y la comunicación con
+              el cliente final, y nosotros nos encargamos de parte o de toda la
+              ejecución técnica.
+            </p>
+          </div>
+        </div>
+        <div class="card-orbit rounded-3xl bg-light/80 p-8 xl:p-10">
+          <Badge title="Experiencia previa" />
+          <p class="text-h6 text-white mt-6">
+            Ya hemos trabajado como equipo tecnológico detrás de otras agencias
+            y proveedores digitales, desarrollando proyectos bajo modalidad de
+            marca blanca y adaptándonos a sus procesos, herramientas y relación
+            con el cliente final.
+          </p>
+          <p class="text-text mt-4">
+            No es un servicio experimental: sabemos integrarnos al flujo de
+            otra agencia y permanecer invisibles frente al cliente final cuando
+            el proyecto lo requiere.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Servicios -->
+  <section class="section">
+    <div class="container">
+      <div class="section-container">
+        <div class="section-intro centralize">
+          <Badge title="Qué podemos ejecutar" />
+          <h2 class="title hasHighlight">
+            Capacidad técnica <strong>para tus proyectos</strong>
+          </h2>
+          <p class="subtitle">
+            Desarrollo, integraciones, automatización y marketing técnico,
+            agrupados por lo que tu agencia necesita entregar.
+          </p>
+        </div>
+        <div class="section-content">
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {
+              services.map((service) => (
+                <ValueCard
+                  logo={service.logo}
+                  title={service.title}
+                  list={service.list}
+                />
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cómo trabajamos -->
+  <section class="section">
+    <div class="container">
+      <div class="section-container">
+        <div class="section-intro centralize">
+          <Badge title="Cómo trabajamos" />
+          <h2 class="title hasHighlight">
+            Un flujo simple, <strong>integrado al tuyo</strong>
+          </h2>
+        </div>
+        <div class="section-content">
+          <ol class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {
+              steps.map((step, index) => (
+                <li class="card-orbit p-8 rounded-2xl border border-border bg-primary/5">
+                  <div class="text-[4rem] font-extrabold t-stroke text-transparent leading-none mb-4" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+                  <h3 class="text-h5-sm font-bold mb-3">{step.title}</h3>
+                  <p class="text-text-dark">{step.content}</p>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modalidades y precios -->
+  <section class="section" id="modalidades">
+    <div class="container">
+      <div class="section-container">
+        <div class="section-intro centralize">
+          <Badge title="Modalidades y precios de partida" />
+          <h2 class="title hasHighlight">
+            Elegí cómo sumar <strong>capacidad técnica</strong>
+          </h2>
+          <p class="subtitle">
+            Transparencia en los precios de partida; el resto se cotiza según
+            alcance.
+          </p>
+        </div>
+        <div class="section-content">
+          <div class="grid lg:grid-cols-3 gap-6">
+            {
+              modalities.map((item) => (
+                <div
+                  class={`card-orbit py-10 px-7 rounded-3xl flex flex-col relative ${item.featured ? "bg-light/50 overflow-hidden" : "bg-light/80"}`}
+                >
+                  <h3 class="text-h6 text-white mb-4">{item.title}</h3>
+                  <p class="text-text-dark mb-8">{item.description}</p>
+                  <p class="text-white text-h5 font-semibold leading-tight">
+                    {item.price}
+                    {item.unit && (
+                      <span class="ml-1 text-sm text-text font-normal">{item.unit}</span>
+                    )}
+                  </p>
+                  <p class="text-text text-sm mt-2 mb-8">{item.note}</p>
+                  <a
+                    href={contactUrl}
+                    class={`btn mt-auto w-full justify-center ${item.featured ? "btn-primary" : "btn-outline"}`}
+                  >
+                    {item.cta}
+                  </a>
+                </div>
+              ))
+            }
+          </div>
+
+          <div class="mt-10 grid md:grid-cols-2 gap-6">
+            <div class="rounded-2xl bg-light p-6 border border-border">
+              <p class="text-text text-sm mb-1">Desarrollo y soporte técnico</p>
+              <p class="text-white font-semibold">
+                Desde {PRICING.devHours.amount} {PRICING.devHours.unit}
+              </p>
+            </div>
+            <div class="rounded-2xl bg-light p-6 border border-border">
+              <p class="text-text text-sm mb-1">
+                Gestión de Google Ads (hasta 4 campañas)
+              </p>
+              <p class="text-white font-semibold">
+                Desde aprox. {PRICING.googleAds.amount} {PRICING.googleAds.unit}
+              </p>
+            </div>
+          </div>
+          <p class="text-text text-sm mt-6 max-w-3xl mx-auto text-center">
+            Para el resto de los servicios, cotización según alcance. Los
+            precios white label dependen del alcance, el volumen, la tecnología,
+            la urgencia, la continuidad y la cantidad de trabajo mensual. Las
+            referencias están expresadas en dólares estadounidenses (USD) y el
+            importe aplicable queda fijado por escrito en la propuesta.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Confidencialidad -->
+  <section class="section">
+    <div class="container">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-h3 lg:text-h2 mb-6">
+            Tu cliente es tu activo; lo cuidamos como tal
+          </h2>
+          <div class="text-text space-y-4">
+            <p>
+              Entendemos que la relación con tu cliente es lo más valioso de tu
+              agencia. Podemos trabajar bajo NDA y mantener nuestra
+              participación completamente detrás de tu marca cuando el proyecto
+              lo requiera.
+            </p>
+          </div>
+        </div>
+        <ul class="space-y-4">
+          {
+            [
+              "Confidencialidad, con posibilidad de firmar un NDA.",
+              "Respeto por la relación entre tu agencia y tu cliente.",
+              "Sin interferencia comercial: no nos acercamos a tu cliente final.",
+              "Propiedad y entrega del trabajo según lo acordado por contrato.",
+            ].map((item) => (
+              <li class="flex items-start gap-3">
+                <div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path
+                      d="M2.917 7L5.25 9.333l5.833-5.833"
+                      stroke="var(--color-primary)"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <span class="text-text">{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stack -->
+  <section class="section">
+    <div class="container">
+      <div class="section-container">
+        <div class="section-intro centralize">
+          <Badge title="Stack" />
+          <h2 class="title hasHighlight">
+            Tecnologías con las que <strong>trabajamos</strong>
+          </h2>
+        </div>
+        <div class="section-content">
+          <ul class="flex flex-wrap justify-center gap-3">
+            {
+              stack.map((tech) => (
+                <li class="px-5 py-2 rounded-full bg-white/5 border border-border text-white">
+                  {tech}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Enlaces internos -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="grid lg:grid-cols-2 gap-12">
+        <div>
+          <h2 class="text-h5 mb-4">Servicios relacionados</h2>
+          <ul class="space-y-2">
+            {
+              related.map((item) => (
+                <li>
+                  <a href={item.href} class="link underline">{item.label}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div>
+          <h2 class="text-h5 mb-4">Proyectos de desarrollo</h2>
+          <p class="text-text">
+            Revisá cómo construimos aplicaciones completas en
+            <a href={to("/casos-de-exito/tdefa")} class="link underline">TDEFA Planilleros</a>
+            (Vite, Node.js y MySQL), un flujo automatizado en
+            <a href={to("/casos-de-exito/microcuotas")} class="link underline">Microcuotas</a>
+            y un ecosistema mobile y web en
+            <a href={to("/casos-de-exito/arpitools")} class="link underline">Arpitools</a>.
+            Si preferís un esquema mensual propio, mirá también los
+            <a href={to("/planes")} class="link underline">planes de Pixvo</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CallToAction
+    title="¿Tenés un proyecto que <strong>no llegás a ejecutar?</strong>"
+    description="Contanos de qué se trata y cómo trabaja tu agencia. Te respondemos con el alcance y la modalidad que mejor encajan."
+    buttonLabel="Consultar proyecto en marca blanca"
+    buttonLink={contactUrl}
+  />
+</Base>

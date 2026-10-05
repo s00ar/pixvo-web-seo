@@ -19,6 +19,11 @@ export async function getStaticPaths() {
 const { market } = Astro.params;
 const { study } = Astro.props;
 const studyData = study.data;
+
+// El contenido de los casos se comparte entre mercados y escribe sus enlaces
+// internos hacia /mx/; se reescriben al mercado que se está navegando.
+const localize = (html: string) =>
+  html.replaceAll('href="/mx/', `href="/${market}/`);
 ---
 
 <Base
@@ -110,7 +115,7 @@ const studyData = study.data;
           <h2 class="text-h3 lg:text-h2 mb-6">{studyData?.overview?.title}</h2>
           <div
             class="text-text space-y-4"
-            set:html={markdownify(studyData?.overview?.content ?? "", true)}
+            set:html={localize(markdownify(studyData?.overview?.content ?? "", true) as string)}
           />
         </div>
       </div>
@@ -128,7 +133,7 @@ const studyData = study.data;
             </h2>
             <div
               class="text-text space-y-4"
-              set:html={markdownify(studyData?.challenges?.content ?? "", true)}
+              set:html={localize(markdownify(studyData?.challenges?.content ?? "", true) as string)}
             />
           </div>
           <!-- Blockquote -->
@@ -217,7 +222,7 @@ const studyData = study.data;
             <h2 class="text-h3 lg:text-h2 mb-6">{studyData?.results?.title}</h2>
             <div
               class="text-text space-y-4"
-              set:html={markdownify(studyData?.results?.content ?? "", true)}
+              set:html={localize(markdownify(studyData?.results?.content ?? "", true) as string)}
             />
           </div>
         </div>

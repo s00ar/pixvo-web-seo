@@ -17,6 +17,7 @@ const SEGMENT_LABELS: Record<string, string> = {
   "casos-de-exito": "Casos de éxito",
   recursos: "Recursos",
   soluciones: "Soluciones",
+  servicios: "Servicios",
   problemas: "Problemas",
   proyectos: "Proyectos",
   legal: "Legal",
@@ -27,7 +28,7 @@ const SEGMENT_LABELS: Record<string, string> = {
  * Rutas que EXISTEN como página índice en el build.
  * Criterio: un nivel intermedio sólo se enlaza si su índice existe realmente;
  * de lo contrario se renderiza como texto sin enlace (evita 404 en breadcrumbs).
- * No existen: /{mercado}/soluciones, /{mercado}/problemas, /proyectos, /legal.
+ * No existen: /{mercado}/servicios, /{mercado}/soluciones, /{mercado}/problemas, /proyectos, /legal.
  */
 export const INDEX_ROUTES: ReadonlySet<string> = new Set<string>([
   "/",
