@@ -7,7 +7,6 @@ draft: false
 
 page_header:
   title: "Ideas y guías para tu <strong>crecimiento digital</strong>"
-  featured_post: "ataque-real-en-npm-como-el-compromiso-de-axios-expuso-miles-de-entornos-sin-que-nadie-lo-notara"
 
 featured_post:
   enable: true

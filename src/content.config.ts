@@ -471,7 +471,7 @@ const blogIndexCollection = defineCollection({
   schema: z.object({
     ...commonFields,
     page_header: z
-      .object({ title: z.string(), featured_post: z.string().optional() })
+      .object({ title: z.string() })
       .optional(),
     featured_post: z.object({ enable: z.boolean() }).optional(),
     latest_posts: z

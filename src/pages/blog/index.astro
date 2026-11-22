@@ -14,15 +14,11 @@ import type { BlogIndex } from "@/types";
 const blogIndex = await getListPage("blogIndex", "-index");
 const pageData: BlogIndex = blogIndex.data;
 
-// All blog posts sorted by date
 const allPosts = sortByDate(await getSinglePage("blog"));
-
-// Featured post: use the one specified in content, fallback to first
-const featuredId = pageData.page_header?.featured_post;
-const featuredPost = featuredId
-  ? (allPosts.find((p) => p.id === featuredId) ?? allPosts[0])
-  : allPosts[0];
-const latestPosts = allPosts.filter((p) => p.id !== featuredPost.id);
+const featuredPost = (pageData.featured_post?.enable ?? true)
+  ? allPosts[0]
+  : undefined;
+const latestPosts = featuredPost ? allPosts.slice(1) : allPosts;
 ---
 
 <Base {...pageData}>
@@ -50,7 +46,7 @@ const latestPosts = allPosts.filter((p) => p.id !== featuredPost.id);
 
   <!-- Featured Article -->
   {
-    (pageData.featured_post?.enable ?? true) && (
+    featuredPost && (
       <section class="section pt-0">
         <div class="container">
           <div class="grid gap-4 lg:grid-cols-[1fr_1.03fr]">
