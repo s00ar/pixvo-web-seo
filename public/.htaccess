@@ -1,3 +1,8 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^ataque-real-en-npm-como-el-compromiso-de-axios-expuso-miles-de-entornos-sin-que-nadie-lo-notara/?$ /blog/ataque-real-en-npm-como-el-compromiso-de-axios-expuso-miles-de-entornos-sin-que-nadie-lo-notara/ [R=301,L]
+</IfModule>
+
 ##### Optimize default expiration time - BEGIN
 <IfModule mod_expires.c>
   

@@ -66,17 +66,17 @@ const segments = pathname.split("/").filter(Boolean);
 const currentMarket = isMarket(segments[0]) ? segments[0] : null;
 const marketRest = currentMarket ? segments.slice(1).join("/") : null;
 
-const canonicalUrl = canonical ?? `${siteUrl}${pathname === "/" ? "/" : pathname}`;
+const canonicalUrl = (canonical ?? `${siteUrl}${pathname}`).replace(/\/+$/, "") + "/";
 const htmlLang = marketHreflang(currentMarket ?? undefined);
 
 const marketAlternates = currentMarket
   ? MARKETS.map((market) => ({
       hreflang: marketHreflang(market),
-      href: `${siteUrl}/${market}${marketRest ? `/${marketRest}` : ""}`,
+      href: `${siteUrl}/${market}${marketRest ? `/${marketRest}` : ""}/`,
     }))
   : [];
 const xDefaultHref = currentMarket
-  ? `${siteUrl}/${DEFAULT_MARKET}${marketRest ? `/${marketRest}` : ""}`
+  ? `${siteUrl}/${DEFAULT_MARKET}${marketRest ? `/${marketRest}` : ""}/`
   : null;
 
 // --- Breadcrumbs + JSON-LD ---

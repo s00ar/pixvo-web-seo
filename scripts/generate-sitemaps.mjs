@@ -42,7 +42,7 @@ const LEGACY = ["sitemap-index.xml", "sitemap-0.xml"];
 const esc = (s) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-const abs = (u) => `${SITE}${u === "/" ? "/" : u}`;
+const abs = (u) => `${SITE}${u === "/" ? "/" : u + "/"}`;
 
 export function buildSitemaps({ write = true, log = console.log } = {}) {
   const all = collectPages();

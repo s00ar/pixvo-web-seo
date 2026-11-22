@@ -110,7 +110,7 @@ if (!canonicalProblems) ok("ninguna URL de sitemap redirige, es noindex ni canon
 
 // 6. Las 3 páginas canonicalizadas del theme quedaron fuera.
 for (const u of ["/about", "/contact", "/pricing", "/404"]) {
-  if (allLocs.some((l) => l.replace(SITE, "") === u)) fail(`${u} no debería estar en ningún sitemap`);
+  if (allLocs.some((l) => l.replace(SITE, "").replace(/\/$/, "") === u)) fail(`${u} no debería estar en ningún sitemap`);
 }
 ok("/about, /contact, /pricing y /404 excluidos");
 
@@ -120,7 +120,7 @@ let hreflangErrors = 0;
 let hreflangSets = 0;
 for (const m of MARKETS) {
   for (const href of [...contents[`sitemap-${m}.xml`].matchAll(/xhtml:link[^>]+href="([^"]+)"/g)]) {
-    const u = href[1].replace(SITE, "");
+    const u = href[1].replace(SITE, "").replace(/\/$/, "") || "/";
     if (!indexableSet.has(u)) {
       fail(`hreflang apunta a URL no indexable: ${u}`);
       hreflangErrors++;
