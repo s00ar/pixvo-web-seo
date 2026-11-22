@@ -1,7 +1,7 @@
 ---
 title: "Paola Informa — Caso de éxito"
 meta_title: "Paola Informa | Caso de éxito Pixvo"
-description: "Información ciudadana fragmentada reunida en un canal personalizable con notificaciones segmentadas."
+description: "Portal ciudadano multilingüe y app móvil con noticias, agenda, mapas y notificaciones segmentadas."
 date: 2025-01-01
 draft: false
 
@@ -56,8 +56,10 @@ solution:
     Una aplicación centraliza noticias, eventos, movilidad, mapas y calendario, con preferencias y notificaciones segmentadas. Firebase soporta datos y servicios; un panel React/Vite permite administrar configuración, contenidos y usuarios.
     
     La aplicación concentra la experiencia ciudadana; Firebase aporta la capa de servicios y datos; y el panel React/Vite separa la administración del ciclo de publicación de la app.
+    El portal web ofrece acceso directo a noticias, agenda, mapa y recursos comunitarios. Tiene rutas en italiano, español e inglés y comparte el proyecto Firebase de la app.
   items:
     - "Noticias, eventos, movilidad, mapas y calendario"
+    - "Portal web en italiano, español e inglés"
     - "Preferencias y notificaciones segmentadas"
     - "Firebase y panel React/Vite para configuración, contenidos y usuarios"
 
@@ -67,6 +69,8 @@ results:
     La transformación funcional es un canal centralizado y configurable que conecta publicación, preferencias y notificaciones sin depender de cifras de adopción para demostrar su alcance técnico.
     
     Nota: no se publican usuarios, instalaciones, retención, frecuencia de uso, volumen de notificaciones ni resultados comerciales.
+
+    [Visitá el portal en español](https://paolainforma.pixvo.tech/es/), leé [cómo diseñamos el portal multilingüe](/blog/paola-informa-portal-ciudadano-multilingue) o consultá [cómo organizamos contenidos para buscadores](/mx/soluciones/contenido-seo).
 
     ¿Buscás el detalle de implementación? Podés ver [la ficha técnica del proyecto, con capturas de la aplicación](/proyectos/paola-informa).
   metrics:

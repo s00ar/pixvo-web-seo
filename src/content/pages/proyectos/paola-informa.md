@@ -1,7 +1,7 @@
 ---
 title: "Paola Informa"
-meta_title: "Paola Informa: app de información ciudadana | Proyecto Pixvo"
-description: "Aplicación móvil de información ciudadana en tiempo real para la ciudad de Paola, Italia."
+meta_title: "Paola Informa | Portal ciudadano y app móvil | Pixvo"
+description: "Portal ciudadano en italiano, español e inglés y aplicación móvil de información local para Paola y alrededores, en Calabria."
 draft: false
 ---
 
@@ -33,6 +33,12 @@ El producto se organizó alrededor de contenidos de utilidad cotidiana y notific
 
 Aplicación para Android e iOS con noticias locales, eventos, información de tráfico y movilidad, mapa, calendario y preferencias temáticas del usuario.
 
+## Portal web multilingüe
+
+La web reúne noticias, agenda, mapa y recursos de la comunidad en páginas con enlaces propios. Se publica en italiano, español e inglés, con selector de idioma y referencias a las versiones equivalentes. El sitio estático usa Firebase para los módulos con datos y sesión, dentro del mismo proyecto que la aplicación móvil.
+
+[Visitar Paola Informa en español](https://paolainforma.pixvo.tech/es/) · [Leer cómo se diseñó el portal](/blog/paola-informa-portal-ciudadano-multilingue) · [Ver el caso de desarrollo](/mx/casos-de-exito/paola-informa)
+
 ## Tecnologías
 
 - React Native
@@ -40,7 +46,7 @@ Aplicación para Android e iOS con noticias locales, eventos, información de tr
 - iOS
 - Push notifications
 - APIs
-- Backend
+- Firebase y sitio web estático
 
 ## Resultados
 

@@ -35,6 +35,8 @@ Normalmente se llega acá desde alguna de estas situaciones:
 
 ## Cómo se ve en proyectos reales
 
+[Ver Paola Informa: portal ciudadano con estructura multilingüe](/ar/casos-de-exito/paola-informa).
+
 Podés revisar [Sanidad Web y su plataforma georreferenciada](/ar/casos-de-exito/sanidad-web). Cada caso explica el problema de partida, qué se implementó y qué evidencia existe.
 
 ## Antes de decidir

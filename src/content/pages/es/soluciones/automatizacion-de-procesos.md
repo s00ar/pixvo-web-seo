@@ -43,6 +43,8 @@ Normalmente se llega acá desde alguna de estas situaciones:
 
 ## Cómo se ve en proyectos reales
 
+[Ver Pixvo Invitaciones: editor, publicación y confirmaciones de asistencia](/es/casos-de-exito/pixvo-invitaciones).
+
 Podés revisar [Microcuotas, con más de 5.600 leads semanales](/es/casos-de-exito/microcuotas), [Hospital Metropolitano y su plataforma de eventos](/es/casos-de-exito/hospital-metropolitano), [Arpitools y su ecosistema mobile y web](/es/casos-de-exito/arpitools). Cada caso explica el problema de partida, qué se implementó y qué evidencia existe.
 
 ## Antes de decidir
