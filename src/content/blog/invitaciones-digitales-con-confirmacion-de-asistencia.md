@@ -28,3 +28,5 @@ Pedile a una persona que abra la invitación desde el móvil y envíe una respue
 El editor por bloques de Pixvo Invitaciones permite elegir un diseño y revisar el borrador antes de publicarlo. Después podés compartir el enlace, incluir un código QR en una tarjeta impresa y consultar las respuestas en el panel. La exportación CSV sirve para llevar las confirmaciones a la planilla con la que coordinás el evento.
 
 [Explorá los diseños de Pixvo Invitaciones](https://invitaciones.pixvo.tech/) o consultá [cómo desarrollamos la plataforma](/proyectos/pixvo-invitaciones).
+
+Si estás organizando un cumpleaños, mirá las [plantillas de invitaciones digitales para 15 y 18 años](/blog/invitaciones-digitales-para-15-y-18-anos).

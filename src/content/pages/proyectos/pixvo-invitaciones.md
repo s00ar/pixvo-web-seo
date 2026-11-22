@@ -16,3 +16,5 @@ El organizador parte de un diseño y completa los bloques del evento en un edito
 La plataforma se desarrolló con Next.js, React y TypeScript. El panel separa el borrador de la versión publicada, guarda las respuestas de asistencia y permite exportarlas en CSV. La invitación también puede ofrecer un enlace para añadir el evento al calendario.
 
 [Explorar Pixvo Invitaciones](https://invitaciones.pixvo.tech/) · [Leer la guía de invitaciones digitales](/blog/invitaciones-digitales-con-confirmacion-de-asistencia) · [Ver el caso de desarrollo](/ar/casos-de-exito/pixvo-invitaciones)
+
+Conocé también la colección [Neón Costero para fiestas de 15 y 18 años](/blog/invitaciones-digitales-para-15-y-18-anos), con enlaces a las dos demos.

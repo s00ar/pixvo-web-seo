@@ -589,6 +589,21 @@ export const GLOBAL_ENTITIES = {
     conversion: "visitar-plataforma",
     parent_url: "/",
   },
+  "/blog/invitaciones-digitales-para-15-y-18-anos": {
+    cluster: "invitaciones-digitales",
+    primary_keyword: "invitaciones digitales para 15 y 18 años",
+    secondary_keywords: S(
+      "plantillas de invitaciones digitales de 15 años",
+      "invitaciones digitales para cumpleaños de 18",
+      "invitaciones de quinceañera editables",
+    ),
+    intent: "transaccional",
+    funnel: "BOFU",
+    page_type: "articulo",
+    priority: "0.6",
+    conversion: "elegir-plantilla",
+    parent_url: "/blog",
+  },
   "/blog/invitaciones-digitales-con-confirmacion-de-asistencia": {
     cluster: "blog",
     primary_keyword: "invitaciones digitales con confirmación de asistencia",
