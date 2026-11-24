@@ -1,6 +1,6 @@
-ARG INSTALLER=yarn
+ARG INSTALLER=npm
 
-FROM node:22.20.0-alpine AS base
+FROM node:24.22.3-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -11,11 +11,11 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* pnpm-workspace.yaml ./
 RUN \
   if [ "${INSTALLER}" == "yarn" ]; then yarn --frozen-lockfile; \
   elif [ "${INSTALLER}" == "npm" ]; then npm ci; \
-  elif [ "${INSTALLER}" == "pnpm" ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
+  elif [ "${INSTALLER}" == "pnpm" ]; then npx --yes --package=pnpm@11.9.0 -- pnpm i --frozen-lockfile; \
   else echo "Valid installer not set." && exit 1; \
   fi
 
@@ -31,7 +31,7 @@ ARG INSTALLER
 RUN \
   if [ "${INSTALLER}" == "yarn" ]; then yarn build; \
   elif [ "${INSTALLER}" == "npm" ]; then npm run build; \
-  elif [ "${INSTALLER}" == "pnpm" ]; then pnpm run build; \
+  elif [ "${INSTALLER}" == "pnpm" ]; then npx --yes --package=pnpm@11.9.0 -- pnpm run build; \
   else echo "Valid installer not set." && exit 1; \
   fi
 

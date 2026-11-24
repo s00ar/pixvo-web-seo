@@ -82,8 +82,9 @@ export default defineConfig({
     mdx(),
   ],
   markdown: {
-    processor: unified(),
-    remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
+    processor: unified({
+      remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
+    }),
     shikiConfig: { theme: "one-dark-pro", wrap: true },
   },
 });
